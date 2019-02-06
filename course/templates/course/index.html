@@ -220,11 +220,13 @@
 							<!-- <h3 class="card-title"><a href="blog-single.html">See more ideas about Travel</a></h3>							 -->
 							<h3 class="card-title"><a href="{% url 'course:courseRead' course.id %}">{{ course.name }}</a></h3>
 							
+							{% if request.user.is_superuser %}
 							<form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
 								{% csrf_token %}
 								<input class="btn deleteConfirm" type="submit" value="刪除">
 							</form>
-
+							{% endif %}
+							
 							<!-- <p class="card-description">Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p> -->
 							<p class="card-description">
 								<div class="courseContent">{{ course.desc|linebreaks|truncatechars_html:30 }}</div>
@@ -1139,7 +1141,8 @@
 	</script> 
 	<script src="{% static 'lib/typed/typed.min.js' %}">
 	</script> 
-	
+
+	<script src={% static 'course/js/deleteConfirm.js' %}></script>
 	<!-- Contact Form JavaScript File -->
 	 
 	<!-- <script src="{% static 'contactform/contactform.js' %}">
