@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+    <title>USERS</title>
+    <meta charset="utf-8">
+    {% load staticfiles %}
+</head>
+<body>
+    <form method="post" action="{% url 'users:register' %}">
+        {% csrf_token %}
+        {{ userForm.as_p }}
+        <input class="btn" type="submit" value="送出">
+    </form>
+</body>
+</html>

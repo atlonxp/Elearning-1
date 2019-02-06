@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>COURSE_update</title>
+    <meta charset="utf-8">
+</head>
+<body>
+{% if courseForm.instance.id %}
+  <h2>修改文章</h2>
+  <form method="post" action="{% url 'course:courseUpdate' courseForm.instance.id %}">
+{% else %}
+  <h2>新增課程</h2>
+
+  <form method="post" action="{% url 'course:addcourse' %}">
+{% endif %}
+  {% csrf_token %}
+  {{ courseForm.as_p }}
+  <input type="submit" value="送出">
+</form>
+</body>
+</html>
