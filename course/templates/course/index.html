@@ -117,7 +117,18 @@
 					<li class="nav-item">
 						<a class="nav-link js-scroll" href="#Author">Author</a>
 					</li>
-
+					{% if user.is_authenticated %}
+					<li class="nav-item">
+						<a class="nav-link js-scroll" href="{% url 'users:logout' %}">登出</a>
+					</li>
+					{% else %}
+					<li class="nav-item">
+						<a class="nav-link js-scroll" href="{% url 'users:register' %}">註冊</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll" href="{% url 'users:login' %}">登入</a>
+					</li>
+					{% endif %}
 					<!-- 如果登入了 -->
 				
 					{% if user.is_authenticated %}
@@ -135,19 +146,6 @@
 					<!-- <li class="nav-item">
 						<a class="nav-link js-scroll" href="#contact">Contact</a>
 					</li> -->
-
-					{% if user.is_authenticated %}
-					<li class="nav-item">
-						<a class="nav-link js-scroll" href="{% url 'users:logout' %}">登出</a>
-					</li>
-					{% else %}
-					<li class="nav-item">
-						<a class="nav-link js-scroll" href="{% url 'users:register' %}">註冊</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll" href="{% url 'users:login' %}">登入</a>
-					</li>
-					{% endif %}
 				</ul>
 			</div>
 		</div>
@@ -197,7 +195,7 @@
 				<div class="col-sm-12">
 					<div class="title-box text-center">
 						<h3 class="title-a">COURSE</h3>
-						<p class="subtitle-a">開始課程吧!</p>
+						<p class="subtitle-a">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
 						<div class="line-mf"></div>
 					</div>
 				</div>
@@ -222,12 +220,10 @@
 							<!-- <h3 class="card-title"><a href="blog-single.html">See more ideas about Travel</a></h3>							 -->
 							<h3 class="card-title"><a href="{% url 'course:courseRead' course.id %}">{{ course.name }}</a></h3>
 							
-							{% if request.user.is_superuser %}
-								<form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
-									{% csrf_token %}
-									<input class="btn deleteConfirm" type="submit" value="刪除">
-								</form>
-							{% endif %}
+							<form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
+								{% csrf_token %}
+								<input class="btn deleteConfirm" type="submit" value="刪除">
+							</form>
 
 							<!-- <p class="card-description">Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p> -->
 							<p class="card-description">
