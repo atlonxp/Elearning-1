@@ -35,7 +35,7 @@ urlpatterns = [
     url('xadmin/', xadmin.site.urls),
     path('admin/', admin.site.urls),
 
-    # path('', TemplateView.as_view(template_name='index.html'),name='index'),
+    # path('', TemplateView.as_view(template_name='index.1.html'),name='index1'),
     # path('index.html', TemplateView.as_view(template_name='index.html'),name='index'),
     path('', indexView.as_view(),name='index'),
 
@@ -50,6 +50,9 @@ urlpatterns = [
 
     path('course/', include('course.urls', namespace='course')),
     path('users/', include('users.urls', namespace='users')),
+
+    path('starter', TemplateView.as_view(template_name='starter.html'),name='starter'),
+    
     
 
 
