@@ -133,23 +133,28 @@ def userlogin(request):
     '''
     template = 'users/login.html'
     if request.method == 'GET':
+        print('get')
         return render(request, template)
 
     # POST
     username = request.POST.get('username')
     password = request.POST.get('password')
+    print(username,password)
     if not username or not password:    # Server-side validation
         messages.error(request, '請填資料')
+        print('請填資料')
         return render(request, template)
 
     user = authenticate(username=username, password=password)
     if not user:    # authentication fails
         messages.error(request, '登入失敗')
+        print('登入失敗')
         return render(request, template)
 
     # login success
     login(request, user)
     messages.success(request, '登入成功')
+    print('登入成功')
     return redirect('/')
 
 
