@@ -15,6 +15,11 @@
         <input type="text" name="searchTerm">
         <input class="btn" type="submit" value="查詢">
     </form>
+    {% if user.is_authenticated %}
+    {{ user.username }}
+    {% else %}
+    還沒登入喔
+    {% endif %}
 
     <p class="inlineBlock"><a class="btn" href="{% url 'course:addcourse' %}">新增文章</a></p>
 

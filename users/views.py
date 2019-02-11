@@ -10,20 +10,48 @@ from django.views.generic.base import View
 from .forms import LoginForm,RegisterForm
 from django.contrib.auth.hashers import make_password
 
+
+class Student_IDBackend(ModelBackend):
+    def authenticate(self, request, email=None, password=None, **kwargs):
+        if email is None:
+            student_ID = kwargs.get('student_ID')
+            if student_ID is None:
+                return None
+            else:
+                try:
+                    user = UserProfile.objects.get(student_ID=student_ID)
+                except Users.DoesNotExist:
+                    return None
+        else:
+            try:
+                user = UserProfile.objects.get(email=email)
+            except Users.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
+                return None
+
+        if user.check_password(password):
+            return user
+            
+    def get_user(self, user_id):
+        try:
+            return UserProfile.objects.get(id=user_id)
+        except Users.DoesNotExist:
+            return None
+
 #信箱和使用者名稱都可以登錄
 # 基礎ModelBackend類，因為它有authenticate方法
-class CustomBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        try:
-            # 不希望用戶存在兩個，get只能有一個。兩個是get失敗的一種原因 Q為使用聯集查詢
-            user = UserProfile.objects.get(Q(student_ID=username)|Q(email=username))
 
-            # django的後台中密碼加密：所以不能password==password
-            # UserProfile繼承的AbstractUser中有def check_password(self, raw_password):
-            if user.check_password(password):
-                return user
-        except Exception as e:
-            return None
+# class CustomBackend(ModelBackend):
+#     def authenticate(self, request, username=None, password=None, **kwargs):
+#         try:
+#             # 不希望用戶存在兩個，get只能有一個。兩個是get失敗的一種原因 Q為使用聯集查詢
+#             user = UserProfile.objects.get(Q(student_ID=username)|Q(email=username))
+
+#             # django的後台中密碼加密：所以不能password==password
+#             # UserProfile繼承的AbstractUser中有def check_password(self, raw_password):
+#             if user.check_password(password):
+#                 return user
+#         except Exception as e:
+#             return None
 
 
 class LoginView(View):
@@ -35,10 +63,12 @@ class LoginView(View):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             # 獲取用戶提交的使用者名稱和密碼
-            user_id_email = request.POST.get('username', None)
+            student_ID = request.POST.get('student_ID', None)
             pass_word = request.POST.get('password', None)
             # 成功返回user對象,失敗None
-            user = authenticate(username=user_id_email, password=pass_word)
+            # user = authenticate(username=user_id_email, password=pass_word)
+            user = authenticate(student_ID=student_ID, password=pass_word)
+
             # 如果不是null說明驗證成功
             if user is not None:
                 # 登錄
@@ -123,7 +153,7 @@ def register(request):
     return redirect('/')
 
 
-from django.contrib.auth import authenticate
+# from django.contrib.auth import authenticate
 # from django.contrib.auth import login as auth_login
 
 
@@ -137,15 +167,15 @@ def userlogin(request):
         return render(request, template)
 
     # POST
-    username = request.POST.get('username')
+    student_ID = request.POST.get('student_ID')
     password = request.POST.get('password')
-    print(username,password)
-    if not username or not password:    # Server-side validation
+    print(student_ID,password)
+    if not student_ID or not password:    # Server-side validation
         messages.error(request, '請填資料')
         print('請填資料')
         return render(request, template)
 
-    user = authenticate(username=username, password=password)
+    user = authenticate(student_ID=student_ID, password=password)
     if not user:    # authentication fails
         messages.error(request, '登入失敗')
         print('登入失敗')

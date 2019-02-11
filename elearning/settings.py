@@ -151,6 +151,10 @@ TEMPLATES = [
     },
 ]
 
+# AUTHENTICATION_BACKENDS = (
+#     'users.views.CustomBackend',
+# )
+
 AUTHENTICATION_BACKENDS = (
-    'users.views.CustomBackend',
+    'users.views.Student_IDBackend',
 )
