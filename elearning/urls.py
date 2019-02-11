@@ -52,6 +52,8 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
 
     path('starter', TemplateView.as_view(template_name='starter.html'),name='starter'),
+    path('sbadmin2', TemplateView.as_view(template_name='sbadmin2.html'),name='sbadmin2'),
+
     
     
 
