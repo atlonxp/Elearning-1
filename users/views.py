@@ -20,12 +20,12 @@ class Student_IDBackend(ModelBackend):
             else:
                 try:
                     user = UserProfile.objects.get(student_ID=student_ID)
-                except Users.DoesNotExist:
+                except UserProfile.DoesNotExist:
                     return None
         else:
             try:
                 user = UserProfile.objects.get(email=email)
-            except Users.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
+            except UserProfile.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
                 return None
 
         if user.check_password(password):
@@ -34,7 +34,7 @@ class Student_IDBackend(ModelBackend):
     def get_user(self, user_id):
         try:
             return UserProfile.objects.get(id=user_id)
-        except Users.DoesNotExist:
+        except UserProfile.DoesNotExist:
             return None
 
 #信箱和使用者名稱都可以登錄
