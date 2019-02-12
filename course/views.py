@@ -31,6 +31,23 @@ class indexView(View):
         # print(context)
         return render(request, 'course/index.html', context)
 
+class dashboardView(View):
+    '''
+    顯示dashboard
+    '''
+    def get(self,request):
+        # return render(request, 'login.html')
+        courses = {}
+        for course in Course.objects.all():
+            courses.update({course:Lesson.objects.filter(course=course)})
+
+        # articles = {}
+        # for article in Article.objects.all():
+        #     articles.update({article:Comment.objects.filter(article=article)})
+
+        context = {'courses':courses}
+        # print(context)
+        return render(request, 'course/sbadmin2.html', context)
 
 
 def course(request):

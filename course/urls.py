@@ -14,4 +14,6 @@ urlpatterns = [
 
 
     path('courseLike/<int:courseId>/', views.courseLike, name='courseLike'),
+    path('dashboard', views.dashboardView, name='dashboard'),
+
 ]

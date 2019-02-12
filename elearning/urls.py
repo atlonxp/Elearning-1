@@ -25,6 +25,7 @@ from users import views
 from users.views import LoginView,RegisterView
 
 from course.views import indexView
+from course.views import dashboardView
 
 #version模組自動註冊需要版本控制的 Model
 xversion.register_models()
@@ -45,8 +46,11 @@ urlpatterns = [
     path('register/',RegisterView.as_view(),name = 'register'),
     path('register.html/',RegisterView.as_view(),name = 'register'),
 
-    path('dashboard', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
-    path('dashboard.html', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
+    # path('dashboard', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
+    # path('dashboard.html', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
+
+    path('dashboard', dashboardView.as_view(),name='dashboard'),
+
 
     path('course/', include('course.urls', namespace='course')),
     path('users/', include('users.urls', namespace='users')),

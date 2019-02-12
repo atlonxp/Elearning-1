@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    {% load staticfiles %}
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +18,11 @@
 
   <!-- Custom styles for this template-->
   <link href="/static/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
-
+  
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
 </head>
 
 <body id="page-top">
@@ -346,10 +351,10 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-          </div>
+          </div> -->
 
           <!-- Content Row -->
           <div class="row">
@@ -434,8 +439,45 @@
 
           <!-- Content Row -->
 
-          <div class="row">
 
+          <div class="row">
+            <!-- Basic Card Example -->
+            
+            {% for course in courses %}
+          
+
+            <div class="col-xl-12 col-lg-12 col-sm-12" >
+              <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">ENGLISH</h6>
+              </div> 
+                <div class="card-body" style="padding:0.75rem;position: relative;">
+                    <div class="col-xl-4 col-lg-4 col-sm-4"  style="float:left">
+                      <img alt=""  class="img-fluid" src="{% static 'img/english-course.jpg' %}" style="border-radius:5px;" >
+                    </div>
+
+                  <h3 class="card-title"><a href=""> {{ course.name }} </a></h3>
+                  {% if request.user.is_superuser %}
+                  <form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
+                    {% csrf_token %}
+                    <input class="btn deleteConfirm" type="submit" value="刪除">
+                  </form>
+                  {% endif %}
+                  <p class="card-description">
+                    <div class="courseContent">{{ course.desc|linebreaks|truncatechars_html:30 }}</div>
+                  </p>
+              
+                  <!-- <div style="position: relative;"> -->
+                    <button class="btn btn-primary"  style="position:absolute;bottom:5px;right:5px;">
+                        <span class="spinner-grow spinner-grow-sm"></span>
+                        Enter..
+                      </button>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+                
             <!-- Area Chart -->
             <div class="col-xl-8 col-lg-7">
               <div class="card shadow mb-4">
