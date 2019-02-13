@@ -6,7 +6,24 @@ import xadmin
 
 
 from xadmin import views
+from .models import UserProfile
 
+class UsersAdmin(object):
+    '''單字'''
+
+    list_display = [ 'student_ID','username','department','grade','email']   #顯示的欄位
+    search_fields = ['student_ID','username','department','grade','email']             #搜索
+    list_filter = [ 'department','grade']    #過濾
+    # model_icon = 'fa fa-bold'            #圖示
+    # ordering = ['-click_nums']           #排序
+    # readonly_fields = ['click_nums']     #只讀欄位
+    # exclude = []               #不顯示的欄位
+    # list_editable = ['degree','desc']
+    # refresh_times = [3,5]                #自動刷新（裡面是秒數範圍）
+    # inlines = [LessonInline]    #增加章節和課程資源
+    style_fields = {"detail": "ueditor"}
+xadmin.site.unregister(UserProfile)    
+xadmin.site.register(UserProfile,UsersAdmin)
 
 # # 創建xadmin的最基本管理器配置，並與view綁定
 # class BaseSetting(object):

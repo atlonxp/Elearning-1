@@ -99,7 +99,7 @@ class LessonAdmin(object):
 class WordsAdmin(object):
     '''單字'''
 
-    list_display = [ 'lesson','words','kk','subject','chinese','description','example']   #顯示的欄位
+    list_display = [ 'lesson','username','kk','subject','chinese','description','example']   #顯示的欄位
     search_fields = ['words','chinese']             #搜索
     list_filter = [ 'lesson','words','subject']    #過濾
     model_icon = 'fa fa-bold'            #圖示
