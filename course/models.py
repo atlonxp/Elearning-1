@@ -17,7 +17,7 @@ class Course(models.Model):
     name = models.CharField("課程名稱",max_length=50)
     desc = models.CharField("課程簡介",max_length=300)
     image = models.ImageField("封面圖",upload_to="courses/%Y/%m",max_length=100)
-    is_banner = models.BooleanField('是否輪播',default=False)
+    # is_banner = models.BooleanField('是否輪播',default=False)
     add_time = models.DateTimeField("添加時間",default=datetime.now,)
     likes = models.ManyToManyField(UserProfile)
 
@@ -48,13 +48,13 @@ class Course(models.Model):
         return self.name
 
 
-class BannerCourse(Course):
-    '''顯示輪播課程'''
-    class Meta:
-        verbose_name = '輪播課程'
-        verbose_name_plural = verbose_name
-        #這裡必須設置proxy=True，這樣就不會在生成一張表，而且具有Model的功能
-        proxy = True
+# class BannerCourse(Course):
+#     '''顯示輪播課程'''
+#     class Meta:
+#         verbose_name = '輪播課程'
+#         verbose_name_plural = verbose_name
+#         #這裡必須設置proxy=True，這樣就不會在生成一張表，而且具有Model的功能
+#         proxy = True
 
 
 class Lesson(models.Model):

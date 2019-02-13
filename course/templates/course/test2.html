@@ -333,7 +333,24 @@
     }
     </script>
 
-        
+<script type="text/javascript"> 
+  var second = 0; 
+  var minute = 0; 
+  var hour = 0; 
+  window.setInterval("OnlineStayTime();", 1000); 
+  function OnlineStayTime() { 
+  second ; 
+  if (second == 60) { 
+  second = 0; 
+  minute ; 
+  } 
+  if (minute == 60) { 
+  minute = 0; 
+  hour ; 
+  } 
+  window.status = "停留時間"+hour+":"+minute+":"+second; 
+  } 
+  </script> 
 
 </body>  
 </html>  

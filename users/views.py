@@ -12,7 +12,14 @@ from django.contrib.auth.hashers import make_password
 
 
 class Student_IDBackend(ModelBackend):
-    def authenticate(self, request, email=None, password=None, **kwargs):
+    def authenticate(self, request, username=None, email=None, password=None, **kwargs):
+        if not (username is None):
+            try:
+                user = UserProfile.objects.get(username=username)
+            except UserProfile.DoesNotExist:  # 可以捕获除与程序退出sys.exit()相关之外的所有异常
+                return None
+            if user.check_password(password):
+                return user
         if email is None:
             student_ID = kwargs.get('student_ID')
             if student_ID is None:

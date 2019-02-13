@@ -2,7 +2,7 @@
 
 import xadmin
 
-from .models import Course, Lesson ,BannerCourse
+from .models import Course, Lesson 
 # from organization.models import CourseOrg
 
 class LessonInline(object):
@@ -35,7 +35,7 @@ class CourseAdmin(object):
         # 重載queryset方法，來過濾出我們想要的數據的
         qs = super(CourseAdmin, self).queryset()
         # 只顯示is_banner=True的課程
-        qs = qs.filter(is_banner=False)
+        # qs = qs.filter(is_banner=False)
         return qs
 
     def save_models(self):
@@ -53,22 +53,22 @@ class CourseAdmin(object):
         #     course_org.save()
 
 
-class BannerCourseAdmin(object):
-    '''輪播課程'''
+# class BannerCourseAdmin(object):
+#     '''輪播課程'''
 
-    list_display = [ 'name','desc']
-    search_fields = ['name', 'desc']
-    list_filter = [ 'name','desc']
-    model_icon = 'fa fa-book'
-    exclude = ['fav_nums']
-    inlines = [LessonInline]
+#     list_display = [ 'name','desc']
+#     search_fields = ['name', 'desc']
+#     list_filter = [ 'name','desc']
+#     model_icon = 'fa fa-book'
+#     exclude = ['fav_nums']
+#     inlines = [LessonInline]
 
-    def queryset(self):
-        #重載queryset方法，來過濾出我們想要的數據的
-        qs = super(BannerCourseAdmin, self).queryset()
-        #只顯示is_banner=True的課程
-        qs = qs.filter(is_banner=True)
-        return qs
+#     def queryset(self):
+#         #重載queryset方法，來過濾出我們想要的數據的
+#         qs = super(BannerCourseAdmin, self).queryset()
+#         #只顯示is_banner=True的課程
+#         qs = qs.filter(is_banner=True)
+#         return qs
 
 class LessonAdmin(object):
     '''章節'''
@@ -97,7 +97,7 @@ class LessonAdmin(object):
 
 # 將管理器與model進行註冊關聯
 xadmin.site.register(Course, CourseAdmin)
-xadmin.site.register(BannerCourse, BannerCourseAdmin)
+# xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 # xadmin.site.register(Video, VideoAdmin)
 # xadmin.site.register(CourseResource, CourseResourceAdmin)

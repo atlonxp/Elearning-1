@@ -2,7 +2,7 @@
 
 import xadmin
 
-from .models import Banner
+# from .models import Banner
 
 
 from xadmin import views
@@ -34,14 +34,14 @@ from xadmin import views
 #     list_filter = ['code', 'email', 'send_type', 'send_time']
 
 
-class BannerAdmin(object):
-    list_display = ['title', 'image', 'url','index', 'add_time']
-    search_fields = ['title', 'image', 'url','index']
-    list_filter = ['title', 'image', 'url','index', 'add_time']
+# class BannerAdmin(object):
+#     list_display = ['title', 'image', 'url','index', 'add_time']
+#     search_fields = ['title', 'image', 'url','index']
+#     list_filter = ['title', 'image', 'url','index', 'add_time']
 
 
 # xadmin.site.register(EmailVerifyRecord,EmailVerifyRecordAdmin)
-xadmin.site.register(Banner,BannerAdmin)
+# xadmin.site.register(Banner,BannerAdmin)
 
 # 將基本配置管理與view綁定
 # xadmin.site.register(views.BaseAdminView,BaseSetting)

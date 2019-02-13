@@ -66,13 +66,13 @@ class UserProfile(AbstractUser):
 #     send_time = models.DateTimeField(default=datetime.now)
 
 
-class Banner(models.Model):
-    title = models.CharField('標題',max_length=100)
-    image = models.ImageField('輪播圖',upload_to='banner/%Y%m',max_length=100)
-    url = models.URLField('訪問地址',max_length=200)
-    index = models.IntegerField('順序',default=100)
-    add_time = models.DateTimeField('添加時間',default=datetime.now)
+# class Banner(models.Model):
+#     title = models.CharField('標題',max_length=100)
+#     image = models.ImageField('輪播圖',upload_to='banner/%Y%m',max_length=100)
+#     url = models.URLField('訪問地址',max_length=200)
+#     index = models.IntegerField('順序',default=100)
+#     add_time = models.DateTimeField('添加時間',default=datetime.now)
 
-    class Meta:
-        verbose_name = '輪播圖'
-        verbose_name_plural = verbose_name
+#     class Meta:
+#         verbose_name = '輪播圖'
+#         verbose_name_plural = verbose_name
