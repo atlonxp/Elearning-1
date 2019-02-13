@@ -2,7 +2,7 @@
 
 import xadmin
 
-from .models import Course, Lesson 
+from .models import Course, Lesson ,Words
 # from organization.models import CourseOrg
 
 class LessonInline(object):
@@ -95,9 +95,30 @@ class LessonAdmin(object):
 #     list_filter = ['course__name', 'name', 'download', 'add_time']
 
 
+# Words的admin管理器
+class WordsAdmin(object):
+    '''單字'''
+
+    list_display = [ 'lesson','words','kk','subject','chinese','description','example']   #顯示的欄位
+    search_fields = ['words','chinese']             #搜索
+    list_filter = [ 'lesson','words','subject']    #過濾
+    model_icon = 'fa fa-bold'            #圖示
+    # ordering = ['-click_nums']           #排序
+    # readonly_fields = ['click_nums']     #只讀欄位
+    # exclude = []               #不顯示的欄位
+    # list_editable = ['degree','desc']
+    # refresh_times = [3,5]                #自動刷新（裡面是秒數範圍）
+    # inlines = [LessonInline]    #增加章節和課程資源
+    style_fields = {"detail": "ueditor"}
+
+   
+
 # 將管理器與model進行註冊關聯
 xadmin.site.register(Course, CourseAdmin)
 # xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
+
+xadmin.site.register(Words, WordsAdmin)
+
 # xadmin.site.register(Video, VideoAdmin)
 # xadmin.site.register(CourseResource, CourseResourceAdmin)

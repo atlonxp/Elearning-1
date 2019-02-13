@@ -83,21 +83,24 @@ class Lesson(models.Model):
         return '《{0}》課程的章節 >> {1}'.format(self.course, self.name)
 
 
-class words(models.Model):
+class Words(models.Model):
 # 1. Lesson
 # 1. 單字 
 # 2. kk音標
 # 3. 詞性
+# 4. 中文
 # 4. 解釋
 # 5. 例句
 
     '''單字'''
     lesson = models.ForeignKey(Lesson,verbose_name='章節名稱',on_delete=models.CASCADE)
     words = models.CharField("單字",max_length=100)
-    kk = models.CharField("kk音標",max_length=100)
-    subject = models.CharField("詞性",max_length=100)
-    description = models.CharField("解釋",max_length=100)
-    example = models.CharField("例句",max_length=100)
+    kk = models.CharField("kk音標",max_length=100,null=True)
+    subject = models.CharField("詞性",max_length=100,null=True)
+    chinese = models.CharField("中文",max_length=100,null=True)
+    
+    description = models.CharField("解釋",max_length=100,null=True)
+    example = models.CharField("例句",max_length=100,null=True)
 
     # 記錄上課學生
 
