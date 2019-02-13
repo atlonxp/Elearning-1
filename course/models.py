@@ -82,6 +82,37 @@ class Lesson(models.Model):
     def __str__(self):
         return '《{0}》課程的章節 >> {1}'.format(self.course, self.name)
 
+
+class words(models.Model):
+# 1. Lesson
+# 1. 單字 
+# 2. kk音標
+# 3. 詞性
+# 4. 解釋
+# 5. 例句
+
+    '''單字'''
+    lesson = models.ForeignKey(Lesson,verbose_name='章節名稱',on_delete=models.CASCADE)
+    words = models.CharField("單字",max_length=100)
+    kk = models.CharField("kk音標",max_length=100)
+    subject = models.CharField("詞性",max_length=100)
+    description = models.CharField("解釋",max_length=100)
+    example = models.CharField("例句",max_length=100)
+
+    # 記錄上課學生
+
+    class Meta:
+        verbose_name = "單字"
+        verbose_name_plural = verbose_name
+
+    # def get_lesson_vedio(self):
+    #     #獲取章節所有影片
+    #     return self.video_set.all()
+
+    def __str__(self):
+        return '《{0}》章節的單字 >> {1}'.format(self.lesson, self.words)
+
+
 class quiz(models.Model):
     lesson = models.ForeignKey(Lesson,verbose_name='章節名稱',on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile,verbose_name='做題學生',on_delete=models.CASCADE)

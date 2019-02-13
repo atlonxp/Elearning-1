@@ -26,6 +26,8 @@ from users.views import LoginView,RegisterView
 
 from course.views import indexView
 from course.views import dashboardView
+from course.views import courseRead_new
+
 
 #version模組自動註冊需要版本控制的 Model
 xversion.register_models()
@@ -50,6 +52,7 @@ urlpatterns = [
     # path('dashboard.html', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
 
     path('dashboard', dashboardView.as_view(),name='dashboard'),
+    path('dashboard/courseRead_new/<int:courseId>/', courseRead_new,name='courseRead_new'),
 
 
     path('course/', include('course.urls', namespace='course')),

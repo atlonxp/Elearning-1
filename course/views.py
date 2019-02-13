@@ -175,3 +175,18 @@ def courseLike(request, courseId):
     if request.user not in course.likes.all():
         course.likes.add(request.user)
     return courseRead(request, courseId)
+
+
+def courseRead_new(request, courseId):
+    '''
+    Read an article
+        1. Get the "article" instance using "articleId"; redirect to the 404 page if not found
+        2. Render the articleRead template with the article instance and its
+           associated comments
+    '''
+    course = get_object_or_404(Course, id=courseId)
+    context = {
+        'course': course,
+        'lessons': Lesson.objects.filter(course=course)
+    }
+    return render(request, 'course/courseRead(new).html', context)
