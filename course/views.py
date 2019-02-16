@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 
 # Create your views here.
 
-from course.models import Course,Lesson
+from course.models import Course,Lesson,Words
 
 from course.forms import CourseForm
 
@@ -31,23 +31,43 @@ class indexView(View):
         # print(context)
         return render(request, 'course/index.html', context)
 
-class dashboardView(View):
+# class dashboardView(View):
+#     '''
+#     顯示dashboard
+#     '''
+#     def get(self,request):
+#         # return render(request, 'login.html')
+#         courses = {}
+#         for course in Course.objects.all():
+#             courses.update({course:Lesson.objects.filter(course=course)})
+
+#         # articles = {}
+#         # for article in Article.objects.all():
+#         #     articles.update({article:Comment.objects.filter(article=article)})
+
+#         context = {'courses':courses}
+#         # print(context)
+#         return render(request, 'course/sbadmin2.html', context)
+
+
+def dashboardView(request):
     '''
     顯示dashboard
     '''
-    def get(self,request):
-        # return render(request, 'login.html')
-        courses = {}
-        for course in Course.objects.all():
-            courses.update({course:Lesson.objects.filter(course=course)})
+    # return render(request, 'login.html')
+    courses = {}
+    for course in Course.objects.all():
+        courses.update({course:Lesson.objects.filter(course=course)})
 
-        # articles = {}
-        # for article in Article.objects.all():
-        #     articles.update({article:Comment.objects.filter(article=article)})
+    # articles = {}
+    # for article in Article.objects.all():
+    #     articles.update({article:Comment.objects.filter(article=article)})
 
-        context = {'courses':courses}
-        # print(context)
-        return render(request, 'course/sbadmin2.html', context)
+    context = {'courses':courses}
+    # print(context)
+    return render(request, 'course/sbadmin2.html', context)
+
+
 
 
 def course(request):
@@ -170,23 +190,32 @@ def courseLike(request, courseId):
     '''
     
     course = get_object_or_404(Course, id=courseId)
-    print(course.likes.all())
-    print(request.user.course_set.all() )
+    # print(course.likes.all())
+    # print(request.user.course_set.all() )
     if request.user not in course.likes.all():
         course.likes.add(request.user)
     return courseRead(request, courseId)
 
 
-def courseRead_new(request, courseId):
+def courseRead_new(request,courseId):
     '''
-    Read an article
-        1. Get the "article" instance using "articleId"; redirect to the 404 page if not found
-        2. Render the articleRead template with the article instance and its
-           associated comments
+    顯示courseRead_new
     '''
-    course = get_object_or_404(Course, id=courseId)
-    context = {
-        'course': course,
-        'lessons': Lesson.objects.filter(course=course)
-    }
+    # course = get_object_or_404(Course, id=courseId)
+    # context = {
+    #     'course': course,
+    #     'lessons': Lesson.objects.filter(course=course)
+    # }
+
+    lessons = {}
+    for lesson in Lesson.objects.all():
+        lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+
+    # articles = {}
+    # for article in Article.objects.all():
+    #     articles.update({article:Comment.objects.filter(article=article)})
+
+    context = {'lessons':lessons}
+    # print(context)
+    
     return render(request, 'course/courseRead(new).html', context)

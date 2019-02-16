@@ -29,7 +29,7 @@ class CourseAdmin(object):
     # list_editable = ['degree','desc']
     # refresh_times = [3,5]                #自動刷新（裡面是秒數範圍）
     inlines = [LessonInline]    #增加章節和課程資源
-    style_fields = {"detail": "ueditor"}
+    # style_fields = {"detail": "ueditor"}
 
     def queryset(self):
         # 重載queryset方法，來過濾出我們想要的數據的
@@ -99,7 +99,7 @@ class LessonAdmin(object):
 class WordsAdmin(object):
     '''單字'''
 
-    list_display = [ 'lesson','username','kk','subject','chinese','description','example']   #顯示的欄位
+    list_display = [ 'lesson','words','kk','subject','chinese','description','example']   #顯示的欄位
     search_fields = ['words','chinese']             #搜索
     list_filter = [ 'lesson','words','subject']    #過濾
     model_icon = 'fa fa-bold'            #圖示
@@ -109,7 +109,7 @@ class WordsAdmin(object):
     # list_editable = ['degree','desc']
     # refresh_times = [3,5]                #自動刷新（裡面是秒數範圍）
     # inlines = [LessonInline]    #增加章節和課程資源
-    style_fields = {"detail": "ueditor"}
+    # style_fields = {"detail": "ueditor"}
 
    
 

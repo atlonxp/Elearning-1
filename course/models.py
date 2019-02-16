@@ -16,10 +16,10 @@ class Course(models.Model):
     '''課程'''
     name = models.CharField("課程名稱",max_length=50)
     desc = models.CharField("課程簡介",max_length=300)
-    image = models.ImageField("封面圖",upload_to="courses/%Y/%m",max_length=100)
+    image = models.ImageField("封面圖",upload_to="courses/%Y/%m",max_length=100,blank=True,null=True)
     # is_banner = models.BooleanField('是否輪播',default=False)
     add_time = models.DateTimeField("添加時間",default=datetime.now,)
-    likes = models.ManyToManyField(UserProfile)
+    likes = models.ManyToManyField(UserProfile,blank=True,null=True)
 
     class Meta:
         verbose_name = "課程"
@@ -68,7 +68,7 @@ class Lesson(models.Model):
     name = models.CharField("章節名稱",max_length=100)
     add_time = models.DateTimeField("添加時間",default=datetime.now)
     desc = models.TextField("章節內容")
-    user = models.ForeignKey(UserProfile,verbose_name='上課學生',on_delete=models.CASCADE)
+    # user = models.ForeignKey(UserProfile,verbose_name='上課學生',on_delete=models.CASCADE,blank=True,null=True)
     # 記錄上課學生
 
     class Meta:
@@ -95,12 +95,12 @@ class Words(models.Model):
     '''單字'''
     lesson = models.ForeignKey(Lesson,verbose_name='章節名稱',on_delete=models.CASCADE)
     words = models.CharField("單字",max_length=100)
-    kk = models.CharField("kk音標",max_length=100,null=True)
-    subject = models.CharField("詞性",max_length=100,null=True)
-    chinese = models.CharField("中文",max_length=100,null=True)
+    kk = models.CharField("kk音標",max_length=100,blank=True,null=True)
+    subject = models.CharField("詞性",max_length=100,blank=True,null=True)
+    chinese = models.CharField("中文",max_length=100,blank=True,null=True)
     
-    description = models.CharField("解釋",max_length=100,null=True)
-    example = models.CharField("例句",max_length=100,null=True)
+    description = models.CharField("解釋",max_length=100,blank=True,null=True)
+    example = models.CharField("例句",max_length=100,blank=True,null=True)
 
     # 記錄上課學生
 

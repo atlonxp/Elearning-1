@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-    {% load staticfiles %}
-
+  {% load staticfiles %}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -435,18 +434,13 @@
                           <img alt=""  class="img-fluid" src="{% static 'img/english-course.jpg' %}" style="border-radius:5px;" >
                         </div>
     
-                      <h3 class="card-title"><a href=""> {{ course.name }} </a></h3>
-                      {% if request.user.is_superuser %}
-                      <form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
-                        {% csrf_token %}
-                        <input class="btn deleteConfirm" type="submit" value="刪除">
-                      </form>
-                      {% endif %}
+                      <h3 class="card-title"><a href="/dashboard/courseRead_new/{{ course.id }}"> {{ course.name }} </a></h3>
+
                       <p class="card-description">
                         <div class="courseContent">{{ course.desc|linebreaks|truncatechars_html:30 }}</div>
                       </p>
                       <!-- <div style="position: relative;"> -->
-                        <a href="" class="btn btn-primary"   style="position:absolute;bottom:5px;right:5px;">
+                        <a href="/dashboard/courseRead_new/{{ course.id }}" class="btn btn-primary"   style="position:absolute;bottom:5px;right:5px;">
                           <span class="spinner-grow spinner-grow-sm"></span>
                           Enter..
                         </a>
@@ -456,6 +450,8 @@
                 </div>
               </div>
               {% endfor %}
+
+
               <!-- Content Row -->
               <div class="row">
     

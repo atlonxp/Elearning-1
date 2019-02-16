@@ -436,14 +436,39 @@
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="collapseCardExample">
                                 <div class="card-body">
-                                    {{ lesson.desc|linebreaks }}<strong>Click on the card header</strong> to see the card body collapse and expand!
+                                    {{ lesson.desc|linebreaks }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
+              
+                {% for course, lessons in courses.items %}
+                  <h3>{{ course.name }}</h3>
+                  <h3><a class="inlineBlock" href="{% url 'course:courseRead' course.id %}">{{ course.name }}</a></h3>
 
+                  <form class="inlineBlock" method="post" action="{% url 'course:courseDelete' course.id %}">
+                      {% csrf_token %}
+                      <input class="btn deleteConfirm" type="submit" value="刪除">
+                  </form>
+
+                  <p>course 發表時間：{{ course.add_time|date:'Y-m-d H:i' }}</p>
+                  <p>course 內容: </p> 
+                  <div class="courseContent">{{ course.desc|linebreaks|truncatechars_html:30 }}</div>
+                {% for lesson in lessons %}
+                    <div class="lessonDiv">
+                    <p>lesson 名稱: </p><h4>{{ lesson.name }}</h4>
+                    <span class="lessonAuthor">{{ lesson.user.username }}</span>
+                    <p>lesson 內容: </p> 
+                    <span class="lesson">{{ lesson.desc|linebreaks|truncatechars_html:30  }}</span>
+                    <br>
+                    <p>lesson 新增時間: </p>
+                    <span class="lessonTime">{{ lesson.add_time|date:'m月d日 H:i' }}</span>
+                    </div>
+                {% endfor %}
+                  <hr>
+                {% endfor %}
     
           </div>
           <!-- End of Main Content -->

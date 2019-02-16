@@ -51,7 +51,7 @@ urlpatterns = [
     # path('dashboard', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
     # path('dashboard.html', TemplateView.as_view(template_name='dashboard.html'),name='dashboard'),
 
-    path('dashboard', dashboardView.as_view(),name='dashboard'),
+    path('dashboard', dashboardView,name='dashboard'),
     path('dashboard/courseRead_new/<int:courseId>/', courseRead_new,name='courseRead_new'),
 
 
