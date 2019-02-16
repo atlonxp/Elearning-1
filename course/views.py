@@ -211,10 +211,6 @@ def courseRead_new(request,courseId):
     for lesson in Lesson.objects.all():
         lessons.update({lesson:Words.objects.filter(lesson=lesson)})
 
-    # articles = {}
-    # for article in Article.objects.all():
-    #     articles.update({article:Comment.objects.filter(article=article)})
-
     context = {'lessons':lessons}
     # print(context)
     
