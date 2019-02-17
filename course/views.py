@@ -206,12 +206,15 @@ def courseRead_new(request,courseId):
     #     'course': course,
     #     'lessons': Lesson.objects.filter(course=course)
     # }
-
+    course = get_object_or_404(Course, id=courseId)
     lessons = {}
     for lesson in Lesson.objects.all():
         lessons.update({lesson:Words.objects.filter(lesson=lesson)})
 
-    context = {'lessons':lessons}
+    context = {
+        'course':course,
+        'lessons':lessons
+        }
     # print(context)
     
     return render(request, 'course/courseRead(new).html', context)

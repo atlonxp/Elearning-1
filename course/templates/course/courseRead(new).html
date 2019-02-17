@@ -422,28 +422,6 @@
               </div>
 
 
-
-                <div class="row">
-                    {% for lesson in lessons %}
-                    <div class="col-xl-12 col-lg-12 col-sm-12" >
-                        <!-- Collapsable Card Example -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">{{ lesson.name }}</h6>
-                            </a>
-                
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="collapseCardExample">
-                                <div class="card-body">
-                                    {{ lesson.desc|linebreaks }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
                 <div class="row">
                   {% for lesson, words in lessons.items %}
                     {% for word in words %}

@@ -116,7 +116,11 @@ class Words(models.Model):
         return '《{0}》章節的單字 >> {1}'.format(self.lesson, self.words)
 
 
-class quiz(models.Model):
+
+# class Sentence(models.Model):
+
+
+class Quiz(models.Model):
     lesson = models.ForeignKey(Lesson,verbose_name='章節名稱',on_delete=models.CASCADE)
     user = models.ForeignKey(UserProfile,verbose_name='做題學生',on_delete=models.CASCADE)
     add_time = models.DateTimeField("添加時間",default=datetime.now)
