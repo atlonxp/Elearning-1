@@ -218,3 +218,47 @@ def courseRead_new(request,courseId):
     # print(context)
     
     return render(request, 'course/courseRead(new).html', context)
+
+def Sentence(request,courseId):
+    '''
+    顯示courseRead_new
+    '''
+    # course = get_object_or_404(Course, id=courseId)
+    # context = {
+    #     'course': course,
+    #     'lessons': Lesson.objects.filter(course=course)
+    # }
+    course = get_object_or_404(Course, id=courseId)
+    lessons = {}
+    for lesson in Lesson.objects.all():
+        print(lesson)
+        lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+
+    sentence = '''
+        <form>
+            <div class="form-row align-items-center">
+            <div class="col-auto my-1">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">Preference</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option selected>Choose...</option>
+                <option value="名詞">名詞</option>
+                <option value="動詞">動詞</option>
+                </select>
+            </div>
+            
+            <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </div>
+        </form>
+    '''
+
+
+    context = {
+        'course':course,
+        'lessons':lessons,
+        'Sentence':sentence
+        }
+    # print(context)
+    
+    return render(request, 'course/Sentence.html', context)
