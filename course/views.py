@@ -231,7 +231,10 @@ def Sentence(request,courseId):
     course = get_object_or_404(Course, id=courseId)
     lessons = {}
     for lesson in Lesson.objects.all():
-        print(lesson)
+        # print(Words.objects.filter(lesson=lesson))
+        a = Words.objects.filter(lesson=lesson)
+        for e in a:
+            print(e.example)
         lessons.update({lesson:Words.objects.filter(lesson=lesson)})
 
     sentence = '''
