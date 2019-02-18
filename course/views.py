@@ -230,20 +230,45 @@ def Sentence(request,courseId):
     # }
     course = get_object_or_404(Course, id=courseId)
     lessons = {}
+    example = []
     for lesson in Lesson.objects.all():
         # print(Words.objects.filter(lesson=lesson))
         a = Words.objects.filter(lesson=lesson)
         for e in a:
-            print(e.example)
+            # print(e.example)
+            example.append(e.example)
         lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+    print(example)
+    # ['One of the best known of Aesop\'s fables is "The Lion and the Mouse."', 'The moral of "The Lion and the Mouse" is: Little friends may prove to be great friends.']
+    
+    
+    from textblob import TextBlob
 
-    sentence = '''
+    text = example[0]
+
+    blob = TextBlob(text)
+    # print(blob.tags)           # [('The', 'DT'), ('titular', 'JJ'),
+                        #  ('threat', 'NN'), ('of', 'IN'), ...]
+
+
+    sentence = ''
+    
+    for word,tag in  blob.tags:
+        sentence += '''
         <form>
             <div class="form-row align-items-center">
             <div class="col-auto my-1">
-                <label class="mr-sm-2" for="inlineFormCustomSelect">Preference</label>
+                <label class="mr-sm-2" for="inlineFormCustomSelect">
+        '''
+        sentence += word
+
+        sentence += '''
+                </label>
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+        '''
+        sentence += '<option selected value="'+tag+'" >'+tag+'</option>'
+
+        sentence += '''
                 <option value="名詞">名詞</option>
                 <option value="動詞">動詞</option>
                 </select>
@@ -254,7 +279,31 @@ def Sentence(request,courseId):
             </div>
             </div>
         </form>
-    '''
+        '''
+        # print(word,tag)
+
+    
+    # sentence += '''
+    #     <form>
+    #         <div class="form-row align-items-center">
+    #         <div class="col-auto my-1">
+    #             <label class="mr-sm-2" for="inlineFormCustomSelect">
+    # '''
+    # sentence += '''
+    #             123</label>
+    #             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+    #             <option selected value="名詞" >Choose...</option>
+    #             <option value="名詞">名詞</option>
+    #             <option value="動詞">動詞</option>
+    #             </select>
+    #         </div>
+            
+    #         <div class="col-auto my-1">
+    #             <button type="submit" class="btn btn-primary">Submit</button>
+    #         </div>
+    #         </div>
+    #     </form>
+    # '''
 
 
     context = {
