@@ -253,46 +253,22 @@ def Sentence(request,courseId):
 
     sentence = ''
     
-    for word,tag in  blob.tags:
-        sentence += '''
-        <form>
-            <div class="form-row align-items-center">
-            <div class="col-auto my-1">
-                <label class="mr-sm-2" for="inlineFormCustomSelect">
-        '''
-        sentence += word
-
-        sentence += '''
-                </label>
-                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-        '''
-        sentence += '<option selected value="'+tag+'" >'+tag+'</option>'
-
-        sentence += '''
-                <option value="名詞">名詞</option>
-                <option value="動詞">動詞</option>
-                </select>
-            </div>
-            
-            <div class="col-auto my-1">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </div>
-        </form>
-        '''
-        # print(word,tag)
-
-    
-    # sentence += '''
+    # for word,tag in  blob.tags:
+    #     sentence += '''
     #     <form>
     #         <div class="form-row align-items-center">
     #         <div class="col-auto my-1">
     #             <label class="mr-sm-2" for="inlineFormCustomSelect">
-    # '''
-    # sentence += '''
-    #             123</label>
+    #     '''
+    #     sentence += word
+
+    #     sentence += '''
+    #             </label>
     #             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-    #             <option selected value="名詞" >Choose...</option>
+    #     '''
+    #     sentence += '<option selected value="'+tag+'" >'+tag+'</option>'
+
+    #     sentence += '''
     #             <option value="名詞">名詞</option>
     #             <option value="動詞">動詞</option>
     #             </select>
@@ -303,7 +279,34 @@ def Sentence(request,courseId):
     #         </div>
     #         </div>
     #     </form>
-    # '''
+    #     '''
+        # print(word,tag)
+        
+            
+    
+    sentence += '''
+        <form>
+            <div class="form-row align-items-center">
+            <div class="col-4">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">
+                123</label>
+                <select class="custom-select mr-sm-0" id="inlineFormCustomSelect" style="font-size:7px;">
+                <option selected value="名詞" style="font-size:7px;">Choose...</option>
+                <option value="名詞" style="font-size:7px;">名詞</option>
+                <option value="動詞" style="font-size:7px;">動詞</option>
+                </select>
+                <select id="select_words" name="town" >
+                <option value="London">London
+                </option>
+                <option value="Paris">Paris</option>
+                <option value="Madrid">Madrid</option>
+                </select>
+            </div>
+            
+     
+            </div>
+        </form>
+    '''
 
 
     context = {
