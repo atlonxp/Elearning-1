@@ -107,10 +107,10 @@
       <!-- Custom styles for this template-->
       <link href="/static/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
       
-      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script> -->
+      <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
     </div>
 
 
@@ -484,51 +484,6 @@
               
               {% endfor %}
 
-              <!-- Collapsable Card Example -->
-              <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-                </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse show" id="collapseCardExample">
-                    <div class="card-body">
-
-                      
-                        <form>
-                          <div class="row">
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                  <label class="mr-sm-2" for="inlineFormCustomSelect">words</label>
-                                  <select id="select_words" name="town" style="font-size:12px;">
-                                    <option value="名詞">名詞</option>
-                                    <option value="動詞">動詞</option>
-                                  </select>
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                  <label class="mr-sm-2" for="inlineFormCustomSelect" data-toggle="tooltip"  title="Tooltip on top">words</label>
-                                  <select id="select_words" name="town" style="font-size:12px;">
-                                    <option value="名詞">名詞</option>
-                                    <option value="動詞">動詞</option>
-                                  </select>
-                                </div>
-                            </div>
-                            <div class="form-row align-items-center">
-                                <div class="col-4">
-                                  <label class="mr-sm-2" for="inlineFormCustomSelect">words</label>
-                                  <select id="select_words" name="town" style="font-size:12px;">
-                                    <option value="名詞">名詞</option>
-                                    <option value="動詞">動詞</option>
-                                  </select>
-                                </div>
-                            </div>
-                          </div>
-                        </form>
-                    </div>
-                </div>
-              </div>
 
 
 
@@ -754,7 +709,12 @@
 
 
 
-  
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+  </script>
+
   <!-- Bootstrap core JavaScript-->
   <script src="/static/sbadmin2/vendor/jquery/jquery.min.js"></script>
   <script src="/static/sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -228,6 +228,8 @@ def Sentence(request,courseId):
     #     'course': course,
     #     'lessons': Lesson.objects.filter(course=course)
     # }
+
+
     course = get_object_or_404(Course, id=courseId)
     lessons = {}
     example = []
@@ -242,6 +244,10 @@ def Sentence(request,courseId):
     # ['One of the best known of Aesop\'s fables is "The Lion and the Mouse."', 'The moral of "The Lion and the Mouse" is: Little friends may prove to be great friends.']
     
     
+
+    '''
+        判斷詞性部分
+    '''
     from textblob import TextBlob
 
     text = example[0]
@@ -253,7 +259,7 @@ def Sentence(request,courseId):
 
         'CC':'並列連詞',
         'CD':'純數,基數',
-        'DT':'限定詞(置於名詞前起限定作用)',
+        'DT':'限定詞(置於名詞前起限定作用,如 the、some、my 等)',
         'EX':'存在句,存現句',
         'FW':'外來語',
         'IN':'介詞/從屬連詞,主從連詞,從屬連接詞',
@@ -288,113 +294,82 @@ def Sentence(request,courseId):
         'WRB':'副詞'
     }
 
-    all_tag='''
-        <option value="名詞">名詞</option>
-        <option value="CC">並列連詞</option>
-        <option value="CD">純數,基數</option>
-        <option value="DT">限定詞(置於名詞前起限定作用)</option>
-        <option value="EX">存在句,存現句</option>
-        <option value="FW">外來語</option>
-        <option value="IN">介詞/從屬連詞,主從連詞,從屬連接詞</option>
-        <option value="JJ">形容詞</option>
-        <option value="JJR">（形容詞或副詞的）比較級形式</option>
-        <option value="JJS">（形容詞或副詞的）最高級</option>
-        <option value="LS">listmarker</option>
-        <option value="MD">形態的，形式的,語氣的；情態的</option>
-        <option value="NN">名詞單數形式</option>
-        <option value="NNS">名詞複數形式</option>
-        <option value="NNP">專有名詞</option>
-        <option value="NNPS">專有名詞複數形式</option>
-        <option value="PDT">前位限定詞</option>
-        <option value="POS">屬有詞,結束語</option>
-        <option value="PRP">人稱代詞</option>
-        <option value="PRP$">物主代詞</option>
-        <option value="RB">副詞</option>
-        <option value="RBR">（形容詞或副詞的）比較級形式</option>
-        <option value="RBS">（形容詞或副詞的）最高級</option>
-        <option value="RP">小品詞(與動詞構成短語動詞的副詞或介詞)</option>
-        <option value="TO">to</option>
-        <option value="UH">感嘆詞；感嘆語</option>
-        <option value="VB">動詞</option>
-        <option value="VBD">動詞,過去時,過去式</option>
-        <option value="VBG">動詞 ,動名詞/現在分詞</option>
-        <option value="VBN">動詞,過去分詞</option>
-        <option value="VBP">動詞,現在</option>
-        <option value="VBZ">動詞,第三人稱</option>
-        <option value="WDT">限定詞（置於名詞前起限定作用，如 the、some、my 等）</option>
-        <option value="WP">代詞（代替名詞或名詞詞組的單詞）</option>
-        <option value="WP$">所有格；屬有詞</option>
-        <option value="WRB">副詞'</option>
-    '''
-# CC     coordinatingconjunction 並列連詞
+    # all_tag='''
+    #     <option value="名詞">名詞</option>
+    #     <option value="CC">並列連詞</option>
+    #     <option value="CD">純數,基數</option>
+    #     <option value="DT">限定詞(置於名詞前起限定作用)</option>
+    #     <option value="EX">存在句,存現句</option>
+    #     <option value="FW">外來語</option>
+    #     <option value="IN">介詞/從屬連詞,主從連詞,從屬連接詞</option>
+    #     <option value="JJ">形容詞</option>
+    #     <option value="JJR">（形容詞或副詞的）比較級形式</option>
+    #     <option value="JJS">（形容詞或副詞的）最高級</option>
+    #     <option value="LS">listmarker</option>
+    #     <option value="MD">形態的，形式的,語氣的；情態的</option>
+    #     <option value="NN">名詞單數形式</option>
+    #     <option value="NNS">名詞複數形式</option>
+    #     <option value="NNP">專有名詞</option>
+    #     <option value="NNPS">專有名詞複數形式</option>
+    #     <option value="PDT">前位限定詞</option>
+    #     <option value="POS">屬有詞,結束語</option>
+    #     <option value="PRP">人稱代詞</option>
+    #     <option value="PRP$">物主代詞</option>
+    #     <option value="RB">副詞</option>
+    #     <option value="RBR">（形容詞或副詞的）比較級形式</option>
+    #     <option value="RBS">（形容詞或副詞的）最高級</option>
+    #     <option value="RP">小品詞(與動詞構成短語動詞的副詞或介詞)</option>
+    #     <option value="TO">to</option>
+    #     <option value="UH">感嘆詞；感嘆語</option>
+    #     <option value="VB">動詞</option>
+    #     <option value="VBD">動詞,過去時,過去式</option>
+    #     <option value="VBG">動詞 ,動名詞/現在分詞</option>
+    #     <option value="VBN">動詞,過去分詞</option>
+    #     <option value="VBP">動詞,現在</option>
+    #     <option value="VBZ">動詞,第三人稱</option>
+    #     <option value="WDT">限定詞（置於名詞前起限定作用，如 the、some、my 等）</option>
+    #     <option value="WP">代詞（代替名詞或名詞詞組的單詞）</option>
+    #     <option value="WP$">所有格；屬有詞</option>
+    #     <option value="WRB">副詞'</option>
+    # '''
 
+
+# CC     coordinating conjunction 並列連詞
 # CD     cardinaldigit  純數  基數
-
 # DT     determiner  限定詞（置於名詞前起限定作用，如 the、some、my 等）
-
 # EX     existentialthere (like:"there is"... think of it like "thereexists")   存在句；存現句
-
 # FW     foreignword  外來語；外來詞；外文原詞
-
 # IN     preposition/subordinating conjunction介詞/從屬連詞；主從連詞；從屬連接詞
-
 # JJ     adjective    'big'  形容詞
-
 # JJR    adjective, comparative 'bigger' （形容詞或副詞的）比較級形式
-
 # JJS    adjective, superlative 'biggest'  （形容詞或副詞的）最高級
-
 # LS     listmarker  1)
-
 # MD     modal (could, will) 形態的，形式的 , 語氣的；情態的
-
 # NN     noun, singular 'desk' 名詞單數形式
-
 # NNS    nounplural  'desks'  名詞複數形式
-
 # NNP    propernoun, singular     'Harrison' 專有名詞
-
 # NNPS  proper noun, plural 'Americans'  專有名詞複數形式
-
 # PDT    predeterminer      'all the kids'  前位限定詞
-
 # POS    possessiveending  parent's   屬有詞  結束語
-
 # PRP    personalpronoun   I, he, she  人稱代詞
-
 # PRP$  possessive pronoun my, his, hers  物主代詞
-
 # RB     adverb very, silently, 副詞    非常  靜靜地
-
 # RBR    adverb,comparative better   （形容詞或副詞的）比較級形式
-
 # RBS    adverb,superlative best    （形容詞或副詞的）最高級
-
 # RP     particle     give up 小品詞(與動詞構成短語動詞的副詞或介詞)
-
 # TO     to    go 'to' the store.
-
 # UH     interjection errrrrrrrm  感嘆詞；感嘆語
-
 # VB     verb, baseform    take   動詞
-
 # VBD    verb, pasttense   took   動詞   過去時；過去式
-
 # VBG    verb,gerund/present participle taking 動詞  動名詞/現在分詞
-
 # VBN    verb, pastparticiple     taken 動詞  過去分詞
-
 # VBP    verb,sing. present, non-3d     take 動詞  現在
-
 # VBZ    verb, 3rdperson sing. present  takes   動詞  第三人稱
-
 # WDT    wh-determiner      which 限定詞（置於名詞前起限定作用，如 the、some、my 等）
-
 # WP     wh-pronoun   who, what 代詞（代替名詞或名詞詞組的單詞）
-
 # WP$    possessivewh-pronoun     whose  所有格；屬有詞
-
 # WRB    wh-abverb    where, when 副詞
+
 
 
 
@@ -429,31 +404,31 @@ def Sentence(request,courseId):
     #     '''
         # print(word,tag)
 
-    sentence += '''
-        <form>
-            <div class="row">    
-    '''
+    # sentence += '''
+    #     <form>
+    #         <div class="row">    
+    # '''
   
-    for word,tag in  blob.tags:   
-        sentence += '''
-                <div class="form-row align-items-center">
-                    <div class="col-2"> 
-        '''
-        sentence += '<label class="mr-sm-2" for="inlineFormCustomSelect">'+word+'</label>'
-        sentence += '''
-                <select id="select_words" name="town" style="font-size:6px;">
-        '''
-        sentence += '<option value="'+tag+'">'+words_tag_2_tw[tag]+'</option>'
-        sentence += all_tag
-        sentence += '''
-                </select>
-                </div>
-            </div>
-        '''
-    sentence += '''    
-            </div>
-        </form>
-    '''
+    # for word,tag in  blob.tags:   
+    #     sentence += '''
+    #             <div class="form-row align-items-center">
+    #                 <div class="col-2"> 
+    #     '''
+    #     sentence += '<label class="mr-sm-2" for="inlineFormCustomSelect">'+word+'</label>'
+    #     sentence += '''
+    #             <select id="select_words" name="town" style="font-size:6px;">
+    #     '''
+    #     sentence += '<option value="'+tag+'">'+words_tag_2_tw[tag]+'</option>'
+    #     sentence += all_tag
+    #     sentence += '''
+    #             </select>
+    #             </div>
+    #         </div>
+    #     '''
+    # sentence += '''    
+    #         </div>
+    #     </form>
+    # '''
     
     # '''html
     # <form>
@@ -468,6 +443,33 @@ def Sentence(request,courseId):
     #     </div>
     # </form>
     # '''
+
+    sentence += '''
+        <div class="row"> 
+    '''
+  
+    for word,tag in  blob.tags:
+        if word == "'s":
+            sentence += '<em data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</em>'
+        else:
+            sentence += '<em data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</em>'
+
+    sentence += '''   
+        </div>
+    '''
+    
+    # '''html
+    # <div class="row">
+    #     <label class="mr-sm-2" for="inlineFormCustomSelect" data-toggle="tooltip" data-html="true" title="12312313">words</label>
+    #     <label class="mr-sm-2" for="inlineFormCustomSelect" data-toggle="tooltip" data-html="true" title="12312313">words</label>
+    #     <label class="mr-sm-2" for="inlineFormCustomSelect" data-toggle="tooltip" data-html="true" title="12312313">words</label>
+    #     <label class="mr-sm-2" for="inlineFormCustomSelect" data-toggle="tooltip" data-html="true" title="12312313">words</label>
+    # </div>
+    # '''
+
+
+
+
 
 
     # sentence += '''
