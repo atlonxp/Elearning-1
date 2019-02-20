@@ -252,6 +252,15 @@ def Sentence(request,courseId):
 
     text = example[0]
 
+    '''
+        google翻譯
+    '''
+    from py_translator import TEXTLIB
+    s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+    print(s)
+    example_tw = s
+
+
     blob = TextBlob(text)
     # print(blob.tags)           # [('The', 'DT'), ('titular', 'JJ'),
                         #  ('threat', 'NN'), ('of', 'IN'), ...]
@@ -455,6 +464,9 @@ def Sentence(request,courseId):
             sentence += '<em data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</em>'
 
     sentence += '''   
+        </div>
+        <div class="row"> 
+            <em>'''+example_tw+'''</em>
         </div>
     '''
     
