@@ -459,14 +459,14 @@ def Sentence(request,courseId):
   
     for word,tag in  blob.tags:
         if word == "'s":
-            sentence += '<em data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</em>'
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</font >'
         else:
-            sentence += '<em data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</em>'
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</font >'
 
     sentence += '''   
         </div>
         <div class="row"> 
-            <em>'''+example_tw+'''</em>
+            '''+example_tw+'''
         </div>
     '''
     
