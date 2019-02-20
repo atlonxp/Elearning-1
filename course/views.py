@@ -295,12 +295,11 @@ def Sentence(request,courseId):
                 <option value="名詞" style="font-size:7px;">名詞</option>
                 <option value="動詞" style="font-size:7px;">動詞</option>
                 </select>
-                <select id="select_words" name="town" >
-                <option value="London">London
-                </option>
-                <option value="Paris">Paris</option>
-                <option value="Madrid">Madrid</option>
+                <select id="select_words" name="town" style="font-size:12px;">
+                    <option value="名詞">名詞</option>
+                    <option value="動詞">動詞</option>
                 </select>
+         
             </div>
             
      
