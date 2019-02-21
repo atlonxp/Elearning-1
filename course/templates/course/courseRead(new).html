@@ -431,11 +431,21 @@
                           <h6 class="m-0 font-weight-bold text-primary">{{ word.words }}</h6>
                         </a>
                         <div class="collapse show" id="collapseCardExample{{ forloop.counter }}">
+                          
                           <div class="card-body">
-                            <span class="word">{{ word.kk|linebreaks|truncatechars_html:300  }}</span>
-                            <span class="word">{{ word.subject|linebreaks|truncatechars_html:300  }}</span>
-                            <span class="word">{{ word.chinese|linebreaks|truncatechars_html:300  }}</span>
+                            <h3 class="card-title" style="display:inline"><a href=""> {{ word.words }} </a></h3>
+                            <!-- <span style="border:2px dotted #39c; padding:1px;"> 使用點點的外框 </span><p>
+                            <span style="border:2px solid #39c; padding:1px;"> 使用實線的外框 </span><p>
+                            <span style="border:2px dashed #39c; padding:2px;"> 使用虛線的外框 </span><p>
+                            <span style="border:3px double #39c; padding:2px;"> 使用雙線的外框 </span><p>  -->
+                            
+
+                            <span class="word">[{{ word.kk }}]</span>
+                            <br><br>
                             <span class="word">{{ word.description|linebreaks|truncatechars_html:300  }}</span>
+                            <span class="badge badge-pill badge-success">{{ word.subject|truncatechars_html:300  }}</span>
+                            <span class="word">{{ word.chinese|truncatechars_html:300  }}</span>
+                            <br><br>
                             <span class="word">{{ word.example|linebreaks|truncatechars_html:300  }}</span>
                           </div>
                         </div>
