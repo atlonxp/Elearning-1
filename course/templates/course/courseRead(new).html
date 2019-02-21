@@ -393,7 +393,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-xl-12 col-lg-12 col-sm-12" >
                   <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -401,19 +401,35 @@
                   </div> 
                     <div class="card-body" style="padding:0.75rem;position: relative;">
                         <div class="col-xl-4 col-lg-4 col-sm-4"  style="float:left">
-                          <!-- <img alt=""  class="img-fluid" src="{% static 'img/english-course.jpg' %}" style="border-radius:5px;" > -->
                           <img class="img-fluid" style="border-radius:5px;" src="/static/sbadmin2/img/undraw_teaching_f1cm.svg" alt="">
-                        
                         </div>
-    
                       <h3 class="card-title"><a href=""> {{ course.name }} </a></h3>
-
                       <p class="card-description">
                         <div class="courseContent">{{ course.desc|linebreaks }}</div>
                       </p>
-                      <!-- <div style="position: relative;"> -->
-                        
-                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12" >
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">{{ course.name }}</h6>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-xl-4 col-lg-4 col-sm-4">
+                          <img src="{% static 'sbadmin2/img/undraw_teaching_f1cm.svg' %}" style=" border:5px white dashed; border-radius:10px;" class="img-fluid" alt="">
+                      </div>
+                      <div class="col">
+                        <div class="card-body">
+                          <div class="card-block px-2">
+                              <h4 class="card-title">{{ course.name }}</h4>
+                              <p class="card-text">{{ course.desc|linebreaks }}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
