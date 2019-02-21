@@ -201,20 +201,22 @@ def courseRead_new(request,courseId):
     '''
     顯示courseRead_new
     '''
+    # 無單字版本
     # course = get_object_or_404(Course, id=courseId)
-    # context = {
-    #     'course': course,
-    #     'lessons': Lesson.objects.filter(course=course)
-    # }
-    course = get_object_or_404(Course, id=courseId)
-    lessons = {}
-    for lesson in Lesson.objects.all():
-        lessons.update({lesson:Words.objects.filter(lesson=lesson)})
-
     context = {
-        'course':course,
-        'lessons':lessons
-        }
+        'course': course,
+        'lessons': Lesson.objects.filter(course=course)
+    }
+
+    course = get_object_or_404(Course, id=courseId)
+    # 有單字版本
+    # lessons = {}  
+    # for lesson in Lesson.objects.all():
+    #     lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+    # context = {
+    #     'course':course,
+    #     'lessons':lessons
+    #     }
     # print(context)
     
     return render(request, 'course/courseRead(new).html', context)
@@ -343,41 +345,41 @@ def Sentence(request,courseId):
     # '''
 
 
-# CC     coordinating conjunction 並列連詞
-# CD     cardinaldigit  純數  基數
-# DT     determiner  限定詞（置於名詞前起限定作用，如 the、some、my 等）
-# EX     existentialthere (like:"there is"... think of it like "thereexists")   存在句；存現句
-# FW     foreignword  外來語；外來詞；外文原詞
-# IN     preposition/subordinating conjunction介詞/從屬連詞；主從連詞；從屬連接詞
-# JJ     adjective    'big'  形容詞
-# JJR    adjective, comparative 'bigger' （形容詞或副詞的）比較級形式
-# JJS    adjective, superlative 'biggest'  （形容詞或副詞的）最高級
-# LS     listmarker  1)
-# MD     modal (could, will) 形態的，形式的 , 語氣的；情態的
-# NN     noun, singular 'desk' 名詞單數形式
-# NNS    nounplural  'desks'  名詞複數形式
-# NNP    propernoun, singular     'Harrison' 專有名詞
-# NNPS  proper noun, plural 'Americans'  專有名詞複數形式
-# PDT    predeterminer      'all the kids'  前位限定詞
-# POS    possessiveending  parent's   屬有詞  結束語
-# PRP    personalpronoun   I, he, she  人稱代詞
-# PRP$  possessive pronoun my, his, hers  物主代詞
-# RB     adverb very, silently, 副詞    非常  靜靜地
-# RBR    adverb,comparative better   （形容詞或副詞的）比較級形式
-# RBS    adverb,superlative best    （形容詞或副詞的）最高級
-# RP     particle     give up 小品詞(與動詞構成短語動詞的副詞或介詞)
-# TO     to    go 'to' the store.
-# UH     interjection errrrrrrrm  感嘆詞；感嘆語
-# VB     verb, baseform    take   動詞
-# VBD    verb, pasttense   took   動詞   過去時；過去式
-# VBG    verb,gerund/present participle taking 動詞  動名詞/現在分詞
-# VBN    verb, pastparticiple     taken 動詞  過去分詞
-# VBP    verb,sing. present, non-3d     take 動詞  現在
-# VBZ    verb, 3rdperson sing. present  takes   動詞  第三人稱
-# WDT    wh-determiner      which 限定詞（置於名詞前起限定作用，如 the、some、my 等）
-# WP     wh-pronoun   who, what 代詞（代替名詞或名詞詞組的單詞）
-# WP$    possessivewh-pronoun     whose  所有格；屬有詞
-# WRB    wh-abverb    where, when 副詞
+    # CC     coordinating conjunction 並列連詞
+    # CD     cardinaldigit  純數  基數
+    # DT     determiner  限定詞（置於名詞前起限定作用，如 the、some、my 等）
+    # EX     existentialthere (like:"there is"... think of it like "thereexists")   存在句；存現句
+    # FW     foreignword  外來語；外來詞；外文原詞
+    # IN     preposition/subordinating conjunction介詞/從屬連詞；主從連詞；從屬連接詞
+    # JJ     adjective    'big'  形容詞
+    # JJR    adjective, comparative 'bigger' （形容詞或副詞的）比較級形式
+    # JJS    adjective, superlative 'biggest'  （形容詞或副詞的）最高級
+    # LS     listmarker  1)
+    # MD     modal (could, will) 形態的，形式的 , 語氣的；情態的
+    # NN     noun, singular 'desk' 名詞單數形式
+    # NNS    nounplural  'desks'  名詞複數形式
+    # NNP    propernoun, singular     'Harrison' 專有名詞
+    # NNPS  proper noun, plural 'Americans'  專有名詞複數形式
+    # PDT    predeterminer      'all the kids'  前位限定詞
+    # POS    possessiveending  parent's   屬有詞  結束語
+    # PRP    personalpronoun   I, he, she  人稱代詞
+    # PRP$  possessive pronoun my, his, hers  物主代詞
+    # RB     adverb very, silently, 副詞    非常  靜靜地
+    # RBR    adverb,comparative better   （形容詞或副詞的）比較級形式
+    # RBS    adverb,superlative best    （形容詞或副詞的）最高級
+    # RP     particle     give up 小品詞(與動詞構成短語動詞的副詞或介詞)
+    # TO     to    go 'to' the store.
+    # UH     interjection errrrrrrrm  感嘆詞；感嘆語
+    # VB     verb, baseform    take   動詞
+    # VBD    verb, pasttense   took   動詞   過去時；過去式
+    # VBG    verb,gerund/present participle taking 動詞  動名詞/現在分詞
+    # VBN    verb, pastparticiple     taken 動詞  過去分詞
+    # VBP    verb,sing. present, non-3d     take 動詞  現在
+    # VBZ    verb, 3rdperson sing. present  takes   動詞  第三人稱
+    # WDT    wh-determiner      which 限定詞（置於名詞前起限定作用，如 the、some、my 等）
+    # WP     wh-pronoun   who, what 代詞（代替名詞或名詞詞組的單詞）
+    # WP$    possessivewh-pronoun     whose  所有格；屬有詞
+    # WRB    wh-abverb    where, when 副詞
 
 
 
