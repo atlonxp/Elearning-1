@@ -221,6 +221,30 @@ def courseRead_new(request,courseId):
     
     return render(request, 'course/courseRead(new).html', context)
 
+def lessonRead(request,lessonId):
+    '''
+    顯示lessonRead
+    '''
+    # 無單字版本
+    lesson = get_object_or_404(Lesson, id=lessonId)
+    context = {
+        'lesson': lesson,
+        'words': Words.objects.filter(lesson=lesson)
+    }
+
+    # course = get_object_or_404(Course, id=courseId)
+    # 有單字版本
+    # lessons = {}  
+    # for lesson in Lesson.objects.all():
+    #     lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+    # context = {
+    #     'course':course,
+    #     'lessons':lessons
+    #     }
+    # print(context)
+    
+    return render(request, 'course/lessonRead.html', context)
+
 def Sentence(request,courseId):
     '''
     顯示courseRead_new

@@ -77,12 +77,12 @@
       <!-- <body id="page-top"> -->
       <!-- Page Wrapper -->
         {% for message in messages %}
-            <p class="{{ message.tags }}">{{ message }}</p>
+          <p class="{{ message.tags }}">{{ message }}</p>
         {% endfor %}
         <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     
           <!-- Sidebar - Brand -->
           <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
@@ -174,6 +174,7 @@
         <!-- End of Sidebar -->
     
         <!-- Content Wrapper -->
+
         <div id="content-wrapper" class="d-flex flex-column">
     
           <!-- Main Content -->
@@ -349,53 +350,50 @@
 
 
               <!-- Content Row -->
-                <div class="row">
-    
-       
-                    <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">單字卡</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">APPLE</div>
-                            </div>
-                            <div class="col-auto">
-                            <i class="fas fa-language  fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-        
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                        <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">homework</div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                </div>
-                                <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-
-    
               <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-primary shadow h-100 py-2">
+                      <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">單字卡</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">APPLE</div>
+                          </div>
+                          <div class="col-auto">
+                          <i class="fas fa-language  fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card border-left-info shadow h-100 py-2">
+                      <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">homework</div>
+                          <div class="row no-gutters align-items-center">
+                              <div class="col-auto">
+                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                              </div>
+                              <div class="col">
+                              <div class="progress progress-sm mr-2">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              </div>
+                          </div>
+                          </div>
+                          <div class="col-auto">
+                          <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row">
                 <div class="col-xl-12 col-lg-12 col-sm-12" >
                   <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -403,59 +401,79 @@
                   </div> 
                     <div class="card-body" style="padding:0.75rem;position: relative;">
                         <div class="col-xl-4 col-lg-4 col-sm-4"  style="float:left">
-                          <!-- <img alt=""  class="img-fluid" src="{% static 'img/english-course.jpg' %}" style="border-radius:5px;" > -->
                           <img class="img-fluid" style="border-radius:5px;" src="/static/sbadmin2/img/undraw_teaching_f1cm.svg" alt="">
-                        
                         </div>
-    
                       <h3 class="card-title"><a href=""> {{ course.name }} </a></h3>
-
                       <p class="card-description">
                         <div class="courseContent">{{ course.desc|linebreaks }}</div>
                       </p>
-                      <!-- <div style="position: relative;"> -->
-                        
-                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12" >
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">{{ lesson.name }}</h6>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-xl-4 col-lg-4 col-sm-4">
+                          <img src="{% static 'sbadmin2/img/undraw_teaching_f1cm.svg' %}" style=" border:5px white dashed; border-radius:10px;" class="img-fluid" alt="">
+                      </div>
+                      <div class="col">
+                        <div class="card-body">
+                          <div class="card-block px-2">
+                              <!-- <h4 class="card-title">{{ course.name }}</h4> -->
+                              <div class="h4 mb-0 font-weight-bold text-gray-800">{{ lesson.name }}</div>
+                              <p class="card-text">{{ lesson.desc|linebreaks }}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
 
-                <div class="row">
-                  {% for lesson, words in lessons.items %}
-                    {% for word in words %}
-                    <div class="col-xl-12 col-lg-12 col-sm-12" >
-                      <div class="card shadow mb-4">
-                        <a href="#collapseCardExample{{ forloop.counter }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                          <h6 class="m-0 font-weight-bold text-primary">{{ word.words }}</h6>
-                        </a>
-                        <div class="collapse show" id="collapseCardExample{{ forloop.counter }}">
-                          
-                          <div class="card-body">
-                            <h3 class="card-title" style="display:inline"><a href=""> {{ word.words }} </a></h3>
-                            <!-- <span style="border:2px dotted #39c; padding:1px;"> 使用點點的外框 </span><p>
-                            <span style="border:2px solid #39c; padding:1px;"> 使用實線的外框 </span><p>
-                            <span style="border:2px dashed #39c; padding:2px;"> 使用虛線的外框 </span><p>
-                            <span style="border:3px double #39c; padding:2px;"> 使用雙線的外框 </span><p>  -->
-                            
 
-                            <span class="word">[{{ word.kk }}]</span>
-                            <br><br>
-                            <span class="word">{{ word.description|linebreaks|truncatechars_html:300  }}</span>
-                            <span class="badge badge-pill badge-success">{{ word.subject|truncatechars_html:300  }}</span>
-                            <span class="word">{{ word.chinese|truncatechars_html:300  }}</span>
-                            <br><br>
-                            <span class="word">{{ word.example|linebreaks|truncatechars_html:300  }}</span>
-                          </div>
-                        </div>
-                      </div>
+
+
+
+
+              <div class="row">
+                {% for word in words %}
+                <div class="col-xl-12 col-lg-12 col-sm-12" >
+                <div class="card shadow mb-4">
+                    <a href="#collapseCardExample{{ forloop.counter }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ word.words }}</h6>
+                    </a>
+                    <div class="collapse show" id="collapseCardExample{{ forloop.counter }}">
+                    
+                    <div class="card-body">
+                        <h3 class="card-title" style="display:inline"><a href=""> {{ word.words }} </a></h3>
+                        <!-- <span style="border:2px dotted #39c; padding:1px;"> 使用點點的外框 </span><p>
+                        <span style="border:2px solid #39c; padding:1px;"> 使用實線的外框 </span><p>
+                        <span style="border:2px dashed #39c; padding:2px;"> 使用虛線的外框 </span><p>
+                        <span style="border:3px double #39c; padding:2px;"> 使用雙線的外框 </span><p>  -->
+                        
+
+                        <span class="word">[{{ word.kk }}]</span>
+                        <br><br>
+                        <span class="word">{{ word.description|linebreaks|truncatechars_html:300  }}</span>
+                        <span class="badge badge-pill badge-success">{{ word.subject|truncatechars_html:300  }}</span>
+                        <span class="word">{{ word.chinese|truncatechars_html:300  }}</span>
+                        <br><br>
+                        <span class="word">{{ word.example|linebreaks|truncatechars_html:300  }}</span>
                     </div>
-                    {% endfor %}
-                  {% endfor %}
+                    </div>
                 </div>
-
-    
+                </div>
+                {% endfor %}
+            </div>
+              
+            </div>
           </div>
           <!-- End of Main Content -->
     
