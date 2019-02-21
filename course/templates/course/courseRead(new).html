@@ -419,6 +419,51 @@
                 </div>
               </div>
 
+
+              {% for lesson in lessons %} 
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">{{ lesson.name }}</h6>
+                </div>
+                <div class="card-body">
+                  {{ lesson.desc|linebreaks|truncatechars_html:30 }}
+                  <a href="/dashboard/courseRead_new/{{ course.id }}" class="btn btn-primary"   style="position:absolute;bottom:5px;right:5px;">
+                    <span class="spinner-grow spinner-grow-sm"></span>
+                    Enter..
+                  </a>
+                </div>
+              </div>
+              {% endfor %}
+
+              {% for lesson in lessons %} 
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">{{ lesson.name }}</h6>
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-xl-4 col-lg-4 col-sm-4">
+                      <img src="{% static 'img/english-course.jpg' %}" style=" border:5px white dashed; border-radius:10px;" class="img-fluid" alt="">
+                  </div>
+                  <div class="col">
+                      <div class="card-body">
+                      <div class="card-block px-2">
+                          <h4 class="card-title">{{ lesson.name }}</h4>
+                          <p class="card-text">{{ lesson.desc|linebreaks|truncatechars_html:30 }}</p>
+                      </div>
+                      </div>
+                      <div class="text-right">
+                        <a href="/dashboard/courseRead_new/{{ course.id }}" class="btn btn-primary"  style="position:absolute;bottom:5px;right:5px;">
+                          <span class="spinner-grow spinner-grow-sm"></span>
+                          Enter..
+                        </a>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+              
             </div>
           </div>
           <!-- End of Main Content -->

@@ -202,13 +202,13 @@ def courseRead_new(request,courseId):
     顯示courseRead_new
     '''
     # 無單字版本
-    # course = get_object_or_404(Course, id=courseId)
+    course = get_object_or_404(Course, id=courseId)
     context = {
         'course': course,
         'lessons': Lesson.objects.filter(course=course)
     }
 
-    course = get_object_or_404(Course, id=courseId)
+    # course = get_object_or_404(Course, id=courseId)
     # 有單字版本
     # lessons = {}  
     # for lesson in Lesson.objects.all():
