@@ -53,7 +53,9 @@ urlpatterns = [
 
     path('dashboard', dashboardView,name='dashboard'),
     path('dashboard/courseRead_new/<int:courseId>/', courseRead_new,name='courseRead_new'),
-    path('dashboard/Sentence/<int:courseId>/', Sentence,name='Sentence'),
+    # path('dashboard/Sentence/<int:courseId>/', Sentence,name='Sentence'),
+    path('dashboard/Sentence/<int:lessonId>/', Sentence,name='Sentence'),
+
     path('dashboard/lessonRead/<int:lessonId>/', lessonRead,name='lessonRead'),
 
     

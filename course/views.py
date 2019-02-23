@@ -245,7 +245,7 @@ def lessonRead(request,lessonId):
 
     return render(request, 'course/lessonRead.html', context)
 
-def Sentence(request,courseId):
+def Sentence_old(request,courseId):
     '''
     顯示courseRead_new
     '''
@@ -539,5 +539,110 @@ def Sentence(request,courseId):
         'Sentence':sentence
         }
     # print(context)
+    
+    return render(request, 'course/Sentence.html', context)
+
+
+def Sentence(request,lessonId):
+    '''
+    顯示lessonRead
+    '''
+    # 無單字版本
+    lesson = get_object_or_404(Lesson, id=lessonId)
+    words = Words.objects.filter(lesson=lesson)
+
+
+    example = []
+
+    for word in words:
+        example.append(word.example)
+
+
+    # ['One of the best known of Aesop\'s fables is "The Lion and the Mouse."', 'The moral of "The Lion and the Mouse" is: Little friends may prove to be great friends.']
+    
+    
+
+    '''
+        判斷詞性部分
+    '''
+    from textblob import TextBlob
+
+    text = example[0]
+
+    '''
+        google翻譯
+    '''
+    from py_translator import TEXTLIB
+    s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+    print(s)
+    example_tw = s
+
+
+    blob = TextBlob(text)
+    # print(blob.tags)           # [('The', 'DT'), ('titular', 'JJ'),
+                        #  ('threat', 'NN'), ('of', 'IN'), ...]
+    words_tag_2_tw={
+
+        'CC':'並列連詞',
+        'CD':'純數,基數',
+        'DT':'限定詞(置於名詞前起限定作用,如 the、some、my 等)',
+        'EX':'存在句,存現句',
+        'FW':'外來語',
+        'IN':'介詞/從屬連詞,主從連詞,從屬連接詞',
+        'JJ':'形容詞',
+        'JJR':'（形容詞或副詞的）比較級形式',
+        'JJS':'（形容詞或副詞的）最高級',
+        'LS':'listmarker',
+        'MD':'形態的，形式的 , 語氣的；情態的',
+        'NN':'名詞單數形式',
+        'NNS':'名詞複數形式',
+        'NNP':'專有名詞',
+        'NNPS':'專有名詞複數形式',
+        'PDT':"前位限定詞",
+        'POS':'屬有詞,結束語',
+        'PRP':'人稱代詞',
+        'PRP$':'物主代詞',
+        'RB':'副詞',
+        'RBR':'（形容詞或副詞的）比較級形式',
+        'RBS':'（形容詞或副詞的）最高級',
+        'RP':'小品詞(與動詞構成短語動詞的副詞或介詞)',
+        'TO':'to',
+        'UH':'感嘆詞；感嘆語',
+        'VB':'動詞',
+        'VBD':'動詞,過去時,過去式',
+        'VBG':'動詞 ,動名詞/現在分詞',
+        'VBN':'動詞,過去分詞',
+        'VBP':'動詞,現在',
+        'VBZ':'動詞,第三人稱',
+        'WDT':'限定詞（置於名詞前起限定作用，如 the、some、my 等）',
+        'WP':'代詞（代替名詞或名詞詞組的單詞）',
+        'WP$':'所有格；屬有詞',
+        'WRB':'副詞'
+    }
+
+    sentence = ''
+
+    sentence += '''
+        <div class="row"> 
+    '''
+  
+    for word,tag in  blob.tags:
+        if word == "'s":
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</font >'
+        else:
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</font >'
+
+    sentence += '''   
+        </div>
+        <div class="row"> 
+            '''+example_tw+'''
+        </div>
+    '''
+    
+    context = {
+        'lesson':lesson,
+        'Sentence':sentence,
+        'words': words
+        }
     
     return render(request, 'course/Sentence.html', context)
