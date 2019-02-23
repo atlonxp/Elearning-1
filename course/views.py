@@ -242,7 +242,7 @@ def lessonRead(request,lessonId):
     #     'lessons':lessons
     #     }
     # print(context)
-    
+
     return render(request, 'course/lessonRead.html', context)
 
 def Sentence(request,courseId):
