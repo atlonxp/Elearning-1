@@ -579,8 +579,10 @@ def Sentence(request,lessonId):
 
 
     blob = TextBlob(text)
-    # print(blob.tags)           # [('The', 'DT'), ('titular', 'JJ'),
-                        #  ('threat', 'NN'), ('of', 'IN'), ...]
+    # print(blob.tags)           
+    # [('The', 'DT'), ('titular', 'JJ'),
+    #  ('threat', 'NN'), ('of', 'IN'), ...]
+    
     words_tag_2_tw={
 
         'CC':'並列連詞',
