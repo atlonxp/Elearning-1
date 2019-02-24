@@ -553,9 +553,11 @@ def Sentence(request,lessonId):
 
 
     example = []
-
+    example_json ={}
     for word in words:
         example.append(word.example)
+        example_json.update({word:word.example})
+    # print(example_json)
 
 
     # ['One of the best known of Aesop\'s fables is "The Lion and the Mouse."', 'The moral of "The Lion and the Mouse" is: Little friends may prove to be great friends.']
@@ -573,8 +575,9 @@ def Sentence(request,lessonId):
         google翻譯
     '''
     from py_translator import TEXTLIB
+
     s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
-    print(s)
+    # print(s)
     example_tw = s
 
 
@@ -641,10 +644,24 @@ def Sentence(request,lessonId):
         </div>
     '''
     
+    from stat_parser import Parser, display_tree
+    parser = Parser()
+    tree = parser.parse("I shot an elephant in my pajamas")
+
+    import svgling, svgling.html, svgling.figure
+    from svgling.figure import SideBySide, RowByRow, Caption
+    svgling.draw_tree(tree, leaf_nodes_align=True)
+
+
+
     context = {
         'lesson':lesson,
         'Sentence':sentence,
-        'words': words
+        'words': words,
+        'tree':svgling.draw_tree(tree, leaf_nodes_align=True)
         }
-    
+
+  
+
+
     return render(request, 'course/Sentence.html', context)
