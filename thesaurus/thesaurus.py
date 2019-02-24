@@ -386,7 +386,7 @@ class Word(object):
                 continue
             
             # holds all the relevant entries for this defn.
-            cur_data = []
+            cur_data = [defn['partOfSpeech']]
 
             for entry in defn.get(mode):
                 if (
