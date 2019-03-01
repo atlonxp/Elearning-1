@@ -726,9 +726,34 @@ def WordRead(request,WordsId):
 
 
 
+
+
+    from thesaurus import Word
+    import nltk
+    from stat_parser import Parser, display_tree
+    """
+    svg
+    """
+    text = words.example
+    parser = Parser()
+    tree = parser.parse(text)
+    setting_trees = tree.productions()
+
+    import svgling
+
+    tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+    tree_svg = tree_svg.get_svg().tostring()
+    svg_head='<svg baseProfile="full" height="100%" width="100%" '
+    tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+    # print(tree_svg)
+    # svgling.draw_tree(tree,leaf_nodes_align=True)
+
+
+
     context = {
         'words': words,
-        'example_tw':example_tw
+        'example_tw':example_tw,
+        'tree_svg':tree_svg
         }
 
   
