@@ -557,7 +557,8 @@ def Sentence(request,lessonId):
     for word in words:
         example.append(word.example)
         example_json.update({word:word.example})
-    # print(example_json)
+    print(example)
+    print(example_json)
 
 
     # ['One of the best known of Aesop\'s fables is "The Lion and the Mouse."', 'The moral of "The Lion and the Mouse" is: Little friends may prove to be great friends.']
@@ -708,3 +709,29 @@ def Sentence(request,lessonId):
 
 
     return render(request, 'course/Sentence.html', context)
+
+def WordRead(request,WordsId):
+    '''
+    顯示WordRead
+    '''
+    # 無單字版本
+    # lesson = get_object_or_404(Lesson, id=lessonId)
+    # words = Words.objects.filter(lesson=lesson)
+    words = get_object_or_404(Words, id=WordsId)
+
+    from py_translator import TEXTLIB
+
+    example_tw = TEXTLIB().translator(is_html=False, text=words.example , lang_to='zh-TW', proxy=False)
+    # print(s)
+
+
+
+    context = {
+        'words': words,
+        'example_tw':example_tw
+        }
+
+  
+
+
+    return render(request, 'course/words.html', context)
