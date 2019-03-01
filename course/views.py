@@ -633,9 +633,9 @@ def Sentence(request,lessonId):
   
     for word,tag in  blob.tags:
         if word == "'s":
-            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</font >'
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">'+word+'</font>'
         else:
-            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</font >'
+            sentence += '<font  data-toggle="tooltip" data-html="true" title="'+words_tag_2_tw[tag]+'">&nbsp;'+word+'</font>'
 
     sentence += '''   
         </div>
@@ -644,13 +644,56 @@ def Sentence(request,lessonId):
         </div>
     '''
     
+    
     from stat_parser import Parser, display_tree
+    """
+    svg
+    """
     parser = Parser()
-    tree = parser.parse("I shot an elephant in my pajamas")
 
-    import svgling, svgling.html, svgling.figure
-    from svgling.figure import SideBySide, RowByRow, Caption
-    svgling.draw_tree(tree, leaf_nodes_align=True)
+    tree = parser.parse("Jane's problem with her parents is a classic example of bad communicationa")
+
+    setting_trees = tree.productions()
+  
+    # print(tree)
+    # (SBAR+S
+    #   (NP (PRP I))
+    #   (VP
+    #     (VBN shot)
+    #     (NP (DT an) (NN elephant))
+    #     (PP (IN in) (NP (PRP$ my) (NN pajamas)))))
+
+    # print(setting_trees)
+    # [SBAR+S -> NP VP, NP -> PRP, PRP -> 'I', VP -> VBN NP PP, VBN -> 'shot', NP -> DT NN, DT -> 'an', NN -> 'elephant', PP -> IN NP, IN -> 'in', NP -> PRP$ NN, PRP$ -> 'my', NN -> 'pajamas']
+
+    # tree.draw()
+
+    # for setting_tree in setting_trees:
+    #     print(setting_tree)
+        
+    # SBAR+S -> NP VP
+    # NP -> PRP
+    # PRP -> 'I'
+    # VP -> VBN NP PP
+    # VBN -> 'shot'
+    # NP -> DT NN
+    # DT -> 'an'
+    # NN -> 'elephant'
+    # PP -> IN NP
+    # IN -> 'in'
+    # NP -> PRP$ NN
+    # PRP$ -> 'my'
+    # NN -> 'pajamas'
+
+    import svgling
+    tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+    tree_svg = tree_svg.get_svg().tostring()
+    svg_head='<svg baseProfile="full" height="100%" width="100%" '
+    tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+    # print(tree_svg)
+
+
+
 
 
 
@@ -658,7 +701,7 @@ def Sentence(request,lessonId):
         'lesson':lesson,
         'Sentence':sentence,
         'words': words,
-        'tree':svgling.draw_tree(tree, leaf_nodes_align=True)
+        'tree': tree_svg
         }
 
   
