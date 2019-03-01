@@ -13,6 +13,10 @@ urlpatterns = [
     path('courseSearch/', views.courseSearch, name='courseSearch'),
 
 
+    path('wordUpdate/<int:WordsId>/', views.wordUpdate, name='wordUpdate'),
+
+
+
     path('courseLike/<int:courseId>/', views.courseLike, name='courseLike'),
     # path('dashboard', views.dashboardView, name='dashboard'),
 

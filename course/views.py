@@ -760,3 +760,60 @@ def WordRead(request,WordsId):
 
 
     return render(request, 'course/words.html', context)
+    
+def wordUpdate(request, WordsId):
+    '''
+
+    '''
+    # word = get_object_or_404(Words, id=WordsId)
+    template = 'course/courseUpdate.html'
+
+
+    if request.method == 'GET':
+        return render('/')
+
+    # POST
+    if request.method == 'POST':
+        word_ = request.POST.get('word', None)
+        kk_ = request.POST.get('kk', None)
+        subject_ = request.POST.get('subject', None)
+        chinese_ = request.POST.get('chinese', None)
+        description_ = request.POST.get('description', None)
+        example_ = request.POST.get('example_', None)
+        example_tw_ = request.POST.get('example_tw_', None)
+
+        print(word_)
+        print(kk_)
+        print(subject_)
+        print(chinese_)
+        print(description_)
+        print(example_)
+        print(example_tw_)
+
+
+        # word = Words.objects.get(id=WordsId)
+        # word.word=word_
+        # word.kk=kk_
+        # word.subject=subject_
+        # word.chinese=chinese_
+        # word.description=description_
+        # word.example=example_
+        # word.example_tw=example_tw_
+        # word.save()
+
+        # data = {
+        #     'words':word_,
+        #     'kk':kk_,
+        #     'subject':subject_,
+        #     'chinese':chinese_,
+        #     'description':description_,
+        #     'example':example_,
+        #     'example_tw':example_tw_
+        #     }
+        # print(data)
+        # Words.objects.filter(id=WordsId).update(**data)
+
+       
+        
+
+

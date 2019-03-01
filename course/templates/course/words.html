@@ -456,48 +456,48 @@
                     <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
                   </div>
                   <div class="card-body">
-                    <form>
-                      
+                    <form action="/course/wordUpdate/{{ words.id }}/" method="post">
+                      {% csrf_token %}
                       <div class="form-row">
 
                         <div class="form-group col-md-4">
                           <label for="word">單字</label>
-                          <input type="text" class="form-control" id="word" placeholder="{{ words.words }}" value="{{ words.words }}" required>
+                          <input type="text" name = "word"  class="form-control" id="word" placeholder="{{ words.words }}" value="{{ words.words }}" required>
                         </div>
                         
                         <div class="form-group col-md-4">
                           <label for="kk">Kk音標</label>
-                          <input type="text" class="form-control" id="kk" placeholder="{{ words.kk }}" value="{{ words.kk }}" required>
+                          <input type="text" name = "kk" class="form-control" id="kk" placeholder="{{ words.kk }}" value="{{ words.kk }}" required>
                         </div>
 
                         <div class="form-group col-md-4">
                           <label for="subject">詞性</label>
-                          <input tyspe="text" class="form-control" id="subject" placeholder="{{ words.subject }}" value="{{ words.subject }}" required>
+                          <input tyspe="text" name = "subject" class="form-control" id="subject" placeholder="{{ words.subject }}" value="{{ words.subject }}" required>
                         </div>
 
                       </div>
 
                       <div class="form-group">
                         <label for="chinese">中文</label>
-                        <input type="text" class="form-control" id="chinese" placeholder="{{ words.chinese }}" value="{{ words.chinese }}" required>
+                        <input type="text" name = "chinese"  class="form-control" id="chinese" placeholder="{{ words.chinese }}" value="{{ words.chinese }}" required>
                       </div>
 
                       <div class="form-group">
                         <label for="description">解釋</label>
-                        <input type="text" class="form-control" id="description" placeholder="{{ words.description }}" value="{{ words.description }}" required>
+                        <input type="text" name = "description" class="form-control" id="description" placeholder="{{ words.description }}" value="{{ words.description }}" required>
                       </div>
 
                       <div class="form-group">
                         <label for="example">例句</label>
-                        <input type="text" class="form-control" id="example" placeholder="{{ words.example }}" value="{{ words.example }}" required>
+                        <input type="text" name = "example" class="form-control" id="example" placeholder="{{ words.example }}" value="{{ words.example }}" required>
                       </div>
 
                       <div class="form-group">
                         <label for="example_tw">例句中文</label>
-                        <input type="text" class="form-control" id="example_tw" placeholder="{{ example_tw }}" value="{{ example_tw }}" required>
+                        <input type="text" name = "example_tw" class="form-control" id="example_tw" placeholder="{{ example_tw }}" value="{{ example_tw }}" required>
                       </div>
 
-                      <div class="form-row">
+                      <!-- <div class="form-row">
                         <div class="form-group col-md-6">
                           <label for="inputCity">City</label>
                           <input type="text" class="form-control" id="inputCity">
@@ -521,12 +521,13 @@
                             Check me out
                           </label>
                         </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Sign in</button>
+                      </div> -->
+                      <input name='btn' value='ok' type='submit'>
                     </form>
                   </div>
                 </div>
               </div>
+
 
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
