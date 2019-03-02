@@ -28,7 +28,7 @@ from course.views import indexView
 from course.views import dashboardView
 from course.views import courseRead_new,Sentence,lessonRead,WordRead
 
-
+import course 
 #version模組自動註冊需要版本控制的 Model
 xversion.register_models()
 
@@ -41,6 +41,8 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='index.1.html'),name='index1'),
     # path('index.html', TemplateView.as_view(template_name='index.html'),name='index'),
     path('', indexView.as_view(),name='index'),
+    url(r'^ajax_index/$', course.views.ajax_index, name='ajax_index'),
+
 
     path('login/',LoginView.as_view(),name = 'login'),
     path('login.html/',LoginView.as_view(),name = 'login'),
@@ -56,7 +58,6 @@ urlpatterns = [
     # path('dashboard/Sentence/<int:courseId>/', Sentence,name='Sentence'),
     path('dashboard/Sentence/<int:lessonId>/', Sentence,name='Sentence'),
     path('dashboard/WordRead/<int:WordsId>/', WordRead,name='WordRead'),
-
 
     path('dashboard/lessonRead/<int:lessonId>/', lessonRead,name='lessonRead'),
 

@@ -14,6 +14,17 @@ urlpatterns = [
 
 
     path('wordUpdate/<int:WordsId>/', views.wordUpdate, name='wordUpdate'),
+    # path('add/', views.addd, name='add'),
+    path('ajax_list/', views.ajax_list, name='ajax_list'),
+    path('ajax_dict/', views.ajax_dict, name='ajax_dict'),
+    path('ajax_jquery/', views.ajax_jquery, name='ajax_jquery'),
+    path('ajax_jquery_POST/', views.ajax_jquery_POST, name='ajax_jquery_POST'),
+    path('ajax_jquery_sample/', views.ajax_jquery_sample, name='ajax_jquery_sample'),
+
+    path('translator_Example/', views.translator_Example, name='translator_Example'),
+
+
+
 
 
 

@@ -134,3 +134,5 @@ class Quiz(models.Model):
 
     def __str__(self):
         return '《{0}》章節的問題 >> {1}'.format(self.lesson, self.question)
+
+

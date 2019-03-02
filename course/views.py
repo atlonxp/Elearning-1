@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 
+from django.http import HttpResponse
+
 # Create your views here.
 
 from course.models import Course,Lesson,Words
@@ -12,6 +14,9 @@ from django.db.models.query_utils import Q
 
 from django.views.generic.base import View
 
+from django.http import JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt
 
 class indexView(View):
     '''
@@ -719,53 +724,57 @@ def WordRead(request,WordsId):
     # words = Words.objects.filter(lesson=lesson)
     words = get_object_or_404(Words, id=WordsId)
 
-    from py_translator import TEXTLIB
+    from thesaurus import Word
+    import nltk
+    from stat_parser import Parser, display_tree
+    """
+    svg
+    """
+    text = words.example
+    parser = Parser()
+    tree = parser.parse(text)
+    setting_trees = tree.productions()
+
+    import svgling
+
+    tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+    tree_svg = tree_svg.get_svg().tostring()
+    svg_head='<svg baseProfile="full" height="100%" width="100%" '
+    tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+    # print(tree_svg)
+    # svgling.draw_tree(tree,leaf_nodes_align=True)
+
+
 
     context = {
-        'words': words
-    }
-
-    if (words.example != None and words.example !=''):
-        example_tw = TEXTLIB().translator(is_html=False, text=words.example , lang_to='zh-TW', proxy=False)
-        # print(s)
-
-
-
-
-
-        from thesaurus import Word
-        import nltk
-        from stat_parser import Parser, display_tree
-        """
-        svg
-        """
-        text = words.example
-        parser = Parser()
-        tree = parser.parse(text)
-        setting_trees = tree.productions()
-
-        import svgling
-
-        tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
-        tree_svg = tree_svg.get_svg().tostring()
-        svg_head='<svg baseProfile="full" height="100%" width="100%" '
-        tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
-        # print(tree_svg)
-        # svgling.draw_tree(tree,leaf_nodes_align=True)
-
-
-
-        context = {
-            'words': words,
-            'example_tw':example_tw,
-            'tree_svg':tree_svg
-            }
+        'words': words,
+        'tree_svg':tree_svg
+        }
 
   
 
 
     return render(request, 'course/words.html', context)
     
+
+def translator_Example(request):
+    '''
+    翻譯句子 ajax
+    '''
+    from py_translator import TEXTLIB
+
+    example = request.GET.get('text')
+
+    if (example != None and example !=''):
+        example_tw = TEXTLIB().translator(is_html=False, text=example , lang_to='zh-TW', proxy=False)
+        # print(s)
+        return JsonResponse(example_tw, safe=False)
+    else:
+        return JsonResponse('請確保例句英文無錯誤', safe=False)
+        
+
+
+
 def wordUpdate(request, WordsId):
     '''
 
@@ -812,7 +821,67 @@ def wordUpdate(request, WordsId):
 
         return redirect(path_)
 
-       
-        
 
 
+
+def ajax_index(request):
+    return render(request, 'course/ajax_test.html')
+
+
+def ajax_list(request):
+    print(request.GET.get('text'))
+    # a = range(100)
+    return JsonResponse('asdasdasdasdasdasd', safe=False)
+
+
+def ajax_dict(request):
+    is_ajax = False
+    if request.is_ajax():
+        is_ajax = True
+    name_dict = {'twz': 'Love python and Django',
+                 'zqxt': 'I am teaching Django', 'is_ajax': is_ajax}
+    return JsonResponse(name_dict)
+
+
+def ajax_jquery(request):
+    print(request.GET.getlist('b[]'))
+    is_ajax = False
+    if request.is_ajax():
+        is_ajax = True
+    test = {'GET': 'GET',
+            'array': [1, 2, 3, 4],
+            'a': request.GET['a'],
+            'b[]': request.GET.getlist('b[]'),
+            'is_ajax': is_ajax,
+            }
+    return JsonResponse(test)
+
+
+# @csrf_exempt #忽略 csrf
+def ajax_jquery_POST(request):
+    print(request.POST.getlist('b[]'))
+    is_ajax = False
+    if request.is_ajax():
+        is_ajax = True
+    test = {'POST': 'POST',
+            'array': [1, 2, 3, 4],
+            'a': request.POST['a'],
+            'b[]': request.POST.getlist('b[]'),
+            'is_ajax': is_ajax,
+            }
+    return JsonResponse(test)
+
+
+# @csrf_exempt #忽略 csrf
+def ajax_jquery_sample(request):
+    print(request.POST.getlist('b[]'))
+    is_ajax = False
+    if request.is_ajax():
+        is_ajax = True
+    test = {'POST': 'POST',
+            'array': [1, 2, 3, 4],
+            'a': request.POST['a'],
+            'b[]': request.POST.getlist('b[]'),
+            'is_ajax': is_ajax,
+            }
+    return JsonResponse(test)
