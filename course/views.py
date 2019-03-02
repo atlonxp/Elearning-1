@@ -721,40 +721,45 @@ def WordRead(request,WordsId):
 
     from py_translator import TEXTLIB
 
-    example_tw = TEXTLIB().translator(is_html=False, text=words.example , lang_to='zh-TW', proxy=False)
-    # print(s)
-
-
-
-
-
-    from thesaurus import Word
-    import nltk
-    from stat_parser import Parser, display_tree
-    """
-    svg
-    """
-    text = words.example
-    parser = Parser()
-    tree = parser.parse(text)
-    setting_trees = tree.productions()
-
-    import svgling
-
-    tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
-    tree_svg = tree_svg.get_svg().tostring()
-    svg_head='<svg baseProfile="full" height="100%" width="100%" '
-    tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
-    # print(tree_svg)
-    # svgling.draw_tree(tree,leaf_nodes_align=True)
-
-
-
     context = {
-        'words': words,
-        'example_tw':example_tw,
-        'tree_svg':tree_svg
-        }
+        'words': words
+    }
+
+    if (words.example != None and words.example !=''):
+        example_tw = TEXTLIB().translator(is_html=False, text=words.example , lang_to='zh-TW', proxy=False)
+        # print(s)
+
+
+
+
+
+        from thesaurus import Word
+        import nltk
+        from stat_parser import Parser, display_tree
+        """
+        svg
+        """
+        text = words.example
+        parser = Parser()
+        tree = parser.parse(text)
+        setting_trees = tree.productions()
+
+        import svgling
+
+        tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+        tree_svg = tree_svg.get_svg().tostring()
+        svg_head='<svg baseProfile="full" height="100%" width="100%" '
+        tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+        # print(tree_svg)
+        # svgling.draw_tree(tree,leaf_nodes_align=True)
+
+
+
+        context = {
+            'words': words,
+            'example_tw':example_tw,
+            'tree_svg':tree_svg
+            }
 
   
 
@@ -770,7 +775,7 @@ def wordUpdate(request, WordsId):
 
 
     if request.method == 'GET':
-        return render('/')
+        return redirect('/')
 
     # POST
     if request.method == 'POST':
@@ -779,17 +784,8 @@ def wordUpdate(request, WordsId):
         subject_ = request.POST.get('subject', None)
         chinese_ = request.POST.get('chinese', None)
         description_ = request.POST.get('description', None)
-        example_ = request.POST.get('example_', None)
-        example_tw_ = request.POST.get('example_tw_', None)
-
-        print(word_)
-        print(kk_)
-        print(subject_)
-        print(chinese_)
-        print(description_)
-        print(example_)
-        print(example_tw_)
-
+        example_ = request.POST.get('example', None)
+        example_tw_ = request.POST.get('example_tw', None)
 
         # word = Words.objects.get(id=WordsId)
         # word.word=word_
@@ -801,17 +797,20 @@ def wordUpdate(request, WordsId):
         # word.example_tw=example_tw_
         # word.save()
 
-        # data = {
-        #     'words':word_,
-        #     'kk':kk_,
-        #     'subject':subject_,
-        #     'chinese':chinese_,
-        #     'description':description_,
-        #     'example':example_,
-        #     'example_tw':example_tw_
-        #     }
-        # print(data)
-        # Words.objects.filter(id=WordsId).update(**data)
+        data = {
+            'words':word_,
+            'kk':kk_,
+            'subject':subject_,
+            'chinese':chinese_,
+            'description':description_,
+            'example':example_,
+            'example_tw':example_tw_
+            }
+
+        Words.objects.filter(id=WordsId).update(**data)
+        path_ = '/dashboard/WordRead/'+str(WordsId)+'/'
+
+        return redirect(path_)
 
        
         
