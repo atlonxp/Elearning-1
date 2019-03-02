@@ -436,12 +436,6 @@
                 </div>
               </div>
 
-
-
-
-
-
-
               <div class="row">
                 {% for word in words %}
                 <div class="col-xl-12 col-lg-12 col-sm-12" >
@@ -452,7 +446,7 @@
                     <div class="collapse show" id="collapseCardExample{{ forloop.counter }}">
                     
                     <div class="card-body">
-                        <h3 class="card-title" style="display:inline"><a href=""> {{ word.words }} </a></h3>
+                        <h3 class="card-title" style="display:inline"><a href="/dashboard/WordRead/{{ word.id }}"> {{ word.words }} </a></h3>
                         <!-- <span style="border:2px dotted #39c; padding:1px;"> 使用點點的外框 </span><p>
                         <span style="border:2px solid #39c; padding:1px;"> 使用實線的外框 </span><p>
                         <span style="border:2px dashed #39c; padding:2px;"> 使用虛線的外框 </span><p>
@@ -476,7 +470,7 @@
 
               <div class="row">
                 <!-- Basic Card Example -->
-                <div class="card shadow mb-4">
+                <!-- <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
                   </div>
@@ -550,7 +544,7 @@
                       <button type="submit" class="btn btn-primary">Sign in</button>
                     </form>
                   </div>
-                </div>
+                </div> -->
               </div>
 
 
