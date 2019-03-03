@@ -22,6 +22,8 @@ urlpatterns = [
     path('ajax_jquery_sample/', views.ajax_jquery_sample, name='ajax_jquery_sample'),
 
     path('translator_Example/', views.translator_Example, name='translator_Example'),
+    path('synonyms/', views.synonyms, name='synonyms'),
+
 
     path('courseLike/<int:courseId>/', views.courseLike, name='courseLike'),
     # path('dashboard', views.dashboardView, name='dashboard'),

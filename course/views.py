@@ -73,8 +73,6 @@ def dashboardView(request):
     return render(request, 'course/sbadmin2.html', context)
 
 
-
-
 def course(request):
     '''
     Render the course page
@@ -92,6 +90,7 @@ def course(request):
     context = {'courses':courses}
     # print(context)
     return render(request, 'course/course.html', context)
+
 
 def addcourse(request):
     '''
@@ -116,6 +115,7 @@ def addcourse(request):
     # return course(request)
     messages.success(request, '課程已新增')
     return redirect('course:course')
+
 
 def courseRead(request, courseId):
     '''
@@ -226,6 +226,7 @@ def courseRead_new(request,courseId):
     
     return render(request, 'course/courseRead(new).html', context)
 
+
 def lessonRead(request,lessonId):
     '''
     顯示lessonRead
@@ -249,6 +250,7 @@ def lessonRead(request,lessonId):
     # print(context)
 
     return render(request, 'course/lessonRead.html', context)
+
 
 def Sentence_old(request,courseId):
     '''
@@ -698,11 +700,6 @@ def Sentence(request,lessonId):
     tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
     # print(tree_svg)
 
-
-
-
-
-
     context = {
         'lesson':lesson,
         'Sentence':sentence,
@@ -710,10 +707,8 @@ def Sentence(request,lessonId):
         'tree': tree_svg
         }
 
-  
-
-
     return render(request, 'course/Sentence.html', context)
+
 
 def WordRead(request,WordsId):
     '''
@@ -744,18 +739,13 @@ def WordRead(request,WordsId):
     # print(tree_svg)
     # svgling.draw_tree(tree,leaf_nodes_align=True)
 
-
-
     context = {
         'words': words,
         'tree_svg':tree_svg
         }
 
-  
-
-
     return render(request, 'course/words.html', context)
-    
+
 
 def translator_Example(request):
     '''
@@ -771,13 +761,11 @@ def translator_Example(request):
         return JsonResponse(example_tw, safe=False)
     else:
         return JsonResponse('請確保例句英文無錯誤', safe=False)
-        
-
-
-
+  
+       
 def wordUpdate(request, WordsId):
     '''
-
+    更新單字
     '''
     # word = get_object_or_404(Words, id=WordsId)
     template = 'course/courseUpdate.html'
@@ -822,6 +810,158 @@ def wordUpdate(request, WordsId):
         return redirect(path_)
 
 
+def synonyms(request):
+    '''
+    產生句子 ajax
+    '''
+    from thesaurus import Word
+    import nltk
+
+    text = 'My sister often talks to me in an impatient tone, as if I am really stupid.'
+
+    words_tag_2_tw={
+        'CC':'並列連詞',
+        'CD':'純數,基數',
+        'DT':'限定詞(置於名詞前起限定作用,如 the、some、my 等)',
+        'EX':'存在句,存現句',
+        'FW':'外來語',
+        'IN':'介詞/從屬連詞,主從連詞,從屬連接詞',
+        'JJ':'形容詞',
+        'JJR':'（形容詞或副詞的）比較級形式',
+        'JJS':'（形容詞或副詞的）最高級',
+        'LS':'listmarker',
+        'MD':'形態的，形式的 , 語氣的；情態的',
+        'NN':'名詞單數形式',
+        'NNS':'名詞複數形式',
+        'NNP':'專有名詞',
+        'NNPS':'專有名詞複數形式',
+        'PDT':"前位限定詞",
+        'POS':'屬有詞,結束語',
+        'PRP':'人稱代詞',
+        'PRP$':'物主代詞',
+        'RB':'副詞',
+        'RBR':'（形容詞或副詞的）比較級形式',
+        'RBS':'（形容詞或副詞的）最高級',
+        'RP':'小品詞(與動詞構成短語動詞的副詞或介詞)',
+        'TO':'to',
+        'UH':'感嘆詞；感嘆語',
+        'VB':'動詞',
+        'VBD':'動詞,過去時,過去式',
+        'VBG':'動詞 ,動名詞/現在分詞',
+        'VBN':'動詞,過去分詞',
+        'VBP':'動詞,現在',
+        'VBZ':'動詞,第三人稱',
+        'WDT':'限定詞（置於名詞前起限定作用，如 the、some、my 等）',
+        'WP':'代詞（代替名詞或名詞詞組的單詞）',
+        'WP$':'所有格；屬有詞',
+        'WRB':'副詞'
+    }
+
+    words_tag_2_ez={
+        'CC':'conj',
+        'CD':'純數,基數',
+        'DT':'adj',
+        'EX':'存在句,存現句',
+        'FW':'外來語',
+        'IN':'prep',
+        'JJ':'adj',
+        'JJR':'adj',
+        'JJS':'adj',
+        'LS':'listmarker',
+        'MD':'形態的，形式的 , 語氣的；情態的',
+        'NN':'noun',
+        'NNS':'noun',
+        'NNP':'專有名詞',
+        'NNPS':'專有名詞複數形式',
+        'PDT':"前位限定詞",
+        'POS':'屬有詞,結束語',
+        'PRP':'人稱代詞',
+        'PRP$':'物主代詞',
+        'RB':'adv',
+        'RBR':'（形容詞或副詞的）比較級形式',
+        'RBS':'（形容詞或副詞的）最高級',
+        'RP':'小品詞(與動詞構成短語動詞的副詞或介詞)',
+        'TO':'to',
+        'UH':'interj',
+        'VB':'verb',
+        'VBD':'verb',
+        'VBG':'verb',
+        'VBN':'verb',
+        'VBP':'verb',
+        'VBZ':'verb',
+        'WDT':'限定詞（置於名詞前起限定作用，如 the、some、my 等）',
+        'WP':'pron',
+        'WP$':'所有格；屬有詞',
+        'WRB':'副詞'
+    }
+
+    from textblob import TextBlob
+    blob = TextBlob(text)
+    # for word,tag in  blob.tags:
+    #     print(word,tag,words_tag_2_tw[tag])
+
+    def replace_word(input_text,tag):
+        try: 
+            w = Word(input_text)
+            output=[]
+            # 之後要改成第一個優先
+        #     tag = "adj"
+            setting_ranks = [3]
+            setting_rank = 3
+            i = 0    
+            words_count=0
+            output_words = []
+            ws_len = len(w.synonyms('all'))
+
+            while (i < ws_len):
+            #     print(i)
+            #     print(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i])
+
+                w_len = len(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i])
+
+                if(w_len < 1): #如果沒有元素在 
+                    i+=1
+            #         print("沒有元素在")
+                    continue
+
+                words_count+=w_len
+
+            #     print(w_len,words_count)
+
+                if (words_count < 4 and words_count > 0 ): #如果太少 減少rank並重新迴圈
+                    setting_rank -=1 
+                    setting_ranks.append(setting_rank)
+                    i = 0
+            #         print("迴圈重新")
+                    output_words=[]
+                    continue
+
+                output_words.append(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i][1:])
+
+                i+=1
+
+            output_words = [j for sub in output_words for j in sub] #多緯轉單維
+
+            return output_words
+        except:
+            return (-1)
+
+    # w.synonyms('all',relevance=3)
+
+    replace_word_lists=[]
+    for word,tag in blob.tags:
+    #     print(word,tag)
+        tmp = replace_word(word,words_tag_2_ez[tag])
+        # print(word,words_tag_2_ez[tag])
+
+        if (tmp != -1):
+            # print(tmp)
+            replace_word_lists.append(tmp)
+            pass
+        else:
+            pass
+
+    return JsonResponse(list(replace_word_lists), safe=False)
 
 
 def ajax_index(request):
@@ -830,8 +970,8 @@ def ajax_index(request):
 
 def ajax_list(request):
     print(request.GET.get('text'))
-    # a = range(100)
-    return JsonResponse('asdasdasdasdasdasd', safe=False)
+    a = range(100)
+    return JsonResponse(list(a), safe=False)
 
 
 def ajax_dict(request):
