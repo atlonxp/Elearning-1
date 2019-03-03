@@ -546,7 +546,8 @@
                 </div>
               </div>
 
-              
+              <button type="button" id ="buttonbutton" class="btn btn-primary">jsgogo</button>
+              <div id = 'jsgogo'></div>
 
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
@@ -555,6 +556,17 @@
                 </div>
                 <div class="card-body">
                       {{ words.example }}
+
+   
+                      <div id="synonyms_list">
+                      </div>
+
+                      <input type="text" id="add_synonyms" />
+                      <input type="button" value="新增替換字" id="btn_add_synonyms" />
+
+
+
+
                 </div>
               </div>
               
@@ -699,7 +711,44 @@
             });
         });
   </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('#btn_add_synonyms').click(function() {
+            addCheckbox($('#add_synonyms').val());
+        });
+    });
+    
+    function addCheckbox(name) {
+      var container = $('#synonyms_list');
+      var inputs = container.find('input');
+      var id = inputs.length + 1;
 
+      var formCheck = $('<div/>', { 'class': 'form-check' }).appendTo(container);
+      $('<input  />', { type: 'checkbox', id: 'cb'+id, value: name, class:"form-check-input"}).appendTo(formCheck);
+      $('<label  />', { 'for': 'cb'+id, text: name ,class:"form-check-label"}).appendTo(formCheck);
+      
+    }
+    
+  </script>
+
+  <script type="text/javascript">
+
+    cont_head = '<div class="card shadow mb-4"><div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">';
+    cont_head += 'Basic Card Example'
+    cont_head += '</h6></div><div class="card-body">';
+    cont_cont = 'My sister often talks to me in an impatient tone, as if I am really stupid.';
+    cont_foot = '</div></div>';
+
+    cont = cont_head + cont_cont + cont_foot;
+
+    $(document).ready(function(){
+      $("#buttonbutton").click(function(){
+        $("#jsgogo").html(cont);
+        });
+    });
+
+  </script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 
   <!-- Bootstrap core JavaScript-->
