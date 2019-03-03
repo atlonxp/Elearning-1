@@ -86,7 +86,7 @@ def course(request):
     # articles = {}
     # for article in Article.objects.all():
     #     articles.update({article:Comment.objects.filter(article=article)})
-
+    print(courses)
     context = {'courses':courses}
     # print(context)
     return render(request, 'course/course.html', context)
@@ -739,9 +739,101 @@ def WordRead(request,WordsId):
     # print(tree_svg)
     # svgling.draw_tree(tree,leaf_nodes_align=True)
 
+
+    '''
+        判斷詞性部分
+    '''
+    # from textblob import TextBlob
+
+    # blob = TextBlob(text)        
+
+    words_tag_2_tw={
+        'CC':'並列連詞',
+        'CD':'純數,基數',
+        'DT':'限定詞(置於名詞前起限定作用,如 the、some、my 等)',
+        'EX':'存在句,存現句',
+        'FW':'外來語',
+        'IN':'介詞/從屬連詞,主從連詞,從屬連接詞',
+        'JJ':'形容詞',
+        'JJR':'（形容詞或副詞的）比較級形式',
+        'JJS':'（形容詞或副詞的）最高級',
+        'LS':'listmarker',
+        'MD':'形態的，形式的 , 語氣的；情態的',
+        'NN':'名詞單數形式',
+        'NNS':'名詞複數形式',
+        'NNP':'專有名詞',
+        'NNPS':'專有名詞複數形式',
+        'PDT':"前位限定詞",
+        'POS':'屬有詞,結束語',
+        'PRP':'人稱代詞',
+        'PRP$':'物主代詞',
+        'RB':'副詞',
+        'RBR':'（形容詞或副詞的）比較級形式',
+        'RBS':'（形容詞或副詞的）最高級',
+        'RP':'小品詞(與動詞構成短語動詞的副詞或介詞)',
+        'TO':'to',
+        'UH':'感嘆詞；感嘆語',
+        'VB':'動詞',
+        'VBD':'動詞,過去時,過去式',
+        'VBG':'動詞 ,動名詞/現在分詞',
+        'VBN':'動詞,過去分詞',
+        'VBP':'動詞,現在',
+        'VBZ':'動詞,第三人稱',
+        'WDT':'限定詞（置於名詞前起限定作用，如 the、some、my 等）',
+        'WP':'代詞（代替名詞或名詞詞組的單詞）',
+        'WP$':'所有格；屬有詞',
+        'WRB':'副詞'
+    }
+
+    output_words = []
+    output_tags = []
+
+    import nltk
+    words = nltk.word_tokenize(text)
+
+    english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%']
+    text_list = [word for word in words if word not in english_punctuations]
+    word_tag = nltk.pos_tag(text_list)
+
+    synonyms = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
+    for word,pos in word_tag:
+        # print(word,words_tag_2_tw[pos])
+        output_words.append(str(word))
+        output_tags.append(words_tag_2_tw[pos])
+
+    # for word,tag in blob.tags:
+        # output_words.update({word:words_tag_2_tw[tag]})
+        # output_words.append(word)
+        # output_tags.append(words_tag_2_tw[tag])
+    
+    html_output_sentence_text = []
+    output_html=[]
+    for i in range(0,len(output_words)):
+        html_output = ""
+        for j in range(0,len(output_words)):
+            if (i != j):
+                html_output += output_words[j] +" "
+            if (i == j ):
+                html_output += '<font color="red">'+ output_words[i] +'</font> '
+        html_output +=" "
+        html_output_sentence_text.append(html_output)
+
+        output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output)]
+        # print(output_words[i],output_tags[i],synonyms[i])
+
+    # print(html_output_sentence_text)
+
+    # output_html=[output_words,html_output_sentence_text]
+
+
     context = {
         'words': words,
-        'tree_svg':tree_svg
+        'tree_svg':tree_svg,
+        'output_words':list(output_words),
+        'output_tags':list(output_tags),
+        'range':list(range(0,len(output_words))),
+        'html_output_sentence_text':html_output_sentence_text,
+        'output_html':output_html
         }
 
     return render(request, 'course/words.html', context)
@@ -817,7 +909,7 @@ def synonyms(request):
     from thesaurus import Word
     import nltk
 
-    text = 'My sister often talks to me in an impatient tone, as if I am really stupid.'
+    text = "One of the best known of Aesop's fables is “The Lion and the Mouse"
 
     words_tag_2_tw={
         'CC':'並列連詞',
@@ -959,6 +1051,7 @@ def synonyms(request):
             replace_word_lists.append(tmp)
             pass
         else:
+            replace_word_lists.append([])
             pass
 
     return JsonResponse(list(replace_word_lists), safe=False)
