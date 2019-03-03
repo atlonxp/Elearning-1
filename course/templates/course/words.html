@@ -493,11 +493,15 @@
                       </div>
 
                       <div class="form-group">
-                        <label for="example_tw">例句中文&nbsp;&nbsp;</label>
-                        <button type="button" id ="translator" class="btn btn-primary btn-sm">翻譯例句</button>
-                        <input type="text" name = "example_tw" class="form-control" id="example_tw" placeholder="{{ example_tw }}" value="{{ example_tw }}" required>
+                        <div class="input-group mb-3">
+                          <input type="text" name = "example_tw" class="form-control" id="example_tw" placeholder="{{ example_tw }}" value="{{ example_tw }}" required>
+                          <div class="input-group-append">
+                            <button type="button" id ="translator" class="btn btn-primary">翻譯例句</button>
+                          </div>
+                        </div>
                       </div>
 
+                      
                       <!-- <div class="form-row">
                         <div class="form-group col-md-6">
                           <label for="inputCity">City</label>
