@@ -791,7 +791,7 @@ def WordRead(request,WordsId):
     import nltk
     nltk_words = nltk.word_tokenize(text)
 
-    english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%']
+    english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%' ,'"','``',"''"]
     text_list = [word for word in nltk_words if word not in english_punctuations]
     word_tag = nltk.pos_tag(text_list)
 
@@ -898,7 +898,7 @@ def WordRead(request,WordsId):
 
     # w.synonyms('all',relevance=3)
 
-    replace_word_lists=[]
+    # replace_word_lists=[]
     # for word,tag in blob.tags:
     # #     print(word,tag)
     #     tmp = replace_word(word,words_tag_2_ez[tag])
@@ -916,7 +916,7 @@ def WordRead(request,WordsId):
     
     
     for word,pos in word_tag:
-        # print(word,words_tag_2_tw[pos])
+        print(word,pos)
         output_words.append(str(word))
         output_tags.append(words_tag_2_tw[pos])
 
@@ -931,8 +931,8 @@ def WordRead(request,WordsId):
         #     replace_word_lists.append([])
         #     pass
 
-    replace_word_lists = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
-    replace_word_lists = [replace_word_lists]
+    # replace_word_lists = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
+    # replace_word_lists = [replace_word_lists]
 
     # for word,tag in blob.tags:
         # output_words.update({word:words_tag_2_tw[tag]})
@@ -960,7 +960,7 @@ def WordRead(request,WordsId):
             output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output,tmp)]
         else:
             output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output,[])]
-            
+
         #==#==#==#==#==#==#==#==#==#==#==#==#==#==#==
 
         # output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output)]
