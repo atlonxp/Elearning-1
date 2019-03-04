@@ -546,11 +546,6 @@
                 </div>
               </div>
 
-              <button type="button" id ="buttonbutton" class="btn btn-primary">jsgogo</button>
-              <div id = 'jsgogo'></div>
-
-
-              {{ output_words.0 }}
               {% for i,j,k,synonyms in output_html %}
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
@@ -569,7 +564,7 @@
                       <label class="form-check-label">{{ synonym }}</label>
                     </div>
                     {% empty %}
-                    
+
                     {% endfor %}
 
                   <div id="synonyms_list{{ forloop.counter0 }}">
@@ -745,25 +740,6 @@
         });
   </script>
   
-
-
-  <script type="text/javascript">
-
-    cont_head = '<div class="card shadow mb-4"><div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">';
-    cont_head += 'Basic Card Example'
-    cont_head += '</h6></div><div class="card-body">';
-    cont_cont = 'My sister often talks to me in an impatient tone, as if I am really stupid.';
-    cont_foot = '</div></div>';
-
-    cont = cont_head + cont_cont + cont_foot;
-
-    $(document).ready(function(){
-      $("#buttonbutton").click(function(){
-        $("#jsgogo").html(cont);
-        });
-    });
-
-  </script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 
   <!-- Bootstrap core JavaScript-->
