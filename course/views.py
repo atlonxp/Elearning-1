@@ -789,23 +789,157 @@ def WordRead(request,WordsId):
     output_tags = []
 
     import nltk
-    words = nltk.word_tokenize(text)
+    nltk_words = nltk.word_tokenize(text)
 
     english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%']
-    text_list = [word for word in words if word not in english_punctuations]
+    text_list = [word for word in nltk_words if word not in english_punctuations]
     word_tag = nltk.pos_tag(text_list)
 
     synonyms = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
+    
+    #=============#=============#=============#=============#=============#=============#=============#=============#=============
+    
+    '''
+    產生句子 ajax
+    '''
+    from thesaurus import Word
+    import nltk
+
+    # text = "One of the best known of Aesop's fables is “The Lion and the Mouse"
+
+    words_tag_2_ez={
+        'CC':'conj',
+        'CD':'純數,基數',
+        'DT':'adj',
+        'EX':'存在句,存現句',
+        'FW':'外來語',
+        'IN':'prep',
+        'JJ':'adj',
+        'JJR':'adj',
+        'JJS':'adj',
+        'LS':'listmarker',
+        'MD':'形態的，形式的 , 語氣的；情態的',
+        'NN':'noun',
+        'NNS':'noun',
+        'NNP':'專有名詞',
+        'NNPS':'專有名詞複數形式',
+        'PDT':"前位限定詞",
+        'POS':'屬有詞,結束語',
+        'PRP':'人稱代詞',
+        'PRP$':'物主代詞',
+        'RB':'adv',
+        'RBR':'（形容詞或副詞的）比較級形式',
+        'RBS':'（形容詞或副詞的）最高級',
+        'RP':'小品詞(與動詞構成短語動詞的副詞或介詞)',
+        'TO':'to',
+        'UH':'interj',
+        'VB':'verb',
+        'VBD':'verb',
+        'VBG':'verb',
+        'VBN':'verb',
+        'VBP':'verb',
+        'VBZ':'verb',
+        'WDT':'限定詞（置於名詞前起限定作用，如 the、some、my 等）',
+        'WP':'pron',
+        'WP$':'所有格；屬有詞',
+        'WRB':'副詞'
+    }
+
+    # from textblob import TextBlob
+    # blob = TextBlob(text)
+    # for word,tag in  blob.tags:
+    #     print(word,tag,words_tag_2_tw[tag])
+
+    def replace_word(input_text,tag):
+        try: 
+            w = Word(input_text)
+            output=[]
+            # 之後要改成第一個優先
+        #     tag = "adj"
+            setting_ranks = [3]
+            setting_rank = 3
+            i = 0    
+            words_count=0
+            output_words = []
+            ws_len = len(w.synonyms('all'))
+
+            while (i < ws_len):
+            #     print(i)
+            #     print(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i])
+
+                w_len = len(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i])
+
+                if(w_len < 1): #如果沒有元素在 
+                    i+=1
+            #         print("沒有元素在")
+                    continue
+
+                words_count+=w_len
+
+            #     print(w_len,words_count)
+
+                if (words_count < 4 and words_count > 0 ): #如果太少 減少rank並重新迴圈
+                    setting_rank -=1 
+                    setting_ranks.append(setting_rank)
+                    i = 0
+            #         print("迴圈重新")
+                    output_words=[]
+                    continue
+
+                output_words.append(w.synonyms('all',relevance=setting_ranks,partOfSpeech=tag)[i][1:])
+
+                i+=1
+
+            output_words = [j for sub in output_words for j in sub] #多緯轉單維
+
+            return output_words
+        except:
+            return (-1)
+
+    # w.synonyms('all',relevance=3)
+
+    replace_word_lists=[]
+    # for word,tag in blob.tags:
+    # #     print(word,tag)
+    #     tmp = replace_word(word,words_tag_2_ez[tag])
+    #     # print(word,words_tag_2_ez[tag])
+
+    #     if (tmp != -1):
+    #         # print(tmp)
+    #         replace_word_lists.append(tmp)
+    #         pass
+    #     else:
+    #         replace_word_lists.append([])
+    #         pass
+    
+    #=============#=============#=============#=============#=============#=============#=============#=============#=============#=============#=============
+    
+    
     for word,pos in word_tag:
         # print(word,words_tag_2_tw[pos])
         output_words.append(str(word))
         output_tags.append(words_tag_2_tw[pos])
+
+        #==#==#==#==#==#==#==#==#==#==#==#==#==#==#==
+
+        # tmp = replace_word(word,words_tag_2_ez[pos])
+        # if (tmp != -1):
+        #     # print(tmp)
+        #     replace_word_lists.append(tmp)
+        #     pass
+        # else:
+        #     replace_word_lists.append([])
+        #     pass
+
+    replace_word_lists = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
+    replace_word_lists = [replace_word_lists]
 
     # for word,tag in blob.tags:
         # output_words.update({word:words_tag_2_tw[tag]})
         # output_words.append(word)
         # output_tags.append(words_tag_2_tw[tag])
     
+
     html_output_sentence_text = []
     output_html=[]
     for i in range(0,len(output_words)):
@@ -814,11 +948,23 @@ def WordRead(request,WordsId):
             if (i != j):
                 html_output += output_words[j] +" "
             if (i == j ):
-                html_output += '<font color="red">'+ output_words[i] +'</font> '
+                html_output += '<font color="red"><b>'+ output_words[i] +'</b></font> '
         html_output +=" "
         html_output_sentence_text.append(html_output)
+        #==#==#==#==#==#==#==#==#==#==#==#==#==#==#==
 
-        output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output)]
+        tmp = replace_word(word_tag[i][0],words_tag_2_ez[word_tag[i][1]])
+
+        if (tmp != -1):
+            # print(tmp)
+            output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output,tmp)]
+        else:
+            output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output,[])]
+            
+        #==#==#==#==#==#==#==#==#==#==#==#==#==#==#==
+
+        # output_html+=[(output_words[i],words_tag_2_tw[word_tag[i][1]],html_output)]
+
         # print(output_words[i],output_tags[i],synonyms[i])
 
     # print(html_output_sentence_text)
@@ -833,7 +979,7 @@ def WordRead(request,WordsId):
         'output_tags':list(output_tags),
         'range':list(range(0,len(output_words))),
         'html_output_sentence_text':html_output_sentence_text,
-        'output_html':output_html
+        'output_html':list(output_html)
         }
 
     return render(request, 'course/words.html', context)
@@ -846,15 +992,15 @@ def translator_Example(request):
     from py_translator import TEXTLIB
 
     example = request.GET.get('text')
-
-    if (example != None and example !=''):
+    print(example)
+    if (example == None or example ==''):
+        return JsonResponse('請確保例句英文無錯誤', safe=False)
+    else:
         example_tw = TEXTLIB().translator(is_html=False, text=example , lang_to='zh-TW', proxy=False)
         # print(s)
         return JsonResponse(example_tw, safe=False)
-    else:
-        return JsonResponse('請確保例句英文無錯誤', safe=False)
-  
-       
+
+
 def wordUpdate(request, WordsId):
     '''
     更新單字
