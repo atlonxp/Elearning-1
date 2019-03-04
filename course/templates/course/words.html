@@ -531,6 +531,9 @@
                 </div>
               </div>
 
+              <form action="/course/wordUpdate/{{ words.id }}/" method="post">
+              {% csrf_token %}
+              
               {% for i,j,k,synonyms in output_html %}
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
@@ -544,16 +547,17 @@
                   <br>
                   {{ k|safe }}
                   <br>
-                  {% for synonym in synonyms %}
-                  <div class="form-check">
-                    <input type="checkbox" id="synonym_{{ synonym }}" value="{{ synonym }}" class="form-check-input">
-                    <label class="form-check-label">{{ synonym }}</label>
-                  </div>
-                  {% empty %}
-
-                  {% endfor %}
+                  
                   <br>
-                  <div id="synonyms_list{{ forloop.counter0 }}">
+                  <div class ="synonyms_lists" id="synonyms_list{{ forloop.counter0 }}">
+                      {% for synonym in synonyms %}
+                      <div class="form-check">
+                        <input type="checkbox" id="synonym_{{ synonym }}" value="{{ synonym }}" class="form-check-input">
+                        <label class="form-check-label">{{ synonym }}</label>
+                      </div>
+                      {% empty %}
+    
+                      {% endfor %}
                   </div>
                   <!-- <input type="text" id="add_synonyms{{ forloop.counter0 }}" /> -->
                   <!-- <input type="text" class="form-control" id="add_synonyms{{ forloop.counter0 }}" placeholder="請輸入要再新增的替換字">
@@ -579,14 +583,31 @@
                       var id = inputs.length + 1;
                 
                       var formCheck = $('<div/>', { 'class': 'form-check' }).appendTo(container);
-                      $('<input  />', { type: 'checkbox', id: 'cb'+id, value: name, class:"form-check-input"}).appendTo(formCheck);
+                      $('<input  />', { name: 'sy_checkbox',type: 'checkbox', id: 'cb'+id, value: name, class:"form-check-input"}).appendTo(formCheck);
                       $('<label  />', { 'for': 'cb'+id, text: name ,class:"form-check-label"}).appendTo(formCheck);
                     }
                   </script>
                 </div>
               </div>
               {% endfor %}
-        
+
+
+
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                </div>
+                <div class="card-body">
+                  
+                  
+                  <button type="submit" value='ok'id='synonyms_btn' class="btn btn-primary">儲存例句產生設定</button>
+                </div>
+              </div>
+              </form>
+              <button id ='someButton' class="btn btn-primary">someButton</button>
+
             </div>
           </div>
           <!-- End of Main Content -->
@@ -729,7 +750,82 @@
             });
         });
   </script>
-  
+
+  <script language="javascript" type="text/javascript">
+
+    $.ajaxSetup({
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+    });
+    $(document).ready(function() {
+        $("#someButton").click(function() {
+              // example = $("#example").val();
+              // $("#example_tw").val('   翻譯ing....  ');
+
+              var syn_obj = [];
+              $('div.synonyms_lists').each(function(i) {
+                // console.log(this.id);
+                var tmp_json = [];  
+                $(this).find('input:checked').each(function(j) {
+                    tmp_json.push(this.value);
+                });
+                syn_obj.push(tmp_json);
+              });
+              // console.log(syn_obj);
+              var syn_ck_json = JSON.stringify(syn_obj);
+              // console.log(syn_ck_json);
+
+
+            $.get("/course/synonymsave/", {
+                word_id: {{ words.id }},
+                syn_ck_json: syn_ck_json
+            }, function(data) {
+                //返回值 data 在這裡是一個列表
+                // $("#example_tw").val(data);
+                console.log(data);
+
+                // for (var i = data.length - 1; i >= 0; i--) {
+                //     // 把 data 的每一項顯示在網頁上
+                //     $('#result1').append(' ' + data[i]);
+                // }
+            });
+            /* 等同
+            $.ajax({
+              url: url,
+              data: data,
+              success: success,
+              dataType: dataType
+            });
+            */
+        });
+    });
+
+
+    // 讀取所有選取元素
+    // $(document).ready(function() {
+    //   $('#someButton').click(function() {
+    //       var syn_obj = [];
+          
+    //       $('div.synonyms_lists').each(function(i) {
+
+    //           // console.log(this.id);
+
+    //           var tmp_json = [];  
+
+    //           $(this).find('input:checked').each(function(j) {
+    //               tmp_json.push(this.value);
+    //           });
+
+    //           syn_obj.push(tmp_json);
+    //       });
+
+    //       // console.log(syn_obj);
+    //       var syn_ck_json = JSON.stringify(syn_obj);
+    //       console.log(syn_ck_json);
+    //   });
+    // });
+  </script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 
   <!-- Bootstrap core JavaScript-->
