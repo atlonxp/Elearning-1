@@ -569,9 +569,17 @@
 
                   <div id="synonyms_list{{ forloop.counter0 }}">
                   </div>
-                  <input type="text" id="add_synonyms{{ forloop.counter0 }}" />
-                  <input type="button" class="btn btn-primary" value="新增替換字選項" id="btn_add_synonyms{{ forloop.counter0 }}" />
-         
+                  <!-- <input type="text" id="add_synonyms{{ forloop.counter0 }}" /> -->
+                  <!-- <input type="text" class="form-control" id="add_synonyms{{ forloop.counter0 }}" placeholder="請輸入要再新增的替換字">
+                  <input type="button" class="btn btn-primary" value="新增替換字選項" id="btn_add_synonyms{{ forloop.counter0 }}" /> -->
+
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="add_synonyms{{ forloop.counter0 }}" placeholder="請輸入要再新增的替換字">
+                    <div class="input-group-append">
+                      <button type="button" id ="btn_add_synonyms{{ forloop.counter0 }}" class="btn btn-primary">新增替換字選項</button>
+                    </div>
+                  </div>
+                  
                   <script type="text/javascript">
                     $(document).ready(function() {
                         $('#btn_add_synonyms{{ forloop.counter0 }}').click(function() {
