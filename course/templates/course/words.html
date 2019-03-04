@@ -531,7 +531,6 @@
                 </div>
               </div>
 
-              <form action="/course/wordUpdate/{{ words.id }}/" method="post">
               {% csrf_token %}
               
               {% for i,j,k,synonyms in output_html %}
@@ -552,7 +551,7 @@
                   <div class ="synonyms_lists" id="synonyms_list{{ forloop.counter0 }}">
                       {% for synonym in synonyms %}
                       <div class="form-check">
-                        <input type="checkbox" id="synonym_{{ synonym }}" value="{{ synonym }}" class="form-check-input">
+                        <input type="checkbox"  name= 'sy_checkbox{{ forloop.parentloop.counter0 }}[]' id="synonym_{{ synonym }}" value="{{ synonym }}" class="form-check-input">
                         <label class="form-check-label">{{ synonym }}</label>
                       </div>
                       {% empty %}
@@ -569,7 +568,7 @@
                       <button type="button" id ="btn_add_synonyms{{ forloop.counter0 }}" class="btn btn-primary">新增替換字選項</button>
                     </div>
                   </div>
-                  
+                  <button name="click_All{{ forloop.counter0 }}" id ='click_All{{ forloop.counter0 }}' class="btn btn-primary">全選/取消全選</button>
                   <script type="text/javascript">
                     $(document).ready(function() {
                         $('#btn_add_synonyms{{ forloop.counter0 }}').click(function() {
@@ -583,10 +582,26 @@
                       var id = inputs.length + 1;
                 
                       var formCheck = $('<div/>', { 'class': 'form-check' }).appendTo(container);
-                      $('<input  />', { name: 'sy_checkbox',type: 'checkbox', id: 'cb'+id, value: name, class:"form-check-input"}).appendTo(formCheck);
+                      $('<input  />', { name: 'sy_checkbox{{ forloop.counter0 }}[]',type: 'checkbox', id: 'cb'+id, value: name, class:"form-check-input"}).appendTo(formCheck);
                       $('<label  />', { 'for': 'cb'+id, text: name ,class:"form-check-label"}).appendTo(formCheck);
                     }
                   </script>
+
+                  <script>
+                    var ck{{ forloop.counter0 }} = true;
+                    $("#click_All{{ forloop.counter0 }}").click(function() {
+                        if(ck{{ forloop.counter0 }}){
+                            $("input[name='sy_checkbox{{ forloop.counter0 }}[]']").prop("checked", true);
+                            $("#click_All{{ forloop.counter0 }}").text("取消全選");
+                            ck{{ forloop.counter0 }}=false;
+                        }else{
+                            $("input[name='sy_checkbox{{ forloop.counter0 }}[]']").prop("checked", false);
+                            $("#click_All{{ forloop.counter0 }}").text("全選");
+                            ck{{ forloop.counter0 }}=true;
+                        }
+                    });
+                  </script>
+
                 </div>
               </div>
               {% endfor %}
@@ -600,13 +615,11 @@
                   <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
                 </div>
                 <div class="card-body">
-                  
-                  
                   <button type="submit" value='ok'id='synonyms_btn' class="btn btn-primary">儲存例句產生設定</button>
                 </div>
               </div>
-              </form>
               <button id ='someButton' class="btn btn-primary">someButton</button>
+              
 
             </div>
           </div>
@@ -750,6 +763,8 @@
             });
         });
   </script>
+
+
 
   <script language="javascript" type="text/javascript">
 

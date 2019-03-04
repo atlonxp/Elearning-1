@@ -1202,6 +1202,7 @@ def synonyms(request):
 
     return JsonResponse(list(replace_word_lists), safe=False)
 
+
 def synonymsave(request):
     '''
     透過ajax 傳來要儲存的單字id和替換字json
@@ -1209,9 +1210,24 @@ def synonymsave(request):
     word_id = request.GET.get('word_id')
     syn_ck_json = request.GET.get('syn_ck_json')
 
-    words = get_object_or_404(Words, id=word_id)
-    words.
-    return JsonResponse(list(a), safe=False)
+    if (word_id == None or word_id ==''  or syn_ck_json == None or syn_ck_json =='' ):
+        
+        return JsonResponse('error', safe=False)
+
+    else:
+
+        print(syn_ck_json)
+
+        words = get_object_or_404(Words, id=word_id)
+
+        data = {
+            'example_json':syn_ck_json
+        }
+
+        Words.objects.filter(id=word_id).update(**data)
+
+        return JsonResponse('ok', safe=False)
+
 
 def ajax_index(request):
     return render(request, 'course/ajax_test.html')
