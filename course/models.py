@@ -102,6 +102,7 @@ class Words(models.Model):
     description = models.CharField("解釋",max_length=100,blank=True,null=True)
     example = models.CharField("例句",max_length=100,blank=True,null=True)
     example_tw  = models.CharField("例句中文",max_length=100,blank=True,null=True)
+    example_json = models.CharField("例句替換資料庫",max_length=1000,blank=True,null=True)
 
 
     # 記錄上課學生

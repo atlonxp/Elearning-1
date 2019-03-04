@@ -916,7 +916,7 @@ def WordRead(request,WordsId):
     
     
     for word,pos in word_tag:
-        print(word,pos)
+        # print(word,pos)
         output_words.append(str(word))
         output_tags.append(words_tag_2_tw[pos])
 
