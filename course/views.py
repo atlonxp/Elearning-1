@@ -795,7 +795,7 @@ def WordRead(request,WordsId):
     text_list = [word for word in nltk_words if word not in english_punctuations]
     word_tag = nltk.pos_tag(text_list)
 
-    synonyms = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
+    # synonyms = [[], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], ["bad", "finest", "first", "first-rate", "leading", "outstanding", "perfect", "terrific", "tough"], [], ["about", "appertaining to", "appropriate to", "as concerns", "as regards", "attributed to", "away from", "based on", "belonging to", "characterized by", "coming from", "concerning", "connected with", "consisting of", "containing", "epithetical", "going from", "in reference to", "in regard to", "like", "made from", "out from", "out of", "peculiar to", "pertaining to", "proceeding from", "referring to", "regarding", "related to", "showing", "about", "concerning", "from", "like", "regarding"], [], [], ["fantasy", "fiction", "legend", "myth", "parable", "tale", "yarn"], ["abide", "act", "breathe", "continue", "do", "endure", "hold", "inhabit", "last", "live", "move", "obtain", "persist", "prevail", "remain", "rest", "stand", "stay", "subsist", "survive", "transpire", "befall", "occur"], [], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], [], ["along with", "also", "as a consequence", "as well as", "furthermore", "including", "moreover", "together with"], ["affecting", "breathtaking", "climactic", "comic", "dramaturgic", "dramaturgical", "effective", "electrifying", "emotional", "expressive", "farcical", "histrionic", "impressive", "melodramatic", "powerful", "sensational", "spectacular", "startling", "striking", "sudden", "suspenseful", "tense"], []]
     
     #=============#=============#=============#=============#=============#=============#=============#=============#=============
     
@@ -1211,15 +1211,14 @@ def synonymsave(request):
     syn_ck_json = request.GET.get('syn_ck_json')
 
     if (word_id == None or word_id ==''  or syn_ck_json == None or syn_ck_json =='' ):
-        
+
         return JsonResponse('error', safe=False)
 
     else:
-
-        print(syn_ck_json)
-
+        # print(syn_ck_json)
+        import json
         words = get_object_or_404(Words, id=word_id)
-
+        syn_ck_json = (syn_ck_json)
         data = {
             'example_json':syn_ck_json
         }
@@ -1227,6 +1226,72 @@ def synonymsave(request):
         Words.objects.filter(id=word_id).update(**data)
 
         return JsonResponse('ok', safe=False)
+
+
+def synonymsMK(request):
+    '''
+    透過ajax 隨機產生一組句子
+    '''
+    word_id = request.GET.get('word_id')
+    words = get_object_or_404(Words, id=word_id)
+
+
+
+    if (word_id == None or word_id ==''):
+        return JsonResponse("單字錯誤", safe=False)
+    
+    # print(words.example_json)
+    import json
+    # json.loads
+
+    if(words.example_json == None or words.example_json ==''):
+        return JsonResponse("尚無資料，請先確認例句產生設定", safe=False)
+
+    db_syn_json = json.loads(words.example_json)
+    
+    # db_list2='[[],["about","appertaining to","appropriate to","as concerns","as regards","attributed to","away from"],["affecting","breathtaking","climactic"],["bad","finest","first"],[],["about","appertaining to","appropriate to","as concerns"],[]]'
+    # j = json.loads(words.example_json)
+
+    # print(db_syn_json[2][0])
+    # print(len(db_syn_json))
+    example = words.example
+
+    import random
+
+    # print (random.randint(1,50))
+    
+    import nltk
+    nltk_words = nltk.word_tokenize(example)
+
+    english_punctuations = [',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%' ,'"','``',"''"]
+    text_list = [word for word in nltk_words if word not in english_punctuations]
+    word_tag = nltk.pos_tag(text_list)
+
+    output_words = []
+    # output_tags = []
+    output_text = ""
+
+
+    for word,pos in word_tag:
+        # print(word,pos)
+        output_words.append(str(word))
+        # output_tags.append(words_tag_2_tw[pos])
+
+    for i in range(0,len(db_syn_json)):
+
+        # print(len(db_syn_json[i]))
+        if (len(db_syn_json[i]) == 0):
+            output_text += (output_words[i])+" "
+        elif (len(db_syn_json[i]) > 0):
+            output_text += (db_syn_json[i][random.randint(0,len(db_syn_json[i]))-1]) +" "
+
+        # pass
+    # print(output_text)
+
+
+
+    return JsonResponse(output_text, safe=False)
+
 
 
 def ajax_index(request):

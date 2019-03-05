@@ -439,7 +439,7 @@
                 <!-- Basic Card Example -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">單字卡片</h6>
                   </div>
                   <div class="card-body">
                     <form action="/course/wordUpdate/{{ words.id }}/" method="post">
@@ -522,7 +522,7 @@
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">句子詞性結構樹</h6>
                 </div>
                 <div class="card-body">
                     <h3>{{ words.example }}</h3>
@@ -537,7 +537,7 @@
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">例句設定</h6>
                 </div>
                 <div class="card-body">
                   <h3><b>{{ i|safe }}</b></h3>
@@ -612,13 +612,17 @@
               <!-- Basic Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">設定</h6>
                 </div>
                 <div class="card-body">
-                  <button type="submit" value='ok'id='synonyms_btn' class="btn btn-primary">儲存例句產生設定</button>
+                  <button id='synonyms_btn' class="btn btn-primary">儲存例句產生設定</button>
+                  <button id='synonyms_mk_btn' class="btn btn-primary">產生例句</button>
+                  <br>
+                  <p id='synonyms_mk_txt'></p>
+                  
                 </div>
               </div>
-              <button id ='someButton' class="btn btn-primary">someButton</button>
+   
               
 
             </div>
@@ -718,6 +722,7 @@
     </div>
   </div>
   
+
   <script>
     var myVar;
     
@@ -730,6 +735,7 @@
       document.getElementById("startDIV").style.display = "block";
     }
   </script>
+
 
   <script>
         $.ajaxSetup({
@@ -765,7 +771,6 @@
   </script>
 
 
-
   <script language="javascript" type="text/javascript">
 
     $.ajaxSetup({
@@ -774,7 +779,7 @@
         },
     });
     $(document).ready(function() {
-        $("#someButton").click(function() {
+        $("#synonyms_btn").click(function() {
               // example = $("#example").val();
               // $("#example_tw").val('   翻譯ing....  ');
 
@@ -819,7 +824,7 @@
 
     // 讀取所有選取元素
     // $(document).ready(function() {
-    //   $('#someButton').click(function() {
+    //   $('#synonyms_btn').click(function() {
     //       var syn_obj = [];
           
     //       $('div.synonyms_lists').each(function(i) {
@@ -841,6 +846,40 @@
     //   });
     // });
   </script>
+
+
+<script>
+    $.ajaxSetup({
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+    });
+    $(document).ready(function() {
+        $("#synonyms_mk_btn").click(function() {
+              // example = $("#example").val();
+              // $("#example_tw").val('   翻譯ing....  ');
+            $.get("/course/synonymsMK/", {
+              word_id: {{ words.id }}
+            }, function(data) {
+                // alert(data);
+                var container = $('#synonyms_mk_txt');
+                var formCheck = $('<div/>', { 'class': 'synonymsMK_ex',text: data }).appendTo(container);
+                // for (var i = data.length - 1; i >= 0; i--) {
+                //     // 把 data 的每一項顯示在網頁上
+                //     $('#result1').append(' ' + data[i]);
+                // }
+            });
+            /* 等同
+            $.ajax({
+              url: url,
+              data: data,
+              success: success,
+              dataType: dataType
+            });
+            */
+        });
+    });
+</script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 
   <!-- Bootstrap core JavaScript-->
