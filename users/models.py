@@ -43,7 +43,7 @@ class UserProfile(AbstractUser):
     gender = models.CharField('性別',max_length=10,choices=gender_choices,default='男')
     mobile = models.CharField('手機號碼',max_length=11,null=True,blank=True)
     email = models.EmailField('信箱',max_length=50)
-    image = models.ImageField(upload_to='image/%Y%m',default='image/default.png',max_length=100,null=True)
+    image = models.ImageField(upload_to='image/%Y%m',default='image/default.png',max_length=100,blank=True,null=True)
 
     class Meta:
         verbose_name = '用戶訊息'

@@ -79,6 +79,7 @@ def course(request):
     '''
     # courses = Course.objects.all()
 
+
     courses = {}
     for course in Course.objects.all():
         courses.update({course:Lesson.objects.filter(course=course)})
@@ -1291,7 +1292,6 @@ def synonymsMK(request):
 
 
     return JsonResponse(output_text, safe=False)
-
 
 
 def ajax_index(request):
