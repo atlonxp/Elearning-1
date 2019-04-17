@@ -103,7 +103,7 @@ class Words(models.Model):
     example = models.CharField("例句",max_length=100,blank=True,null=True)
     example_tw  = models.CharField("例句中文",max_length=100,blank=True,null=True)
     example_json = models.CharField("例句替換資料庫",max_length=1000,blank=True,null=True)
-    example_svg =  models.CharField("例句詞性結構樹",blank=True,null=True)
+    example_svg =  models.CharField("例句詞性結構樹",max_length=2000,blank=True,null=True)
 
     # 記錄上課學生
 
