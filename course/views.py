@@ -722,21 +722,39 @@ def WordRead(request,WordsId):
 
     from thesaurus import Word
     import nltk
-    from stat_parser import Parser, display_tree
-    """
-    svg
-    """
+
     text = words.example
-    parser = Parser()
-    tree = parser.parse(text)
-    setting_trees = tree.productions()
+    
+    if  words.example_svg == None :
+        '''如果資料庫沒有example_svg資料 則產生例句詞性結構樹'''
+        
+        from stat_parser import Parser, display_tree
+        """
+        svg
+        """
+        
+        parser = Parser()
+        tree = parser.parse(text)
+        setting_trees = tree.productions()
 
-    import svgling
+        import svgling
 
-    tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
-    tree_svg = tree_svg.get_svg().tostring()
-    svg_head='<svg baseProfile="full" height="100%" width="100%" '
-    tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+        tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+        tree_svg = tree_svg.get_svg().tostring()
+        svg_head='<svg baseProfile="full" height="100%" width="100%" '
+        tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+        example_svg_data = {
+            'example_svg':tree_svg
+        }
+        Words.objects.filter(id=WordsId).update(**example_svg_data)
+    else:
+        '''如果已有例句詞性結構樹則只取出顯示'''
+        tree_svg = words.example_svg
+
+
+    
+    # Words.objects.filter(id=WordsId).update(**data)
+
     # print(tree_svg)
     # svgling.draw_tree(tree,leaf_nodes_align=True)
 
@@ -984,6 +1002,51 @@ def WordRead(request,WordsId):
         }
 
     return render(request, 'course/words.html', context)
+
+
+def synonym_save_tree_svg(request):
+    '''
+    透過ajax 傳來要儲存句子詞性結構樹
+    '''
+    word_id = request.GET.get('word_id')
+    
+
+    if (word_id == None or word_id ==''):
+
+        return JsonResponse('error', safe=False)
+
+    else:
+        # print(syn_ck_json)
+        import json
+        words = get_object_or_404(Words, id=word_id)
+
+        from thesaurus import Word
+        import nltk
+        from stat_parser import Parser, display_tree
+        """
+        svg
+        """
+        text = words.example
+        parser = Parser()
+        tree = parser.parse(text)
+        setting_trees = tree.productions()
+
+        import svgling
+
+        tree_svg = svgling.draw_tree(tree,leaf_nodes_align=True)
+        tree_svg = tree_svg.get_svg().tostring()
+        svg_head='<svg baseProfile="full" height="100%" width="100%" '
+        tree_svg = svg_head + tree_svg[tree_svg.find("preserveAspectRatio"):]
+
+
+        
+        data = {
+            'example_svg':tree_svg
+        }
+
+        Words.objects.filter(id=word_id).update(**data)
+
+        return JsonResponse('ok', safe=False)
 
 
 def translator_Example(request):
