@@ -14,3 +14,4 @@ nltk
 svgwrite
 IPython
 py-translator
+googletrans
