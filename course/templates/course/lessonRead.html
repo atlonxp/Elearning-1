@@ -64,18 +64,18 @@
   
   <div style="display:none;" id="startDIV" class="animate-bottom">
     <div id="headDIV">
-      <!-- Custom fonts for this template-->
-      <link href="/static/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-      <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-      <!-- Custom styles for this template-->
-      <link href="/static/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
-      
-      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
-    </div>
+        <!-- Custom fonts for this template-->
+        <link href="/static/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  
+        <!-- Custom styles for this template-->
+        <link href="/static/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+        
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script> -->
+      </div>
 
 
     <div id="bodydiv">
@@ -446,7 +446,7 @@
                 <div class="col-xl-12 col-lg-12 col-sm-12" >
                 <div class="card shadow mb-4">
                     <a href="#collapseCardExample{{ forloop.counter }}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">{{ word.words }}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary" id="word_name{{ forloop.counter0 }}">{{ word.words }}</h6>
                     </a>
                     <div class="collapse show" id="collapseCardExample{{ forloop.counter }}">
                     
@@ -465,13 +465,51 @@
                         <span class="word">{{ word.chinese|truncatechars_html:300  }}</span>
                         <br><br>
                         <span class="word">{{ word.example|linebreaks|truncatechars_html:300  }}</span>
+                        <input type="text" name = "example_tw" class="form-control" id="example_tw{{ forloop.counter0 }}"  value="" >
+                        <button type="button" id="generator{{ forloop.counter0 }}" class="btn btn-primary">more example</button>
+                      <div id="targetLoc{{ forloop.counter0 }}"></div>
                     </div>
                     </div>
                 </div>
                 </div>
+
+
+                <script type="text/javascript">
+                  $.ajaxSetup({
+                      data: {
+                          csrfmiddlewaretoken: '{{ csrf_token }}'
+                      },
+                  });
+                  $(document).ready(function() {
+                      $("#generator{{ forloop.counter0 }}").click(function() {
+                            // input_word = $("#word_name{{ forloop.counter0 }}").val();
+                            $("#example_tw{{ forloop.counter0 }}").val('產生ing.....');
+                          $.get("/course/word_example_generator/", {
+                              word: '{{ word.words }}'
+                          }, function(data) {
+                              //返回值 data 在這裡是一個列表
+                              $("#example_tw{{ forloop.counter0 }}").val(data);
+                              $("#targetLoc{{ forloop.counter0 }}").append('<span>'+data+'</span></br>');
+                              // for (var i = data.length - 1; i >= 0; i--) {
+                              //     // 把 data 的每一項顯示在網頁上
+                              //     $('#result1').append(' ' + data[i]);
+                              // }
+                          });
+                          /* 等同
+                          $.ajax({
+                            url: url,
+                            data: data,
+                            success: success,
+                            dataType: dataType
+                          });
+                          */
+                      });
+                  });
+                </script>
+
                 {% endfor %}
               </div>
-
+              
 
               <div class="row">
                 <!-- Basic Card Example -->

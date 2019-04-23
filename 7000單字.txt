@@ -7053,7 +7053,6 @@ usage	n	4845
 use	v	85
 use	n	278
 use	v.	4269
-user	n	9487
 useful	adj.	1746
 usefulness	n	5444
 useless	adj.	4007
