@@ -483,14 +483,14 @@
                   $(document).ready(function() {
                       $("#generator{{ forloop.counter0 }}").click(function() {
                             // input_word = $("#word_name{{ forloop.counter0 }}").val();
-                            $("#example_tw{{ forloop.counter0 }}").val('產生ing.....');
+                            $("#example_tw{{ forloop.counter0 }}").val('例句產生中');
                           $.get("/course/word_example_generator/", {
                               word: '{{ word.words }}'
                           }, function(data) {
                               //返回值 data 在這裡是一個列表
                               $("#example_tw{{ forloop.counter0 }}").val(data);
                               // $("#targetLoc{{ forloop.counter0 }}").append('<span>'+data+'</span></br>');
-                              
+
                               // for (var i = data.length - 1; i >= 0; i--) {
                               //     // 把 data 的每一項顯示在網頁上
                               //     $('#result1').append(' ' + data[i]);
@@ -508,6 +508,39 @@
                   });
                 </script>
 
+
+                <script>
+                    $.ajaxSetup({
+                        data: {
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                    });
+                    $(document).ready(function() {
+                        $("#translator").click(function() {
+                              example = $("#example").val();
+                              $("#example_tw").val('   翻譯ing....  ');
+                            $.get("/course/translator_Example/", {
+                                text: example
+                            }, function(data) {
+                                //返回值 data 在這裡是一個列表
+                                $("#example_tw").val(data);
+
+                                // for (var i = data.length - 1; i >= 0; i--) {
+                                //     // 把 data 的每一項顯示在網頁上
+                                //     $('#result1').append(' ' + data[i]);
+                                // }
+                            });
+                            /* 等同
+                            $.ajax({
+                              url: url,
+                              data: data,
+                              success: success,
+                              dataType: dataType
+                            });
+                            */
+                        });
+                    });
+                </script>
                 {% endfor %}
               </div>
               

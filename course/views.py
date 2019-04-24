@@ -1290,7 +1290,7 @@ def word_example_generator(request):
     print(input_word)
     if (input_word == None or input_word ==''):
 
-        return JsonResponse('請確保英文無錯誤', safe=False)
+        return JsonResponse('無法產生例句', safe=False)
     else:
         if input_word.isalpha():
             global word_example_generator
@@ -1302,7 +1302,7 @@ def word_example_generator(request):
                 word_example_generator_input_word=input_word
                 return JsonResponse(example_sentence_generator(word_example_generator), safe=False)
         else:
-            return JsonResponse('請確保英文無錯誤', safe=False)
+            return JsonResponse('無法產生例句', safe=False)
 
 
 
