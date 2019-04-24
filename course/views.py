@@ -940,11 +940,12 @@ def WordRead(request,WordsId):
     
     if  words.example_svg == None :
         '''如果資料庫沒有example_svg資料 則產生例句詞性結構樹'''
-        
+        print('資料庫沒有example_svg資料')
         from stat_parser import Parser, display_tree
         """
         svg
         """
+
         
         parser = Parser()
         tree = parser.parse(text)
@@ -1034,8 +1035,8 @@ def WordRead(request,WordsId):
     '''
     產生句子 ajax
     '''
-    from thesaurus import Word
-    import nltk
+    # from thesaurus import Word
+    # import nltk
 
     # text = "One of the best known of Aesop's fables is “The Lion and the Mouse"
 

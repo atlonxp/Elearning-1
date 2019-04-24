@@ -465,13 +465,47 @@
                         <span class="word">{{ word.chinese|truncatechars_html:300  }}</span>
                         <br><br>
                         <span class="word">{{ word.example|linebreaks|truncatechars_html:300  }}</span>
-                        <input type="text" name = "example_tw" class="form-control" id="example_tw{{ forloop.counter0 }}"  value="" >
+                        <span class="word">{{ word.example_tw|linebreaks|truncatechars_html:300  }}</span>
+
+                        <!-- <input type="text" name = "example_tw" class="form-control" id="example_tw{{ forloop.counter0 }}"  value="" >
+                        <br> -->
+                        
+                        
+                        <!-- <div class="form-group">
+                          <div class="input-group mb-3">
+                            <input type="text" name = "more_example" class="form-control" id="more_example_input{{ forloop.counter0 }}"  value="" required>
+                            <div class="input-group-append">
+                              
+                            </div>
+                          </div>
+                        </div> -->
+                          <span id="more_example{{ forloop.counter0 }}"></span>
+                        <br>
+                          <span id="more_example_tw{{ forloop.counter0 }}"></span>
+                        <br><br>
                         <button type="button" id="generator{{ forloop.counter0 }}" class="btn btn-primary">more example</button>
-                      <div id="targetLoc{{ forloop.counter0 }}"></div>
+                        <button type="button" id ="translator{{ forloop.counter0 }}" class="btn btn-primary">翻譯例句</button>
+                        <div id="targetLoc{{ forloop.counter0 }}">
+                            <span></span></br>
+                        </div>
                     </div>
                     </div>
                 </div>
                 </div>
+                
+
+                <script type="text/javascript">
+
+                $(document).ready(function() {
+                  more_example = $("#more_example{{ forloop.counter0 }}").text();
+                  if (more_example ==''){
+                    $("#translator{{ forloop.counter0 }}").attr("disabled", true);
+                  }else{
+                    $("#translator{{ forloop.counter0 }}").attr("disabled", false);
+                  }
+                  
+                });
+                </script>
 
 
                 <script type="text/javascript">
@@ -483,18 +517,29 @@
                   $(document).ready(function() {
                       $("#generator{{ forloop.counter0 }}").click(function() {
                             // input_word = $("#word_name{{ forloop.counter0 }}").val();
-                            $("#example_tw{{ forloop.counter0 }}").val('例句產生中');
+                            // $("#more_example{{ forloop.counter0 }}").val('例句產生中');
+                            $("#more_example_tw{{ forloop.counter0 }}").text('   例句產生中....  ');
+
+                            // $("#more_example_tw{{ forloop.counter0 }}").text('');
                           $.get("/course/word_example_generator/", {
                               word: '{{ word.words }}'
                           }, function(data) {
                               //返回值 data 在這裡是一個列表
-                              $("#example_tw{{ forloop.counter0 }}").val(data);
+                              // $("#more_example_input{{ forloop.counter0 }}").val(data);
+                              $("#more_example{{ forloop.counter0 }}").text(data);
+                              $("#more_example_tw{{ forloop.counter0 }}").text('');
                               // $("#targetLoc{{ forloop.counter0 }}").append('<span>'+data+'</span></br>');
 
                               // for (var i = data.length - 1; i >= 0; i--) {
                               //     // 把 data 的每一項顯示在網頁上
                               //     $('#result1').append(' ' + data[i]);
                               // }
+                              more_example = $("#more_example{{ forloop.counter0 }}").text();
+                              if (more_example ==''){
+                                $("#translator{{ forloop.counter0 }}").attr("disabled", true);
+                              }else{
+                                $("#translator{{ forloop.counter0 }}").attr("disabled", false);
+                              }
                           });
                           /* 等同
                           $.ajax({
@@ -508,7 +553,6 @@
                   });
                 </script>
 
-
                 <script>
                     $.ajaxSetup({
                         data: {
@@ -516,19 +560,25 @@
                         },
                     });
                     $(document).ready(function() {
-                        $("#translator").click(function() {
-                              example = $("#example").val();
-                              $("#example_tw").val('   翻譯ing....  ');
+                        $("#translator{{ forloop.counter0 }}").click(function() {
+                              example = $("#more_example{{ forloop.counter0 }}").text();
+                              $("#more_example_tw{{ forloop.counter0 }}").text('   翻譯ing....  ');
                             $.get("/course/translator_Example/", {
                                 text: example
                             }, function(data) {
                                 //返回值 data 在這裡是一個列表
-                                $("#example_tw").val(data);
-
+                                // $("#more_example{{ forloop.counter0 }}").val(data);
+                                $("#more_example_tw{{ forloop.counter0 }}").text(data);
                                 // for (var i = data.length - 1; i >= 0; i--) {
                                 //     // 把 data 的每一項顯示在網頁上
                                 //     $('#result1').append(' ' + data[i]);
                                 // }
+                                more_example = $("#more_example{{ forloop.counter0 }}").text();
+                                if (more_example ==''){
+                                  $("#translator{{ forloop.counter0 }}").attr("disabled", true);
+                                }else{
+                                  $("#translator{{ forloop.counter0 }}").attr("disabled", false);
+                                }
                             });
                             /* 等同
                             $.ajax({
@@ -680,6 +730,9 @@
             $('#goindexModal2').modal('show');
         });
       </script>
+
+
+
       <div class="modal fade" id="goindexModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -735,7 +788,6 @@
       document.getElementById("startDIV").style.display = "block";
     }
   </script>
-
 
 
   
