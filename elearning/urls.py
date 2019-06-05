@@ -27,7 +27,7 @@ from users.views import LoginView,RegisterView
 from course.views import indexView
 from course.views import dashboardView
 from course.views import courseRead_new,Sentence,lessonRead,WordRead
-
+from course.views import GeneratedSentences
 import course 
 #version模組自動註冊需要版本控制的 Model
 xversion.register_models()
@@ -62,6 +62,7 @@ urlpatterns = [
     path('dashboard/lessonRead/<int:lessonId>/', lessonRead,name='lessonRead'),
 
     
+    path('dashboard/GeneratedSentences', GeneratedSentences, name='GeneratedSentences'),
 
 
 

@@ -1,1 +1,1 @@
-/anaconda3/lib/python3.6/rlcompleter.py
+/anaconda3/envs/python36/lib/python3.6/rlcompleter.py

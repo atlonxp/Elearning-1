@@ -13,6 +13,10 @@ urlpatterns = [
     path('courseSearch/', views.courseSearch, name='courseSearch'),
 
 
+    path('GeneratedSentences', views.GeneratedSentences, name='GeneratedSentences'),
+
+
+
     path('wordUpdate/<int:WordsId>/', views.wordUpdate, name='wordUpdate'),
     # path('add/', views.addd, name='add'),
     path('ajax_list/', views.ajax_list, name='ajax_list'),
@@ -27,7 +31,7 @@ urlpatterns = [
     path('synonymsave/', views.synonymsave, name='synonymsave'),
     path('synonymsMK/', views.synonymsMK, name='synonymsMK'),
 
-    path('word_example_generator/', views.word_example_generator, name='word_example_generator'),
+    path('word_example_generator/', views.word_example_generator_fun, name='word_example_generator'),
 
 
 

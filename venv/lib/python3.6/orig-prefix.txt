@@ -1,1 +1,1 @@
-/anaconda3
+/anaconda3/envs/python36

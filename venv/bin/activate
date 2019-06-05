@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/nutc_dsl/Desktop/python/Elearning/venv"
+VIRTUAL_ENV="/Users/andy/Desktop/project/Elearning/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

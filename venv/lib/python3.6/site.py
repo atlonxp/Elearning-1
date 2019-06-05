@@ -86,15 +86,10 @@ USER_BASE = None
 
 _is_64bit = (getattr(sys, "maxsize", None) or getattr(sys, "maxint")) > 2 ** 32
 _is_pypy = hasattr(sys, "pypy_version_info")
-_is_jython = sys.platform[:4] == "java"
-if _is_jython:
-    ModuleType = type(os)
 
 
 def makepath(*paths):
     dir = os.path.join(*paths)
-    if _is_jython and (dir == "__classpath__" or dir.startswith("__pyclasspath__")):
-        return dir, dir
     dir = os.path.abspath(dir)
     return dir, os.path.normcase(dir)
 
@@ -102,10 +97,6 @@ def makepath(*paths):
 def abs__file__():
     """Set all module' __file__ attribute to an absolute path"""
     for m in sys.modules.values():
-        if (_is_jython and not isinstance(m, ModuleType)) or hasattr(m, "__loader__"):
-            # only modules need the abspath in Jython. and don't mess
-            # with a PEP 302-supplied __file__
-            continue
         f = getattr(m, "__file__", None)
         if f is None:
             continue
@@ -222,7 +213,7 @@ def addsitepackages(known_paths, sys_prefix=sys.prefix, exec_prefix=sys.exec_pre
 
     for prefix in prefixes:
         if prefix:
-            if sys.platform in ("os2emx", "riscos") or _is_jython:
+            if sys.platform in ("os2emx", "riscos"):
                 sitedirs = [os.path.join(prefix, "Lib", "site-packages")]
             elif _is_pypy:
                 sitedirs = [os.path.join(prefix, "site-packages")]
@@ -469,9 +460,7 @@ class _Printer(object):
 def setcopyright():
     """Set 'copyright' and 'credits' in __builtin__"""
     builtins.copyright = _Printer("copyright", sys.copyright)
-    if _is_jython:
-        builtins.credits = _Printer("credits", "Jython is maintained by the Jython developers (www.jython.org).")
-    elif _is_pypy:
+    if _is_pypy:
         builtins.credits = _Printer("credits", "PyPy is maintained by the PyPy developers: http://pypy.org/")
     else:
         builtins.credits = _Printer(
@@ -485,7 +474,7 @@ def setcopyright():
         "license",
         "See https://www.python.org/psf/license/",
         ["LICENSE.txt", "LICENSE"],
-        [os.path.join(here, os.pardir), here, os.curdir],
+        [sys.prefix, os.path.join(here, os.pardir), here, os.curdir],
     )
 
 
@@ -563,9 +552,7 @@ def virtual_install_main_packages():
     hardcoded_relative_dirs = []
     if sys.path[0] == "":
         pos += 1
-    if _is_jython:
-        paths = [os.path.join(sys.real_prefix, "Lib")]
-    elif _is_pypy:
+    if _is_pypy:
         if sys.version_info > (3, 2):
             cpyver = "%d" % sys.version_info[0]
         elif sys.pypy_version_info >= (1, 5):
@@ -650,21 +637,6 @@ def virtual_addsitepackages(known_paths):
     return addsitepackages(known_paths, sys_prefix=sys.real_prefix)
 
 
-def fixclasspath():
-    """Adjust the special classpath sys.path entries for Jython. These
-    entries should follow the base virtualenv lib directories.
-    """
-    paths = []
-    classpaths = []
-    for path in sys.path:
-        if path == "__classpath__" or path.startswith("__pyclasspath__"):
-            classpaths.append(path)
-        else:
-            paths.append(path)
-    sys.path = paths
-    sys.path.extend(classpaths)
-
-
 def execusercustomize():
     """Run custom user specific code, if available."""
     try:
@@ -733,15 +705,31 @@ def enablerlcompleter():
     sys.__interactivehook__ = register_readline
 
 
+if _is_pypy:
+
+    def import_builtin_stuff():
+        """PyPy specific: some built-in modules should be pre-imported because
+        some programs expect them to be in sys.modules on startup. This is ported
+        from PyPy's site.py.
+        """
+        import encodings
+
+        if "exceptions" in sys.builtin_module_names:
+            import exceptions
+
+        if "zipimport" in sys.builtin_module_names:
+            import zipimport
+
+
 def main():
     global ENABLE_USER_SITE
     virtual_install_main_packages()
+    if _is_pypy:
+        import_builtin_stuff()
     abs__file__()
     paths_in_sys = removeduppaths()
     if os.name == "posix" and sys.path and os.path.basename(sys.path[-1]) == "Modules":
         addbuilddir()
-    if _is_jython:
-        fixclasspath()
     GLOBAL_SITE_PACKAGES = not os.path.exists(os.path.join(os.path.dirname(__file__), "no-global-site-packages.txt"))
     if not GLOBAL_SITE_PACKAGES:
         ENABLE_USER_SITE = False

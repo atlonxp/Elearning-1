@@ -1,5 +1,4 @@
-#!/Users/nutc_dsl/Desktop/python/Elearning/venv/bin/python
-
+#!/Users/andy/Desktop/project/Elearning/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

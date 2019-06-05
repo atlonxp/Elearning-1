@@ -415,6 +415,11 @@ def courseLike(request, courseId):
         course.likes.add(request.user)
     return courseRead(request, courseId)
 
+def GeneratedSentences(request):
+    '''
+    GeneratedSentences
+    '''
+    return render(request, 'course/Generated Sentences.html',)
 
 def courseRead_new(request,courseId):
     '''
@@ -1282,8 +1287,8 @@ def translator_Example(request):
 
 word_example_generator={}
 word_example_generator_input_word = ''
-
-def word_example_generator(request):
+import time
+def word_example_generator_fun(request):
     '''
     產生句子 ajax
     '''
@@ -1296,12 +1301,31 @@ def word_example_generator(request):
         if input_word.isalpha():
             global word_example_generator
             global word_example_generator_input_word
+            new_example_sentence_generator=''
+            timer_f=0
+
             if input_word == word_example_generator_input_word:
+                while ( len(new_example_sentence_generator) >120) and timer_f<10:
+                    time.sleep(1)
+                    timer_f = timer_f +1
+                    new_example_sentence_generator = example_sentence_generator(word_example_generator)
+                    print("!!!time!!!!",len(new_example_sentence_generator),timer_f)
+                timer_f = 0
                 return JsonResponse(example_sentence_generator(word_example_generator), safe=False)
             else:
+
                 word_example_generator = example_generator(input_word)
                 word_example_generator_input_word=input_word
-                return JsonResponse(example_sentence_generator(word_example_generator), safe=False)
+                new_example_sentence_generator = example_sentence_generator(word_example_generator)
+                while ( len(new_example_sentence_generator) >120) and timer_f<10:
+                    time.sleep(1)
+                    timer_f = timer_f +1
+                    new_example_sentence_generator = example_sentence_generator(word_example_generator)
+                    print("!!!time!!!!",len(new_example_sentence_generator),timer_f)
+                timer_f = 0
+                # return JsonResponse(example_sentence_generator(word_example_generator), safe=False)
+                return JsonResponse(new_example_sentence_generator, safe=False)
+
         else:
             return JsonResponse('無法產生例句', safe=False)
 
