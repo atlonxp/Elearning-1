@@ -86,18 +86,35 @@
             </button>
             <div class="navbar-collapse collapse justify-content-end" id="navbarDefault">
                 <ul class="navbar-nav">
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll" href="dashboard">DASHBOARD</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll" href="">{{ user.username }}</a>
+                    </li>
+                    {% endif %}
+                    
                     <li class="nav-item">
                         <a class="nav-link js-scroll active" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll" href="#course">COURSE</a>
                     </li>
+                    
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll" href="{% url 'users:logout' %}">LOGOUT</a>
+                    </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link js-scroll" href="#login">LOGIN</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll" href="#register">REGISTER</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
