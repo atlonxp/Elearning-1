@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import tempfile
+import unittest
 
 from contextlib import contextmanager
 from io import StringIO
@@ -262,27 +263,26 @@ def ipexec_validate(fname, expected_out, expected_err='',
     nt.assert_equal("\n".join(out.strip().splitlines()), "\n".join(expected_out.strip().splitlines()))
 
 
-class TempFileMixin(object):
+class TempFileMixin(unittest.TestCase):
     """Utility class to create temporary Python/IPython files.
 
     Meant as a mixin class for test cases."""
 
     def mktmp(self, src, ext='.py'):
         """Make a valid python temp file."""
-        fname, f = temp_pyfile(src, ext)
+        fname = temp_pyfile(src, ext)
         if not hasattr(self, 'tmps'):
             self.tmps=[]
-        self.tmps.append((f, fname))
+        self.tmps.append(fname)
         self.fname = fname
 
     def tearDown(self):
         # If the tmpfile wasn't made because of skipped tests, like in
         # win32, there's nothing to cleanup.
         if hasattr(self, 'tmps'):
-            for f,fname in self.tmps:
+            for fname in self.tmps:
                 # If the tmpfile wasn't made because of skipped tests, like in
                 # win32, there's nothing to cleanup.
-                f.close()
                 try:
                     os.unlink(fname)
                 except:

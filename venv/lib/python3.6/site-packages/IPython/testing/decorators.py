@@ -47,7 +47,7 @@ from .ipunittest import ipdoctest, ipdocstring
 # Grab the numpy-specific decorators which we keep in a file that we
 # occasionally update from upstream: decorators.py is a copy of
 # numpy.testing.decorators, we expose all of it here.
-from IPython.external.decorators import *
+from IPython.external.decorators import knownfailureif
 
 #-----------------------------------------------------------------------------
 # Classes and functions
@@ -245,8 +245,10 @@ def skip(msg=None):
          Decorator, which, when applied to a function, causes SkipTest
          to be raised, with the optional message added.
       """
-
-    return skipif(True,msg)
+    if msg and not isinstance(msg, str):
+        raise ValueError('invalid object passed to `@skip` decorator, did you '
+                         'meant `@skip()` with brackets ?')
+    return skipif(True, msg)
 
 
 def onlyif(condition, msg):
@@ -333,7 +335,7 @@ skipif_not_matplotlib = skip_without('matplotlib')
 
 skipif_not_sympy = skip_without('sympy')
 
-skip_known_failure = dec.knownfailureif(True,'This test is known to fail')
+skip_known_failure = knownfailureif(True,'This test is known to fail')
 
 # A null 'decorator', useful to make more readable code that needs to pick
 # between different decorators based on OS or other conditions

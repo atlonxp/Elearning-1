@@ -1,1 +1,1 @@
-/anaconda3/envs/python36/lib/python3.6/__future__.py
+/anaconda3/lib/python3.6/__future__.py

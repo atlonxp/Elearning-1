@@ -13,5 +13,6 @@ BeautifulSoup4
 nltk
 svgwrite
 IPython
-py-translator
+py-translate
+# py-translator
 googletrans

@@ -35,7 +35,6 @@ from IPython.utils.io import capture_output
 from IPython.utils.tempdir import TemporaryDirectory
 from IPython.core import debugger
 
-
 def doctest_refbug():
     """Very nasty problem with references held by multiple runs of a script.
     See: https://github.com/ipython/ipython/issues/141
@@ -166,7 +165,7 @@ def doctest_reset_del():
 
 class TestMagicRunPass(tt.TempFileMixin):
 
-    def setup(self):
+    def setUp(self):
         content = "a = [1,2,3]\nb = 1"
         self.mktmp(content)
         
@@ -537,8 +536,10 @@ def test_run_tb():
         nt.assert_not_in("execfile", out)
         nt.assert_in("RuntimeError", out)
         nt.assert_equal(out.count("---->"), 3)
+        del ip.user_ns['bar']
+        del ip.user_ns['foo']
 
-@dec.dec.knownfailureif(sys.platform == 'win32', "writes to io.stdout aren't captured on Windows")
+@dec.knownfailureif(sys.platform == 'win32', "writes to io.stdout aren't captured on Windows")
 def test_script_tb():
     """Test traceback offset in `ipython script.py`"""
     with TemporaryDirectory() as td:
