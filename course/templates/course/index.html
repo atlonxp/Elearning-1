@@ -137,7 +137,11 @@
                             and Technology.
                         </p>
                         <h2><span class="text-slider1"></span></h2>
-                        <a class="btn btn-secondary px-4" href="#login_Modal" role="button" style="margin-top: 50px;">
+                        {% if request.user.is_authenticated %}
+                        <a class="btn btn-secondary px-4" href="/dashboard" role="button" style="margin-top: 50px;">
+                        {% else %}
+                        <a class="btn btn-secondary px-4 js-scroll" href="#login" role="button" style="margin-top: 50px;">
+						{% endif %}
                             <span class="spinner-grow spinner-grow-sm"></span> 進入課程管理
                         </a>
                     </div>
@@ -149,7 +153,11 @@
                             and Technology.
                         </p>
                         <h2><span class="text-slider2"></span></h2>
-                        <a class="btn btn-secondary px-4" href="#login_Modal" role="button" style="margin-top: 50px;">
+                        {% if request.user.is_authenticated %}
+                        <a class="btn btn-secondary px-4" href="/dashboard" role="button" style="margin-top: 50px;">
+                        {% else %}
+                        <a class="btn btn-secondary px-4 js-scroll" href="#login" role="button" style="margin-top: 50px;">
+						{% endif %}
                             <span class="spinner-grow spinner-grow-sm"></span> 進入課程管理
                         </a>
                     </div>
@@ -161,7 +169,11 @@
                             and Technology.
                         </p>
                         <h2><span class="text-slider3"></span></h2>
-                        <a class="btn btn-secondary px-4" href="#login_Modal" role="button" style="margin-top: 50px;">
+                        {% if request.user.is_authenticated %}
+                        <a class="btn btn-secondary px-4" href="/dashboard" role="button" style="margin-top: 50px;">
+                        {% else %}
+                        <a class="btn btn-secondary px-4 js-scroll" href="#login" role="button" style="margin-top: 50px;">
+						{% endif %}
                             <span class="spinner-grow spinner-grow-sm"></span> 進入課程管理
                         </a>
                     </div>
@@ -170,7 +182,7 @@
             <div class="overlay-itro"></div>
             <a class="left-control" href="#home-slider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
             <a class="right-control" href="#home-slider" data-slide="next"><i class="fa fa-angle-right"></i></a>
-            <a id="tohash" href="#about"><i class="fa fa-angle-down"></i></a>
+            <a id="tohash" href="#course"><i class="fa fa-angle-down js-scroll"></i></a>
         </div>
     </header>
 
@@ -184,6 +196,42 @@
             <hr>
             <!-- Marketing Icons Section -->
             <div class="row">
+                {% for course in courses %}
+                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="500ms">
+                    <div class="card">
+                        <div class="card card-blog">
+                            <div class="card-img">
+                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-category-box">
+                                    <div class="card-category">
+                                        <h6 class="category">English</h6>
+                                    </div>
+                                </div>
+                                <h3 class="card-title"><a class="card-href" href="/dashboard/courseRead_new/{{ course.id }}/">{{ course.name }}</a></h3>
+                                <p class="card-description">
+                                    {{ course.desc|linebreaks|truncatechars_html:30 }}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="post-author">
+                                    <a href="#">
+                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
+                                        <span class="author">chinmin</span>
+                                    </a>
+                                </div>
+                                <div class="post-date">
+                                    <a href="/dashboard/courseRead_new/{{ course.id }}/" class="btn btn-secondary"><span
+                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
                 <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="100ms">
 
                     <div class="card">
@@ -285,214 +333,11 @@
                         </div>
                     </div>
                 </div>
+                
+
             </div>
             <!-- /.row -->
 
-            <div class="row">
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="100ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="300ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="500ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="100ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="300ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4 wow flipInY" data-wow-duration="1000ms" data-wow-delay="500ms">
-                    <div class="card">
-                        <div class="card card-blog">
-                            <div class="card-img">
-                                <a href="#"><img src="/static/welcome/images/english-course.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-category-box">
-                                    <div class="card-category">
-                                        <h6 class="category">English</h6>
-                                    </div>
-                                </div>
-                                <h3 class="card-title"><a class="card-href" href="#">LESSON 1</a></h3>
-                                <p class="card-description">
-                                    Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent
-                                    sapien massa, convallis a pellentesque nec, egestas non nisi.
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="post-author">
-                                    <a href="#">
-                                        <img src="/static/welcome/images/hs.jpg" alt="" class="avatar rounded-circle">
-                                        <span class="author">chinmin</span>
-                                    </a>
-                                </div>
-                                <div class="post-date">
-                                    <a href="#" class="btn btn-secondary"><span
-                                            class="spinner-grow spinner-grow-sm"></span>Enter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
         </section>
     </div>
     <!-- /.container -->
@@ -505,13 +350,14 @@
         <div class="paralax-mf bg-image" style="background-image: url(/static/welcome/images/slider/5s.jpg)">
             <div class="overlay-mf">
                 <div class="login-form wow bounceInLeft" data-wow-duration="1000ms" data-wow-delay="100ms">
-                    <form action="/examples/actions/confirmation.php" method="post">
+                    <form action="{% url 'users:login' %}" method="post">
+                        {% csrf_token %}
                         <img src="/static/welcome/images/hs.jpg" alt="Avatar" class="avatar rounded-circle wow swing"
                             data-wow-duration="1000ms" data-wow-delay="1000ms">
                         <h2 class="text-center">LOGIN</h2>
                         <div class="form-group">
-                            <input type="text" class="form-control login-form-control" name="username"
-                                placeholder="Username" required="required">
+                            <input type="text" class="form-control login-form-control" name="student_ID"
+                                placeholder="student ID" required="required">
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control login-form-control" name="password"
@@ -520,6 +366,19 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                         </div>
+
+                        
+                        <div class="error btns login-form-tips " id="jsLoginTips">
+                            {% for key,error in login_form.errors.items %}
+                                {{ error }}
+                            {% endfor %}
+                            {{ msg }}
+                        </div>
+
+                        {% for message in messages %}
+                            <p class="{{ message.tags }} text-danger">{{ message }}</p>
+                        {% endfor %}
+                                            
                         <div class="clearfix">
                             <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
                             <a href="#" class="pull-right">Forgot Password?</a>
@@ -554,6 +413,7 @@
                                     <!-- 註冊表單 -->
                                     <div class="bootstrap-iso" style="background-color: #ffffff00 ;color: #f7f7f7;">
                                         <form class="form-horizontal" method="post" action="{% url 'register' %}">
+                                            {% csrf_token %}
 
                                             <div class="form-group wow fadeInUp" data-wow-duration="1000ms"
                                                 data-wow-delay="300ms">
@@ -689,6 +549,17 @@
                                                         type="text" required="required">
                                                 </div>
                                             </div>
+
+                                            <div class="error btns text-danger" id="jsEmailTips">
+                                                {% for key,error in register_form.errors.items %}
+                                                        {{ error }}
+                                                {% endfor %}
+                                                {{ msg }}
+                                            </div>
+                                            {% for message in messages %}
+                                                <p class="{{ message.tags }} text-danger">{{ message }}</p>
+                                            {% endfor %}
+                                            
                                             <div class="form-group wow fadeInUp" data-wow-duration="1000ms"
                                                 data-wow-delay="300ms">
                                                 <div class="col-xs-10 col-xs-offset-2">
@@ -728,7 +599,7 @@
     </section>
 
 
-    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <a href="#home" class="back-to-top js-scroll"><i class="fa fa-chevron-up"></i></a>
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">

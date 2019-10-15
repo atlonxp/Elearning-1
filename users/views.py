@@ -9,7 +9,9 @@ from django.db.models import Q
 from django.views.generic.base import View
 from .forms import LoginForm,RegisterForm
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponseRedirect
 
+from six.moves import urllib
 
 class Student_IDBackend(ModelBackend):
     def authenticate(self, request, username=None, email=None, password=None, **kwargs):
@@ -93,15 +95,16 @@ class RegisterView(View):
     '''用戶註冊'''
     def get(self,request):
         register_form = RegisterForm()
-        return render(request,'index.html',{'register_form':register_form})
+        return render(request,'course/index.html',{'register_form':register_form})
 
     def post(self,request):
+        print("RegisterView")
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             user_email = request.POST.get('email', None)
             # 如果用戶已存在，則提示錯誤訊息
             if UserProfile.objects.filter(email = user_email):
-                return render(request, 'index.html', {'register_form':register_form,'msg': '用戶已存在'})
+                return render(request, 'course/index.html', {'register_form':register_form,'msg': '用戶已存在'})
 
             pass_word = request.POST.get('password', None)
             department = request.POST.get('department', None)
@@ -113,7 +116,7 @@ class RegisterView(View):
 
             # 如果學號已存在，則提示錯誤訊息
             if UserProfile.objects.filter(student_ID = student_ID):
-                return render(request, 'index.html', {'register_form':register_form,'msg': '學號已存在'})
+                return render(request, 'course/index.html', {'register_form':register_form,'msg': '學號已存在'})
             name = request.POST.get('name', None)
 
             # 實例化一個user_profile對象
@@ -132,9 +135,9 @@ class RegisterView(View):
             user_profile.password = make_password(pass_word)
             user_profile.save()
             
-            return render(request,'login.html')
+            return render(request,'course/index.html')
         else:
-            return render(request,'index.html',{'register_form':register_form})
+            return render(request,'course/index.html',{'register_form':register_form})
 
 
 from django.contrib import messages
@@ -146,6 +149,7 @@ def register(request):
     '''
     Register a new user
     '''
+    print("register")
     template = 'users/register.html'
     if request.method == 'GET':
         return render(request, template, {'userForm':UserForm()})
@@ -168,10 +172,10 @@ def userlogin(request):
     '''
     Login an existing user
     '''
-    template = 'users/login.html'
+    template = 'course/index.html'
     if request.method == 'GET':
         print('get')
-        return render(request, template)
+        return render(request,template)
 
     # POST
     student_ID = request.POST.get('student_ID')
@@ -180,13 +184,13 @@ def userlogin(request):
     if not student_ID or not password:    # Server-side validation
         messages.error(request, '請填資料')
         print('請填資料')
-        return render(request, template)
+        return render(request,template)
 
     user = authenticate(student_ID=student_ID, password=password)
     if not user:    # authentication fails
         messages.error(request, '登入失敗')
         print('登入失敗')
-        return render(request, template)
+        return render(request,template)
 
     # login success
     login(request, user)

@@ -95,6 +95,7 @@ jQuery(document).ready(function ($) {
         return false;
     });
 
+ 
 
     //Function to prevent Default Events
     function pde(e) {

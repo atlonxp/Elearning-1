@@ -41,6 +41,10 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='index.1.html'),name='index1'),
     # path('index.html', TemplateView.as_view(template_name='index.html'),name='index'),
     path('', indexView.as_view(),name='index'),
+    path('index', indexView.as_view(),name='index'),
+    path('index.html', indexView.as_view(),name='index'),
+
+
     url(r'^ajax_index/$', course.views.ajax_index, name='ajax_index'),
 
 
