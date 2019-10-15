@@ -18,6 +18,9 @@ from django.http import JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
 
+from googletrans import Translator
+translator = Translator()
+
 class indexView(View):
     '''
     顯示首頁
@@ -56,9 +59,8 @@ class indexView(View):
 
 
 def example_generator(input_word):
-    from googletrans import Translator
     translator = Translator()
-    translations = translator.translate(input_word,src='en')
+    translations = translator.translate(input_word,src='en',dest='zh-tw')
     translations_dict = translations.extra_data
     examples_len = len(translations_dict['examples'])
 
@@ -161,7 +163,7 @@ def example_generator(input_word):
     def google_synonyms(difficult_words_json):
         output_json={}
         for i in difficult_words_json:
-            synonyms_translations = translator.translate(difficult_words_json[i]['difficult'],src='en')
+            synonyms_translations = translator.translate(difficult_words_json[i]['difficult'],src='en',dest='zh-tw')
             synonyms_translations_dict = synonyms_translations.extra_data
             word_synonyms = []
             tag_flag = ''
@@ -507,10 +509,13 @@ def Sentence_old(request,courseId):
     '''
         google翻譯
     '''
-    from py_translator import TEXTLIB
-    s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+    # from py_translator import TEXTLIB
+    # s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+
+    s = translator.translate(example[0], dest='zh-tw',src='en')
+
     print(s)
-    example_tw = s
+    example_tw = s.text
 
 
     blob = TextBlob(text)
@@ -801,11 +806,14 @@ def Sentence(request,lessonId):
     '''
         google翻譯
     '''
-    from py_translator import TEXTLIB
+    # from py_translator import TEXTLIB
 
-    s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+    # s = TEXTLIB().translator(is_html=False, text= example[0] , lang_to='zh-TW', proxy=False)
+
+    s = translator.translate(example[0], dest='zh-tw',src='en')
+
     # print(s)
-    example_tw = s
+    example_tw = s.text
 
 
     blob = TextBlob(text)
@@ -1272,16 +1280,17 @@ def translator_Example(request):
     '''
     翻譯句子 ajax
     '''
-    from py_translator import TEXTLIB
+    # from py_translator import TEXTLIB
 
     example = request.GET.get('text')
     print(example)
     if (example == None or example ==''):
         return JsonResponse('請確保例句英文無錯誤', safe=False)
     else:
-        example_tw = TEXTLIB().translator(is_html=False, text=example , lang_to='zh-TW', proxy=False)
-        # print(s)
-        return JsonResponse(example_tw, safe=False)
+        # example_tw = TEXTLIB().translator(is_html=False, text=example , lang_to='zh-TW', proxy=False)
+        example_tw = translator.translate(example, dest='zh-tw',src='en')
+        print(example_tw.text)
+        return JsonResponse(example_tw.text, safe=False)
 
 
 
