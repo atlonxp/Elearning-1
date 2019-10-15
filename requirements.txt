@@ -14,5 +14,5 @@ nltk
 svgwrite
 IPython
 py-translate
-# py-translator
+# py_translator==2.1.9
 googletrans
