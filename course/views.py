@@ -103,10 +103,25 @@ def example_generator(input_word):
     import codecs
     word_dict={}
     cont=''
+    wd_adjective=[]
+    wd_noun=[]
+    wd_verb=[]
+    wd_adverb=[]
+
     with codecs.open('7000單字.txt', 'r', encoding='utf8') as f:
         for line in f:
             tmp = line.split('\t')
             word_dict.update({tmp[0]:tmp[1]})
+            if tmp[1]=='a' or tmp[1]=='adj.':
+                wd_adjective.append(tmp[0])
+            elif tmp[1] == 'n' or tmp[1] == 'n.' or tmp[1] == 'N':
+                wd_noun.append(tmp[0])
+            elif tmp[1] == 'v' :
+                wd_verb.append(tmp[0])
+            elif tmp[1] == 'r' or tmp[1] == 'adv' or tmp[1] == 'adv.':
+                wd_adverb.append(tmp[0])
+            
+
 
     tag_2google = {
                 'a':'adjective',

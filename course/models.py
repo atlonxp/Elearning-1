@@ -137,3 +137,13 @@ class Quiz(models.Model):
         return '《{0}》章節的問題 >> {1}'.format(self.lesson, self.question)
 
 
+class examples(models.Model):
+
+
+    '''例句'''
+    words = models.ForeignKey(Words,verbose_name='單字名稱',on_delete=models.CASCADE)
+    examples = models.CharField("例句",max_length=100,blank=True,null=True)
+
+    class Meta:
+        verbose_name = "例句"
+        verbose_name_plural = verbose_name

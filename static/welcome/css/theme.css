@@ -441,8 +441,8 @@
 .navbar-b.navbar-reduce {
     transition: all .5s ease-in-out;
     background-color: #333333;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     /* padding: 20px 0; */
     box-shadow: 0px 0px 5px #666666;
     border-bottom: 1px solid #666666;

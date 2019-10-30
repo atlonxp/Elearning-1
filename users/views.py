@@ -12,6 +12,8 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect
 
 from six.moves import urllib
+from django.urls import reverse
+
 
 class Student_IDBackend(ModelBackend):
     def authenticate(self, request, username=None, email=None, password=None, **kwargs):
@@ -65,7 +67,9 @@ class Student_IDBackend(ModelBackend):
 
 class LoginView(View):
     def get(self,request):
-        return render(request, 'login.html')
+        # return render(request, 'login.html')
+        return HttpResponseRedirect('/#login')
+
 
     def post(self,request):
         # 實例化
@@ -94,17 +98,26 @@ class LoginView(View):
 class RegisterView(View):
     '''用戶註冊'''
     def get(self,request):
-        register_form = RegisterForm()
-        return render(request,'course/index.html',{'register_form':register_form})
+        # register_form = RegisterForm()
+        # return render(request,'course/index.html',{'register_form':register_form})
+        return HttpResponseRedirect('/#register')
+
 
     def post(self,request):
         print("RegisterView")
+
         register_form = RegisterForm(request.POST)
+        print(register_form)
         if register_form.is_valid():
+            print("register_form.is_valid()")
             user_email = request.POST.get('email', None)
             # 如果用戶已存在，則提示錯誤訊息
             if UserProfile.objects.filter(email = user_email):
+                print("如果用戶已存在，則提示錯誤訊息")
+
                 return render(request, 'course/index.html', {'register_form':register_form,'msg': '用戶已存在'})
+                return redirect('/#register', {'register_form':register_form,'msg': '用戶已存在'})
+
 
             pass_word = request.POST.get('password', None)
             department = request.POST.get('department', None)
@@ -117,6 +130,8 @@ class RegisterView(View):
             # 如果學號已存在，則提示錯誤訊息
             if UserProfile.objects.filter(student_ID = student_ID):
                 return render(request, 'course/index.html', {'register_form':register_form,'msg': '學號已存在'})
+                return redirect('/#register', {'register_form':register_form,'msg': '學號已存在'})
+                
             name = request.POST.get('name', None)
 
             # 實例化一個user_profile對象
@@ -135,9 +150,13 @@ class RegisterView(View):
             user_profile.password = make_password(pass_word)
             user_profile.save()
             
-            return render(request,'course/index.html')
+            # return render(request,'course/index.html')
+            return redirect('/#register')
+
         else:
-            return render(request,'course/index.html',{'register_form':register_form})
+            # return render(request,'course/index.html',{'register_form':register_form})
+            return redirect('/#register')
+
 
 
 from django.contrib import messages
@@ -152,12 +171,17 @@ def register(request):
     print("register")
     template = 'users/register.html'
     if request.method == 'GET':
-        return render(request, template, {'userForm':UserForm()})
+        # return render(request, template, {'userForm':UserForm()})
+        return redirect('/#register')
+
 
     # POST
     userForm = UserForm(request.POST)
     if not userForm.is_valid():
-        return render(request, template, {'userForm':userForm})
+        # return render(request, template, {'userForm':userForm})
+        print(userForm)
+        return redirect('/#register')
+
 
     userForm.save()
     messages.success(request, '歡迎註冊')
@@ -175,7 +199,9 @@ def userlogin(request):
     template = 'course/index.html'
     if request.method == 'GET':
         print('get')
-        return render(request,template)
+        # return render(request,template)
+        return redirect('/#login')
+
 
     # POST
     student_ID = request.POST.get('student_ID')
@@ -184,19 +210,29 @@ def userlogin(request):
     if not student_ID or not password:    # Server-side validation
         messages.error(request, '請填資料')
         print('請填資料')
-        return render(request,template)
+        # return render(request,template)
+        # return HttpResponseRedirect('/#login')
+        return redirect('/#login')
+
+        
 
     user = authenticate(student_ID=student_ID, password=password)
     if not user:    # authentication fails
         messages.error(request, '登入失敗')
         print('登入失敗')
-        return render(request,template)
+        # return render(request,template)
+        # return HttpResponseRedirect('/#login')
+        return redirect('/#login')
+
+        
 
     # login success
     login(request, user)
     messages.success(request, '登入成功')
     print('登入成功')
     return redirect('/')
+    # return HttpResponseRedirect('/#login')
+
 
 
 from django.contrib.auth import logout
