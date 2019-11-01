@@ -116,7 +116,9 @@ class Words(models.Model):
     #     return self.video_set.all()
 
     def __str__(self):
-        return '《{0}》章節的單字 >> {1}'.format(self.lesson, self.words)
+        return self.words
+        # return '《{0}》章節的單字 >> {1}'.format(self.lesson, self.words)
+
 
 
 
@@ -137,12 +139,13 @@ class Quiz(models.Model):
         return '《{0}》章節的問題 >> {1}'.format(self.lesson, self.question)
 
 
-class examples(models.Model):
+class Examples(models.Model):
 
 
     '''例句'''
     words = models.ForeignKey(Words,verbose_name='單字名稱',on_delete=models.CASCADE)
     examples = models.CharField("例句",max_length=100,blank=True,null=True)
+    example_tw  = models.CharField("例句中文",max_length=100,blank=True,null=True)
 
     class Meta:
         verbose_name = "例句"

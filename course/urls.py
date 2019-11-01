@@ -32,6 +32,8 @@ urlpatterns = [
     path('synonymsMK/', views.synonymsMK, name='synonymsMK'),
 
     path('word_example_generator/', views.word_example_generator_fun, name='word_example_generator'),
+    path('word_example_new_generator/', views.word_example_generator_new, name='word_example_generator_new'),
+
 
 
 

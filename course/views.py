@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-from course.models import Course,Lesson,Words
+from course.models import Course,Lesson,Words,Examples
 
 from course.forms import CourseForm
 
@@ -1318,6 +1318,7 @@ def word_example_generator_fun(request):
     '''
     input_word = request.GET.get('word')
     print(input_word)
+    
     if (input_word == None or input_word ==''):
 
         return JsonResponse('無法產生例句', safe=False)
@@ -1352,6 +1353,114 @@ def word_example_generator_fun(request):
 
         else:
             return JsonResponse('無法產生例句', safe=False)
+
+
+
+
+    # import requests
+    # from bs4 import BeautifulSoup
+
+    # def Crawler_cha(keyword = 'fable'):
+        
+    #     headers = {
+    #     'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    #     }
+    #     rs = requests.Session()
+    #     url = "https://tw.ichacha.net/hy/zaoju.aspx?q="+keyword
+    #     res = rs.get(url, headers=headers)
+    #     bs = BeautifulSoup(res.text,'lxml')
+        
+    #     examples=[]
+
+    #     raw_pages = bs.find_all('a', attrs={'style':'text-decoration:underline;color:green'})
+    #     pages=[]
+
+    #     if raw_pages:
+    #         print("還有例句")
+
+    #         for page in raw_pages:
+    #     #         print(page.get('href'))
+    #             pages.append(page.get('href'))
+
+
+    #             raw_examples = bs.find_all('li', attrs={'style':'text-align:left'})
+    #             for raw_example in raw_examples:
+    #     #             print(raw_example.text)
+    #                 examples.append(raw_example.text)
+
+
+    #             url = "https://tw.ichacha.net"+page.get('href')
+    #             res = rs.get(url, headers=headers)
+    #             bs = BeautifulSoup(res.text,'lxml')
+
+    #     else:
+    #         print("沒有更多例句了")
+        
+    #     return examples
+
+
+
+    # # Crawler_cha('moral')
+
+
+    # lesson = get_object_or_404(Lesson, id=1)
+    # words = Words.objects.filter(lesson=lesson)
+    # examples = Examples.objects.filter(words=words)
+
+
+    # for word in words:
+    #     print(word)
+    #     examples_craw = Crawler_cha(str(word))
+    #     print(examples_craw)
+    #     for example_craw in examples_craw:
+    #         examples = Examples.objects.create(words=word,examples=example_craw)
+
+
+
+        # word = get_object_or_404(Course, id=courseId)
+        # lessons = {}
+        # example = []
+        # for lesson in Lesson.objects.all():
+        #     # print(Words.objects.filter(lesson=lesson))
+        #     a = Words.objects.filter(lesson=lesson)
+        #     for e in a:
+        #         # print(e.example)
+        #         example.append(e.example)
+        #     lessons.update({lesson:Words.objects.filter(lesson=lesson)})
+            
+  
+
+    # print(context)
+
+
+
+
+
+def word_example_generator_new(request):
+    '''
+    產生句子 ajax
+    '''
+    input_word = request.GET.get('word')
+    print(input_word)
+    examples = Examples.objects.filter(words=1)
+    print(examples)
+    for example in examples:
+        print(example.examples)
+    
+    import random
+
+    return JsonResponse(examples[random.randint(0,len(examples))].examples, safe=False)
+    # if (input_word == None or input_word ==''):
+
+    #     return JsonResponse('無法產生例句', safe=False)
+    # else:
+    #     if input_word.isalpha():
+            
+    #         return JsonResponse(new_example_sentence_generator, safe=False)
+
+    #     else:
+    return JsonResponse('無法產生例句', safe=False)
+
 
 
 

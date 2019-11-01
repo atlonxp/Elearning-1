@@ -484,6 +484,8 @@
                         <br><br>
                         <button type="button" id="generator{{ forloop.counter0 }}" class="btn btn-primary">more example</button>
                         <button type="button" id ="translator{{ forloop.counter0 }}" class="btn btn-primary">翻譯例句</button>
+                        <button type="button" id="generator_new{{ forloop.counter0 }}" class="btn btn-primary">more example 2 </button>
+
                         <div id="targetLoc{{ forloop.counter0 }}">
                             <span></span></br>
                         </div>
@@ -552,6 +554,52 @@
                   });
                 </script>
 
+
+
+<script type="text/javascript">
+  $.ajaxSetup({
+      data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+  });
+  $(document).ready(function() {
+      $("#generator_new{{ forloop.counter0 }}").click(function() {
+            // input_word = $("#word_name{{ forloop.counter0 }}").val();
+            // $("#more_example{{ forloop.counter0 }}").val('例句產生中');
+            $("#more_example_tw{{ forloop.counter0 }}").text('   例句產生中....  ');
+
+            // $("#more_example_tw{{ forloop.counter0 }}").text('');
+          $.get("/course/word_example_new_generator/", {
+              word: '{{ word.words }}'
+          }, function(data) {
+              //返回值 data 在這裡是一個列表
+              // $("#more_example_input{{ forloop.counter0 }}").val(data);
+              $("#more_example{{ forloop.counter0 }}").text(data);
+              $("#more_example_tw{{ forloop.counter0 }}").text('');
+              // $("#targetLoc{{ forloop.counter0 }}").append('<span>'+data+'</span></br>');
+
+              // for (var i = data.length - 1; i >= 0; i--) {
+              //     // 把 data 的每一項顯示在網頁上
+              //     $('#result1').append(' ' + data[i]);
+              // }
+              more_example = $("#more_example{{ forloop.counter0 }}").text();
+              if (more_example ==''){
+                $("#translator{{ forloop.counter0 }}").attr("disabled", true);
+              }else{
+                $("#translator{{ forloop.counter0 }}").attr("disabled", false);
+              }
+          });
+          /* 等同
+          $.ajax({
+            url: url,
+            data: data,
+            success: success,
+            dataType: dataType
+          });
+          */
+      });
+  });
+</script>
                 <script>
                     $.ajaxSetup({
                         data: {
