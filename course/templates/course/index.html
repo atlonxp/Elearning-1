@@ -121,8 +121,10 @@
     </nav>
     <!-- End Navigation -->
 
+
     <!-- home -->
     <header id="home">
+        
         <div id="home-slider" class="carousel slide" data-ride="carousel" data-interval="7000">
             <ol class="carousel-indicators">
                 <li data-target="#home-slider" data-slide-to="0" class="active"></li>
@@ -185,6 +187,8 @@
             <a id="tohash" href="#course"><i class="fa fa-angle-down js-scroll"></i></a>
         </div>
     </header>
+
+    
 
 
     <!-- Page Content -->
@@ -597,6 +601,40 @@
         </div>
     </section>
 
+    <div class="container">
+        {% if messages or user.is_active == False and user.is_authenticated %}
+        
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-dark modal-title" id="exampleModalLabel">Hi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="text-dark modal-body">
+                    <div class="error btns login-form-tips " id="jsLoginTips">
+                        {% for message in messages %}
+                        <p class="{{ message.tags }} text-danger">{{ message }}</p>
+                        {% endfor %}
+                        {% if user.is_active == False and user.is_authenticated %}
+                        <p class="text-danger">請等待老師開通帳號</p>
+                        {% endif %}
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+
 
     <a href="#home" class="back-to-top js-scroll"><i class="fa fa-chevron-up"></i></a>
 
@@ -652,7 +690,9 @@
             $('#preloader').delay(500).fadeOut('slow');
             $('body').delay(500).css({
                 'overflow': 'visible'
+                
             });
+            $('#myModal').delay(500).modal('show');
         });
     </script>
 
