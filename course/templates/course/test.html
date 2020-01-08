@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 	<head>
+		{% if user.is_active == False %}
+		<meta http-equiv="refresh" content="0;url=../index" />
+		{% endif %}
 		{% load staticfiles %}
 		<meta charset="utf-8">
 		<title>NUTC_Elearning</title>
