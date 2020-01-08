@@ -1442,13 +1442,16 @@ def word_example_generator_new(request):
     '''
     input_word = request.GET.get('word')
     print(input_word)
-    examples = Examples.objects.filter(words=1)
+    words = Words.objects.filter(words=input_word)
+    print(words)
+    
+    examples = Examples.objects.filter(words=words[0].id)
     print(examples)
     for example in examples:
         print(example.examples)
     
     import random
-
+    print(len(examples))
     return JsonResponse(examples[random.randint(0,len(examples))].examples, safe=False)
     # if (input_word == None or input_word ==''):
 
@@ -1460,6 +1463,9 @@ def word_example_generator_new(request):
 
     #     else:
     return JsonResponse('無法產生例句', safe=False)
+
+
+
 
 
 
