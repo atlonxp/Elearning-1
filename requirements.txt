@@ -1,3 +1,4 @@
+#django v2
 django==2.0
 django-crispy-forms>=1.6.0
 django-import-export>=0.5.1
