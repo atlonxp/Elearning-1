@@ -405,9 +405,10 @@
                     <div class="container">
                         <div class="heading" style="padding-bottom: 90px;">
                             <div class=" wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-                                <h1><span>REGISTER</span></h1>
+                                <h1><span>REGISTER <BR><p class="text-danger">目前不開放註冊唷!!</p></span></h1>
                             </div>
-                            <p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="300ms">註冊加入成為NUTC
+                            <p class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="300ms">
+                                註冊加入成為NUTC
                                 Elearning的學生吧！</p>
                         </div>
                         <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
@@ -416,7 +417,7 @@
 
                                     <!-- 註冊表單 -->
                                     <div class="bootstrap-iso" style="background-color: #ffffff00 ;color: #f7f7f7;">
-                                        <form class="form-horizontal" method="post" action="{% url 'register' %}">
+                                        <form class="form-horizontal" method="post" action="">
                                             {% csrf_token %}
 
                                             <div class="form-group wow fadeInUp" data-wow-duration="1000ms"
@@ -603,33 +604,39 @@
 
     <div class="container">
         {% if messages or user.is_active == False and user.is_authenticated %}
+        {% for message in messages %}
+            {% if "error" in message.tags %}
+                
         
-        <!-- Trigger the modal with a button -->
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="text-dark modal-title" id="exampleModalLabel">Hi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="text-dark modal-body">
-                    <div class="error btns login-form-tips " id="jsLoginTips">
-                        {% for message in messages %}
-                        <p class="{{ message.tags }} text-danger">{{ message }}</p>
-                        {% endfor %}
-                        {% if user.is_active == False and user.is_authenticated %}
-                        <p class="text-danger">請等待老師開通帳號</p>
-                        {% endif %}
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="text-dark modal-title" id="exampleModalLabel">Hi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                    <div class="text-dark modal-body">
+                        <div class="error btns login-form-tips " id="jsLoginTips">
+
+                            <p class="{{ message.tags }} text-danger">{{ message }}</p>
+ 
+                            {% if user.is_active == False and user.is_authenticated %}
+                            <p calass="text-danger">請等待老師開通帳號</p>
+                            {% endif %}
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
+   
+        {% endif %}
+        {% endfor %}
         {% endif %}
     </div>
 
