@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 from django.conf.urls import include, url
-from xadmin.plugins import xversion
-import xadmin
+# from xadmin.plugins import xversion
+# import xadmin
 
 from django.views.generic import TemplateView
 from users import views
@@ -30,12 +30,12 @@ from course.views import courseRead_new,Sentence,lessonRead,WordRead
 from course.views import GeneratedSentences
 import course 
 #version模組自動註冊需要版本控制的 Model
-xversion.register_models()
+# xversion.register_models()
 
-xadmin.autodiscover()
+# xadmin.autodiscover()
 
 urlpatterns = [
-    url('xadmin/', xadmin.site.urls),
+    # url('xadmin/', xadmin.site.urls),
     path('admin/', admin.site.urls),
 
     # path('', TemplateView.as_view(template_name='index.1.html'),name='index1'),
